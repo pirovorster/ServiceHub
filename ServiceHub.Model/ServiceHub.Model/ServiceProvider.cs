@@ -12,7 +12,7 @@ namespace ServiceHub.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class ServiceProvider
+    public partial class ServiceProvider : Client
     {
         public ServiceProvider()
         {
@@ -24,9 +24,6 @@ namespace ServiceHub.Model
             this.Tags = new HashSet<Tag>();
         }
     
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string ContactNumber { get; set; }
         public string About { get; set; }
         public byte[] Logo { get; set; }
     

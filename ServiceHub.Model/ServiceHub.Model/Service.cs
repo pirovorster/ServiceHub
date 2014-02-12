@@ -21,14 +21,15 @@ namespace ServiceHub.Model
             this.Bids = new HashSet<Bid>();
         }
     
-        public int Id { get; set; }
+        public System.Guid Id { get; set; }
+        public int OrderId { get; set; }
         public string Description { get; set; }
-        public int TagId { get; set; }
+        public System.Guid TagId { get; set; }
         public System.DateTime ServiceDue { get; set; }
         public System.DateTime BiddingCompletionDate { get; set; }
         public string Reference { get; set; }
         public int LocationId { get; set; }
-        public int ClientId { get; set; }
+        public System.Guid ClientId { get; set; }
         public Nullable<System.DateTime> TimeStamp { get; set; }
     
         public virtual ICollection<AdditionalInfoRequest> AdditionalInfoRequests { get; set; }

@@ -20,7 +20,8 @@ namespace ServiceHub.Model
             this.ServiceProviders = new HashSet<ServiceProvider>();
         }
     
-        public int Id { get; set; }
+        public System.Guid Id { get; set; }
+        public int OrderId { get; set; }
         public string Title { get; set; }
     
         public virtual ICollection<Service> Services { get; set; }

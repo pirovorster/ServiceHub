@@ -19,7 +19,8 @@ namespace ServiceHub.Model
             this.Services = new HashSet<Service>();
         }
     
-        public int Id { get; set; }
+        public System.Guid Id { get; set; }
+        public int OrderId { get; set; }
         public string Name { get; set; }
         public string ContactNumber { get; set; }
     

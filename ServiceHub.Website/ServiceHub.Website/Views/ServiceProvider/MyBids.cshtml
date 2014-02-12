@@ -1,0 +1,43 @@
+﻿@model System.Guid
+@{
+    ViewBag.Title = "My Bids";
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $("#UserProfileTabs").tabs();
+        });
+
+    </script>
+
+}
+
+
+<div id="UserProfileTabs">
+    <ul>
+
+        <li><a href="#ServiceProviderHistory">History</a></li>
+        <li><a href="#AcceptedBids">Accepted Bids</a></li>
+        <li><a href="#CurrentBids">Current Bids</a></li>
+        <li><a href="#UnsuccessfulBids">Unsuccessful Bids</a></li>
+
+
+    </ul>
+    <div id="ServiceProviderHistory">
+        @Html.Partial("_ServiceProviderHistory", Model)
+    </div>
+    <div id="AcceptedBids">
+        @Html.Partial("_AcceptedBids", Model)
+    </div>
+    <div id="CurrentBids">
+        @Html.Partial("_CurrentBids", Model)
+    </div>
+    <div id="UnsuccessfulBids">
+        @Html.Partial("_UnsuccessfulBids", Model)
+    </div>
+
+
+</div>

@@ -181,7 +181,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClientController .cs" />
+    <Compile Include="Controllers\ServiceProviderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -301,6 +304,23 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\ServiceProvider\List.cshtml" />
+    <Content Include="Views\Client\Services.cshtml" />
+    <Content Include="Views\Client\ServiceBids.cshtml" />
+    <Content Include="Views\ServiceProvider\ServiceBid.cshtml" />
+    <Content Include="Views\User\UserProfile.cshtml" />
+    <Content Include="Views\Shared\_MyBids.cshtml" />
+    <Content Include="Views\Shared\_MyServices.cshtml" />
+    <Content Include="Views\Shared\_RatingForm.cshtml" />
+    <Content Include="Views\Shared\_ServiceProviderHistory.cshtml" />
+    <Content Include="Views\Shared\_ClientHistory.cshtml" />
+    <Content Include="Views\Shared\_ActiveServices.cshtml" />
+    <Content Include="Views\Shared\_PastServices.cshtml" />
+    <Content Include="Views\Shared\_AcceptedBids.cshtml" />
+    <Content Include="Views\Shared\_CurrentBids.cshtml" />
+    <Content Include="Views\Shared\_UnsuccessfulBids.cshtml" />
+    <Content Include="Views\Client\MyServices.cshtml" />
+    <Content Include="Views\ServiceProvider\MyBids.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

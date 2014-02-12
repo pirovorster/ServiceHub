@@ -14,7 +14,8 @@ namespace ServiceHub.Model
     
     public partial class AcceptedBid
     {
-        public int BidId { get; set; }
+        public System.Guid BidId { get; set; }
+        public int OrderId { get; set; }
         public System.DateTime TimeStamp { get; set; }
         public bool IsCancelled { get; set; }
     

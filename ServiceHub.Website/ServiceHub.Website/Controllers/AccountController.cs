@@ -17,8 +17,11 @@ namespace ServiceHub.Website.Controllers
 	[InitializeSimpleMembership]
 	public class AccountController : Controller
 	{
-		//
-		// GET: /Account/Login
+		public ActionResult UserProfile()
+		{
+			
+			return View();
+		} 
 
 		[AllowAnonymous]
 		public ActionResult Login(string returnUrl)

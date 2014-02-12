@@ -32,9 +32,7 @@ namespace ServiceHub.Model
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
-        public virtual DbSet<ServiceProvider> ServiceProviders { get; set; }
         public virtual DbSet<Service> Services { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
     }
 }

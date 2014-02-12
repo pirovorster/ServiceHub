@@ -91,9 +91,6 @@
     <Compile Include="ServiceProvider.cs">
       <DependentUpon>ServiceHubModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>ServiceHubModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Tag.cs">
       <DependentUpon>ServiceHubModel.tt</DependentUpon>
     </Compile>

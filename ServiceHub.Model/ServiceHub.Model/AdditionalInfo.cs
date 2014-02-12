@@ -14,9 +14,10 @@ namespace ServiceHub.Model
     
     public partial class AdditionalInfo
     {
-        public int Id { get; set; }
-        public int ServiceId { get; set; }
-        public int ServiceProviderId { get; set; }
+        public System.Guid Id { get; set; }
+        public int OrderId { get; set; }
+        public System.Guid ServiceId { get; set; }
+        public System.Guid ServiceProviderId { get; set; }
         public string Comment { get; set; }
         public System.DateTime TimeStamp { get; set; }
     
