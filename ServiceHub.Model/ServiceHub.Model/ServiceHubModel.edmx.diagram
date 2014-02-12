@@ -23,13 +23,13 @@
         <AssociationConnector Association="ServiceHubModel.FK_AdditionalInfos_Services" />
         <AssociationConnector Association="ServiceHubModel.FK_Bids_ServiceProviders" />
         <AssociationConnector Association="ServiceHubModel.FK_Bids_Services" />
+        <AssociationConnector Association="ServiceHubModel.FK_ServiceProviders_Clients" />
         <AssociationConnector Association="ServiceHubModel.FK_Services_Clients" />
         <AssociationConnector Association="ServiceHubModel.FK_Services_Locations" />
         <AssociationConnector Association="ServiceHubModel.FK_Ratings_ServiceProviders" />
         <AssociationConnector Association="ServiceHubModel.FK_Services_Tags" />
         <AssociationConnector Association="ServiceHubModel.LocationServiceProviderJoin" />
         <AssociationConnector Association="ServiceHubModel.TagServiceProviderJoin" />
-        <InheritanceConnector EntityType="ServiceHubModel.ServiceProvider" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

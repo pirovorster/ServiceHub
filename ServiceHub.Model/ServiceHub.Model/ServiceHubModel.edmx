@@ -422,6 +422,7 @@
           <EntitySet Name="Clients" EntityType="ServiceHubModel.Client" />
           <EntitySet Name="Locations" EntityType="ServiceHubModel.Location" />
           <EntitySet Name="Ratings" EntityType="ServiceHubModel.Rating" />
+          <EntitySet Name="ServiceProviders" EntityType="ServiceHubModel.ServiceProvider" />
           <EntitySet Name="Services" EntityType="ServiceHubModel.Service" />
           <EntitySet Name="Tags" EntityType="ServiceHubModel.Tag" />
           <AssociationSet Name="FK_AcceptedBids_Bids" Association="ServiceHubModel.FK_AcceptedBids_Bids">
@@ -433,7 +434,7 @@
             <End Role="Rating" EntitySet="Ratings" />
           </AssociationSet>
           <AssociationSet Name="FK_AdditionalInfoRequests_ServiceProviders" Association="ServiceHubModel.FK_AdditionalInfoRequests_ServiceProviders">
-            <End Role="ServiceProvider" EntitySet="Clients" />
+            <End Role="ServiceProvider" EntitySet="ServiceProviders" />
             <End Role="AdditionalInfoRequest" EntitySet="AdditionalInfoRequests" />
           </AssociationSet>
           <AssociationSet Name="FK_AdditionalInfoRequests_Services" Association="ServiceHubModel.FK_AdditionalInfoRequests_Services">
@@ -441,7 +442,7 @@
             <End Role="AdditionalInfoRequest" EntitySet="AdditionalInfoRequests" />
           </AssociationSet>
           <AssociationSet Name="FK_AdditionalInfos_ServiceProviders" Association="ServiceHubModel.FK_AdditionalInfos_ServiceProviders">
-            <End Role="ServiceProvider" EntitySet="Clients" />
+            <End Role="ServiceProvider" EntitySet="ServiceProviders" />
             <End Role="AdditionalInfo" EntitySet="AdditionalInfos" />
           </AssociationSet>
           <AssociationSet Name="FK_AdditionalInfos_Services" Association="ServiceHubModel.FK_AdditionalInfos_Services">
@@ -449,12 +450,16 @@
             <End Role="AdditionalInfo" EntitySet="AdditionalInfos" />
           </AssociationSet>
           <AssociationSet Name="FK_Bids_ServiceProviders" Association="ServiceHubModel.FK_Bids_ServiceProviders">
-            <End Role="ServiceProvider" EntitySet="Clients" />
+            <End Role="ServiceProvider" EntitySet="ServiceProviders" />
             <End Role="Bid" EntitySet="Bids" />
           </AssociationSet>
           <AssociationSet Name="FK_Bids_Services" Association="ServiceHubModel.FK_Bids_Services">
             <End Role="Service" EntitySet="Services" />
             <End Role="Bid" EntitySet="Bids" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceProviders_Clients" Association="ServiceHubModel.FK_ServiceProviders_Clients">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="ServiceProvider" EntitySet="ServiceProviders" />
           </AssociationSet>
           <AssociationSet Name="FK_Services_Clients" Association="ServiceHubModel.FK_Services_Clients">
             <End Role="Client" EntitySet="Clients" />
@@ -465,7 +470,7 @@
             <End Role="Service" EntitySet="Services" />
           </AssociationSet>
           <AssociationSet Name="FK_Ratings_ServiceProviders" Association="ServiceHubModel.FK_Ratings_ServiceProviders">
-            <End Role="ServiceProvider" EntitySet="Clients" />
+            <End Role="ServiceProvider" EntitySet="ServiceProviders" />
             <End Role="Rating" EntitySet="Ratings" />
           </AssociationSet>
           <AssociationSet Name="FK_Services_Tags" Association="ServiceHubModel.FK_Services_Tags">
@@ -474,10 +479,10 @@
           </AssociationSet>
           <AssociationSet Name="LocationServiceProviderJoin" Association="ServiceHubModel.LocationServiceProviderJoin">
             <End Role="Location" EntitySet="Locations" />
-            <End Role="ServiceProvider" EntitySet="Clients" />
+            <End Role="ServiceProvider" EntitySet="ServiceProviders" />
           </AssociationSet>
           <AssociationSet Name="TagServiceProviderJoin" Association="ServiceHubModel.TagServiceProviderJoin">
-            <End Role="ServiceProvider" EntitySet="Clients" />
+            <End Role="ServiceProvider" EntitySet="ServiceProviders" />
             <End Role="Tag" EntitySet="Tags" />
           </AssociationSet>
         </EntityContainer>
@@ -541,6 +546,7 @@
           <Property Name="OrderId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ContactNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ServiceProvider" Relationship="ServiceHubModel.FK_ServiceProviders_Clients" FromRole="Client" ToRole="ServiceProvider" />
           <NavigationProperty Name="Services" Relationship="ServiceHubModel.FK_Services_Clients" FromRole="Client" ToRole="Service" />
         </EntityType>
         <EntityType Name="Location">
@@ -566,12 +572,18 @@
           <NavigationProperty Name="AcceptedBid" Relationship="ServiceHubModel.FK_Ratings_AcceptedBids" FromRole="Rating" ToRole="AcceptedBid" />
           <NavigationProperty Name="ServiceProvider" Relationship="ServiceHubModel.FK_Ratings_ServiceProviders" FromRole="Rating" ToRole="ServiceProvider" />
         </EntityType>
-        <EntityType Name="ServiceProvider" BaseType="ServiceHubModel.Client">
+        <EntityType Name="ServiceProvider">
+          <Key>
+            <PropertyRef Name="ClientId" />
+          </Key>
+          <Property Name="ClientId" Type="Guid" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
           <Property Name="About" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Logo" Type="Binary" MaxLength="50" FixedLength="false" />
           <NavigationProperty Name="AdditionalInfoRequests" Relationship="ServiceHubModel.FK_AdditionalInfoRequests_ServiceProviders" FromRole="ServiceProvider" ToRole="AdditionalInfoRequest" />
           <NavigationProperty Name="AdditionalInfos" Relationship="ServiceHubModel.FK_AdditionalInfos_ServiceProviders" FromRole="ServiceProvider" ToRole="AdditionalInfo" />
           <NavigationProperty Name="Bids" Relationship="ServiceHubModel.FK_Bids_ServiceProviders" FromRole="ServiceProvider" ToRole="Bid" />
+          <NavigationProperty Name="Client" Relationship="ServiceHubModel.FK_ServiceProviders_Clients" FromRole="ServiceProvider" ToRole="Client" />
           <NavigationProperty Name="Ratings" Relationship="ServiceHubModel.FK_Ratings_ServiceProviders" FromRole="ServiceProvider" ToRole="Rating" />
           <NavigationProperty Name="Locations" Relationship="ServiceHubModel.LocationServiceProviderJoin" FromRole="ServiceProvider" ToRole="Location" />
           <NavigationProperty Name="Tags" Relationship="ServiceHubModel.TagServiceProviderJoin" FromRole="ServiceProvider" ToRole="Tag" />
@@ -636,7 +648,7 @@
           <End Type="ServiceHubModel.AdditionalInfoRequest" Role="AdditionalInfoRequest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ServiceProvider">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="ClientId" />
             </Principal>
             <Dependent Role="AdditionalInfoRequest">
               <PropertyRef Name="ServiceProviderId" />
@@ -660,7 +672,7 @@
           <End Type="ServiceHubModel.AdditionalInfo" Role="AdditionalInfo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ServiceProvider">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="ClientId" />
             </Principal>
             <Dependent Role="AdditionalInfo">
               <PropertyRef Name="ServiceProviderId" />
@@ -684,7 +696,7 @@
           <End Type="ServiceHubModel.Bid" Role="Bid" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ServiceProvider">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="ClientId" />
             </Principal>
             <Dependent Role="Bid">
               <PropertyRef Name="ServiceProviderId" />
@@ -700,6 +712,18 @@
             </Principal>
             <Dependent Role="Bid">
               <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceProviders_Clients">
+          <End Type="ServiceHubModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="ServiceHubModel.ServiceProvider" Role="ServiceProvider" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceProvider">
+              <PropertyRef Name="ClientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -732,7 +756,7 @@
           <End Type="ServiceHubModel.Rating" Role="Rating" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ServiceProvider">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="ClientId" />
             </Principal>
             <Dependent Role="Rating">
               <PropertyRef Name="ServiceProviderId" />
@@ -813,18 +837,12 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Clients">
-            <EntityTypeMapping TypeName="IsTypeOf(ServiceHubModel.Client)">
+            <EntityTypeMapping TypeName="ServiceHubModel.Client">
               <MappingFragment StoreEntitySet="Clients">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-            <EntityTypeMapping TypeName="IsTypeOf(ServiceHubModel.ServiceProvider)">
-              <MappingFragment StoreEntitySet="ServiceProviders">
-                <ScalarProperty Name="About" ColumnName="About" />
-                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -846,6 +864,16 @@
                 <ScalarProperty Name="ServiceProviderId" ColumnName="ServiceProviderId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="AcceptedBidId" ColumnName="AcceptedBidId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceProviders">
+            <EntityTypeMapping TypeName="ServiceHubModel.ServiceProvider">
+              <MappingFragment StoreEntitySet="ServiceProviders">
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="About" ColumnName="About" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -874,8 +902,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="LocationServiceProviderJoin" TypeName="ServiceHubModel.LocationServiceProviderJoin" StoreEntitySet="LocationServiceProviderJoin" />
-          <AssociationSetMapping Name="TagServiceProviderJoin" TypeName="ServiceHubModel.TagServiceProviderJoin" StoreEntitySet="TagServiceProviderJoin" />
+          <AssociationSetMapping Name="LocationServiceProviderJoin" TypeName="ServiceHubModel.LocationServiceProviderJoin" StoreEntitySet="LocationServiceProviderJoin">
+            <EndProperty Name="ServiceProvider">
+              <ScalarProperty Name="ClientId" ColumnName="ServiceProviderId" />
+            </EndProperty>
+            <EndProperty Name="Location">
+              <ScalarProperty Name="Id" ColumnName="LocationId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TagServiceProviderJoin" TypeName="ServiceHubModel.TagServiceProviderJoin" StoreEntitySet="TagServiceProviderJoin">
+            <EndProperty Name="Tag">
+              <ScalarProperty Name="Id" ColumnName="TagId" />
+            </EndProperty>
+            <EndProperty Name="ServiceProvider">
+              <ScalarProperty Name="ClientId" ColumnName="ServiceProviderId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

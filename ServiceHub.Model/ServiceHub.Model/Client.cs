@@ -24,6 +24,7 @@ namespace ServiceHub.Model
         public string Name { get; set; }
         public string ContactNumber { get; set; }
     
+        public virtual ServiceProvider ServiceProvider { get; set; }
         public virtual ICollection<Service> Services { get; set; }
     }
 }
