@@ -1,0 +1,19 @@
+﻿textarea, .select2-container {
+	width: 300px;
+	resize: none;
+	margin: 5px 0 6px 0;
+	padding: 5px;
+	border: 1px solid #e2e2e2;
+	background: #fff;
+	color: #333;
+}
+
+.select2-choices {
+	border-style:none !important;
+	background-image:none !important;
+}
+
+.select2-container {
+	width: 311.81px !important;
+	
+}

@@ -1,10 +1,92 @@
-﻿@{
+﻿@model ServiceHub.Website.Models.UserProfileViewModel
+@{
     ViewBag.Title = "Profile";
 }
 
 @section scripts
 {
-    
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function () {
+
+
+            $('#ServiceProviderSection').hide();
+            $('#IsServiceProvider').on('change', function () {
+                if ($(this).is(":checked")) {
+                    $('#ServiceProviderSection').show();
+                }
+                else {
+                    $('#ServiceProviderSection').hide();
+                }
+            });
+
+
+            $("#Tags").select2({ tags: ["red", "green", "blue"] });
+            $('#Tags').select2('val', ['brown', 'red', 'green']);
+            $("#Locations").select2();
+        });
+
+    </script>
 
 }
 
+@section styles
+{
+
+}
+
+@using (Html.BeginForm("UserProfile", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <fieldset>
+        <legend>Client</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name)
+                @Html.ValidationMessageFor(m => m.Name)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ContactNumber)
+                @Html.TextBoxFor(m => m.ContactNumber)
+                @Html.ValidationMessageFor(m => m.ContactNumber)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.IsServiceProvider)
+                @Html.CheckBoxFor(m => m.IsServiceProvider)
+                @Html.ValidationMessageFor(m => m.IsServiceProvider)
+            </li>
+        </ol>
+
+    </fieldset>
+
+    <fieldset id="ServiceProviderSection">
+        <legend>Service Privoder</legend>
+        <ol>
+
+            <li>
+                @Html.LabelFor(m => m.LogoData)
+                <div><input type="file" name="Logo" /></div>
+            </li>
+            <li>
+                @Html.LabelFor(m => m.About)
+                @Html.TextAreaFor(m => m.About)
+                @Html.ValidationMessageFor(m => m.About)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Locations)
+                @Html.ListBoxFor(m => m.Locations, (MultiSelectList)ViewBag.Locations, new { Multiple = "multiple", style = "width:300px", @class = "chosen-select" })
+                @Html.ValidationMessageFor(m => m.Locations)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Tags)
+                @Html.TextAreaFor(m => m.Tags)
+                @Html.ValidationMessageFor(m => m.Tags)
+            </li>
+        </ol>
+
+    </fieldset>
+
+    <input id="submit" type="submit" value="Save" />
+}

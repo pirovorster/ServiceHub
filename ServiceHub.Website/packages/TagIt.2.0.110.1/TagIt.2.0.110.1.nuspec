@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>TagIt</id>
+    <version>2.0.110.1</version>
+    <title>TagIt</title>
+    <authors>Alex Ehlke</authors>
+    <owners>Alex Ehlke</owners>
+    <licenseUrl>https://github.com/aehlke/tag-it/raw/master/LICENSE</licenseUrl>
+    <projectUrl>http://aehlke.github.io/tag-it/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Simple and configurable tag editing widget with autocomplete support.</description>
+    <releaseNotes />
+    <copyright>Levy Carneiro Jr.</copyright>
+    <language>en-GB</language>
+    <tags>jquery javascript tags</tags>
+    <dependencies>
+      <dependency id="jQuery" version="1.4" />
+      <dependency id="jQuery.UI.Combined" version="1.8" />
+    </dependencies>
+  </metadata>
+</package>
