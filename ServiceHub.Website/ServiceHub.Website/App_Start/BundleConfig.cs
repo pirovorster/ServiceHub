@@ -34,6 +34,8 @@ namespace ServiceHub.Website
 
 			bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", "~/Content/custom.css"));
 
+			bundles.Add(new StyleBundle("~/Content/select2").Include("~/Content/select2/select2.css"));
+
 			bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
 						"~/Content/themes/base/jquery.ui.core.css",
 						"~/Content/themes/base/jquery.ui.resizable.css",
@@ -46,8 +48,7 @@ namespace ServiceHub.Website
 						"~/Content/themes/base/jquery.ui.tabs.css",
 						"~/Content/themes/base/jquery.ui.datepicker.css",
 						"~/Content/themes/base/jquery.ui.progressbar.css",
-						"~/Content/themes/base/jquery.ui.theme.css",
-						"~/Content/select2/select2.css"));
+						"~/Content/themes/base/jquery.ui.theme.css"));
 
 		}
 	}
