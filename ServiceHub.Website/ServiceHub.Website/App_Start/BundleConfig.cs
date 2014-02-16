@@ -47,7 +47,7 @@ namespace ServiceHub.Website
 						"~/Content/themes/base/jquery.ui.datepicker.css",
 						"~/Content/themes/base/jquery.ui.progressbar.css",
 						"~/Content/themes/base/jquery.ui.theme.css",
-						"~/Content/css/select2.css"));
+						"~/Content/select2/select2.css"));
 
 		}
 	}
