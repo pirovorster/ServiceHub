@@ -34,7 +34,7 @@ namespace ServiceHub.Website
 
 			bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", "~/Content/custom.css"));
 
-			bundles.Add(new StyleBundle("~/Content/select2").Include("~/Content/select2/select2.css"));
+			bundles.Add(new StyleBundle("~/Content/select2/css").Include("~/Content/select2/select2.css"));
 
 			bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
 						"~/Content/themes/base/jquery.ui.core.css",
