@@ -19,7 +19,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ServiceProviderId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
@@ -30,9 +30,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="ServiceProviderId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
@@ -52,16 +51,17 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="ContactNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Locations">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ParentId" Type="int" />
         </EntityType>
@@ -78,7 +78,7 @@
             <PropertyRef Name="AcceptedBidId" />
           </Key>
           <Property Name="AcceptedBidId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ServiceProviderId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Score" Type="float" Nullable="false" />
           <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
@@ -89,16 +89,17 @@
             <PropertyRef Name="ClientId" />
           </Key>
           <Property Name="ClientId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="About" Type="nvarchar(max)" />
           <Property Name="Logo" Type="varbinary" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Services">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TagId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ServiceDue" Type="date" Nullable="false" />
@@ -112,8 +113,8 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="TagServiceProviderJoin">
@@ -160,18 +161,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AdditionalInfos_ServiceProviders">
-          <End Role="ServiceProviders" Type="Self.ServiceProviders" Multiplicity="1" />
-          <End Role="AdditionalInfos" Type="Self.AdditionalInfos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ServiceProviders">
-              <PropertyRef Name="ClientId" />
-            </Principal>
-            <Dependent Role="AdditionalInfos">
-              <PropertyRef Name="ServiceProviderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_AdditionalInfos_Services">
           <End Role="Services" Type="Self.Services" Multiplicity="1" />
           <End Role="AdditionalInfos" Type="Self.AdditionalInfos" Multiplicity="*" />
@@ -205,6 +194,18 @@
             </Principal>
             <Dependent Role="Bids">
               <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Locations_Locations">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="0..1" />
+          <End Role="Locations1" Type="Self.Locations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Locations1">
+              <PropertyRef Name="ParentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -353,10 +354,6 @@
             <End Role="Services" EntitySet="Services" />
             <End Role="AdditionalInfoRequests" EntitySet="AdditionalInfoRequests" />
           </AssociationSet>
-          <AssociationSet Name="FK_AdditionalInfos_ServiceProviders" Association="Self.FK_AdditionalInfos_ServiceProviders">
-            <End Role="ServiceProviders" EntitySet="ServiceProviders" />
-            <End Role="AdditionalInfos" EntitySet="AdditionalInfos" />
-          </AssociationSet>
           <AssociationSet Name="FK_AdditionalInfos_Services" Association="Self.FK_AdditionalInfos_Services">
             <End Role="Services" EntitySet="Services" />
             <End Role="AdditionalInfos" EntitySet="AdditionalInfos" />
@@ -368,6 +365,10 @@
           <AssociationSet Name="FK_Bids_Services" Association="Self.FK_Bids_Services">
             <End Role="Services" EntitySet="Services" />
             <End Role="Bids" EntitySet="Bids" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Locations_Locations" Association="Self.FK_Locations_Locations">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Locations1" EntitySet="Locations" />
           </AssociationSet>
           <AssociationSet Name="FK_LocationServiceProviderJoin_Locations" Association="Self.FK_LocationServiceProviderJoin_Locations">
             <End Role="Locations" EntitySet="Locations" />
@@ -441,10 +442,6 @@
             <End Role="Service" EntitySet="Services" />
             <End Role="AdditionalInfoRequest" EntitySet="AdditionalInfoRequests" />
           </AssociationSet>
-          <AssociationSet Name="FK_AdditionalInfos_ServiceProviders" Association="ServiceHubModel.FK_AdditionalInfos_ServiceProviders">
-            <End Role="ServiceProvider" EntitySet="ServiceProviders" />
-            <End Role="AdditionalInfo" EntitySet="AdditionalInfos" />
-          </AssociationSet>
           <AssociationSet Name="FK_AdditionalInfos_Services" Association="ServiceHubModel.FK_AdditionalInfos_Services">
             <End Role="Service" EntitySet="Services" />
             <End Role="AdditionalInfo" EntitySet="AdditionalInfos" />
@@ -485,6 +482,10 @@
             <End Role="ServiceProvider" EntitySet="ServiceProviders" />
             <End Role="Tag" EntitySet="Tags" />
           </AssociationSet>
+          <AssociationSet Name="FK_Locations_Locations" Association="ServiceHubModel.FK_Locations_Locations">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Location1" EntitySet="Locations" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="AcceptedBid">
           <Key>
@@ -502,7 +503,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ServiceId" Type="Guid" Nullable="false" />
           <Property Name="ServiceProviderId" Type="Guid" Nullable="false" />
           <Property Name="Comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -515,12 +516,10 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ServiceId" Type="Guid" Nullable="false" />
-          <Property Name="ServiceProviderId" Type="Guid" Nullable="false" />
           <Property Name="Comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
-          <NavigationProperty Name="ServiceProvider" Relationship="ServiceHubModel.FK_AdditionalInfos_ServiceProviders" FromRole="AdditionalInfo" ToRole="ServiceProvider" />
           <NavigationProperty Name="Service" Relationship="ServiceHubModel.FK_AdditionalInfos_Services" FromRole="AdditionalInfo" ToRole="Service" />
         </EntityType>
         <EntityType Name="Bid">
@@ -542,29 +541,32 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ContactNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="ServiceProvider" Relationship="ServiceHubModel.FK_ServiceProviders_Clients" FromRole="Client" ToRole="ServiceProvider" />
           <NavigationProperty Name="Services" Relationship="ServiceHubModel.FK_Services_Clients" FromRole="Client" ToRole="Service" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ParentId" Type="Int32" />
           <NavigationProperty Name="Services" Relationship="ServiceHubModel.FK_Services_Locations" FromRole="Location" ToRole="Service" />
           <NavigationProperty Name="ServiceProviders" Relationship="ServiceHubModel.LocationServiceProviderJoin" FromRole="Location" ToRole="ServiceProvider" />
+          <NavigationProperty Name="Children" Relationship="ServiceHubModel.FK_Locations_Locations" FromRole="Location" ToRole="Location1" />
+          <NavigationProperty Name="Parent" Relationship="ServiceHubModel.FK_Locations_Locations" FromRole="Location1" ToRole="Location" />
         </EntityType>
         <EntityType Name="Rating">
           <Key>
             <PropertyRef Name="AcceptedBidId" />
           </Key>
           <Property Name="AcceptedBidId" Type="Guid" Nullable="false" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ServiceProviderId" Type="Guid" Nullable="false" />
           <Property Name="Score" Type="Double" Nullable="false" />
           <Property Name="Comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -577,23 +579,23 @@
             <PropertyRef Name="ClientId" />
           </Key>
           <Property Name="ClientId" Type="Guid" Nullable="false" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
           <Property Name="About" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Logo" Type="Binary" MaxLength="50" FixedLength="false" />
           <NavigationProperty Name="AdditionalInfoRequests" Relationship="ServiceHubModel.FK_AdditionalInfoRequests_ServiceProviders" FromRole="ServiceProvider" ToRole="AdditionalInfoRequest" />
-          <NavigationProperty Name="AdditionalInfos" Relationship="ServiceHubModel.FK_AdditionalInfos_ServiceProviders" FromRole="ServiceProvider" ToRole="AdditionalInfo" />
           <NavigationProperty Name="Bids" Relationship="ServiceHubModel.FK_Bids_ServiceProviders" FromRole="ServiceProvider" ToRole="Bid" />
           <NavigationProperty Name="Client" Relationship="ServiceHubModel.FK_ServiceProviders_Clients" FromRole="ServiceProvider" ToRole="Client" />
           <NavigationProperty Name="Ratings" Relationship="ServiceHubModel.FK_Ratings_ServiceProviders" FromRole="ServiceProvider" ToRole="Rating" />
           <NavigationProperty Name="Locations" Relationship="ServiceHubModel.LocationServiceProviderJoin" FromRole="ServiceProvider" ToRole="Location" />
           <NavigationProperty Name="Tags" Relationship="ServiceHubModel.TagServiceProviderJoin" FromRole="ServiceProvider" ToRole="Tag" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TagId" Type="Guid" Nullable="false" />
           <Property Name="ServiceDue" Type="DateTime" Nullable="false" Precision="0" />
@@ -613,8 +615,8 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Services" Relationship="ServiceHubModel.FK_Services_Tags" FromRole="Tag" ToRole="Service" />
           <NavigationProperty Name="ServiceProviders" Relationship="ServiceHubModel.TagServiceProviderJoin" FromRole="Tag" ToRole="ServiceProvider" />
@@ -664,18 +666,6 @@
             </Principal>
             <Dependent Role="AdditionalInfoRequest">
               <PropertyRef Name="ServiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AdditionalInfos_ServiceProviders">
-          <End Type="ServiceHubModel.ServiceProvider" Role="ServiceProvider" Multiplicity="1" />
-          <End Type="ServiceHubModel.AdditionalInfo" Role="AdditionalInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ServiceProvider">
-              <PropertyRef Name="ClientId" />
-            </Principal>
-            <Dependent Role="AdditionalInfo">
-              <PropertyRef Name="ServiceProviderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -783,6 +773,18 @@
           <End Type="ServiceHubModel.ServiceProvider" Role="ServiceProvider" Multiplicity="*" />
           <End Type="ServiceHubModel.Tag" Role="Tag" Multiplicity="*" />
         </Association>
+        <Association Name="FK_Locations_Locations">
+          <End Type="ServiceHubModel.Location" Role="Location" Multiplicity="0..1" />
+          <End Type="ServiceHubModel.Location" Role="Location1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -816,7 +818,6 @@
               <MappingFragment StoreEntitySet="AdditionalInfos">
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
-                <ScalarProperty Name="ServiceProviderId" ColumnName="ServiceProviderId" />
                 <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -839,6 +840,7 @@
           <EntitySetMapping Name="Clients">
             <EntityTypeMapping TypeName="ServiceHubModel.Client">
               <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
@@ -870,6 +872,7 @@
           <EntitySetMapping Name="ServiceProviders">
             <EntityTypeMapping TypeName="ServiceHubModel.ServiceProvider">
               <MappingFragment StoreEntitySet="ServiceProviders">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Logo" ColumnName="Logo" />
                 <ScalarProperty Name="About" ColumnName="About" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />

@@ -1,4 +1,45 @@
-﻿@{
+﻿
+@model PagedList.IPagedList<ServiceHub.Model.ServiceProvider>
+
+@using PagedList.Mvc
+@{
+    
     ViewBag.Title = "Service Providers";
 }
+
+
+<div class="table">
+    <div class="row headerRow" >
+        <div></div>
+
+        <div>Name</div>
+
+        <div>Contact Number</div>
+
+        <div>Rating</div>
+
+        <div>Tags</div>
+    </div>
+@foreach (var item in Model) {
+    <div class="row">
+        <div><img src="@Url.Content("~/ServiceProvider/Thumbnail?serviceProviderId="+item.ClientId)" /></div>
+
+        <div>@Html.DisplayFor(o=>item.Client.Name)</div>
+
+        <div>@Html.DisplayFor(o => item.Client.ContactNumber)</div>
+
+        <div>@Html.DisplayFor(o => item.Rating)</div>
+
+        <div>@string.Join(", ", item.Tags.Select(i => i.Title).ToArray())</div>
+    </div>
+    
+}
+</div>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page/*, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter*/ }))
+
+
 

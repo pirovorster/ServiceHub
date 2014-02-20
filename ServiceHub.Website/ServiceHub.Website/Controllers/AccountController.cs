@@ -14,7 +14,6 @@ using ServiceHub.Website.Models;
 namespace ServiceHub.Website.Controllers
 {
 	[Authorize]
-	[InitializeSimpleMembership]
 	public class AccountController : Controller
 	{
 		public ActionResult UserProfile()

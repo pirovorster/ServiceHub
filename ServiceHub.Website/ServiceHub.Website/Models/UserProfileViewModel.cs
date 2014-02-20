@@ -11,7 +11,7 @@ namespace ServiceHub.Website.Models
 	{
 		public UserProfileViewModel()
 		{
-			Locations = new List<Guid>();
+			Locations = new List<int>();
 		}
 
 		[Required]
@@ -34,7 +34,7 @@ namespace ServiceHub.Website.Models
 
 		[Display(Name = "Working Areas")]
 		[RequiredIf("IsServiceProvider", true, ErrorMessage = "You need to add at least one area.")]
-		public List<Guid> Locations { get; set; }
+		public List<int> Locations { get; set; }
 
 		[Display(Name = "Tags")]
 		[RequiredIf("IsServiceProvider", true, ErrorMessage = "You need to add at least one tag.")]

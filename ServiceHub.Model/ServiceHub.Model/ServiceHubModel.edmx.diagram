@@ -5,21 +5,20 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="bc94ff57e0244df194ce010123bd3c71" Name="Diagram1">
-        <EntityTypeShape EntityType="ServiceHubModel.AcceptedBid" Width="1.5" PointX="7.5" PointY="3.625" />
-        <EntityTypeShape EntityType="ServiceHubModel.AdditionalInfoRequest" Width="1.5" PointX="8.25" PointY="7.5" />
-        <EntityTypeShape EntityType="ServiceHubModel.AdditionalInfo" Width="1.5" PointX="5.25" PointY="3.5" />
-        <EntityTypeShape EntityType="ServiceHubModel.Bid" Width="1.5" PointX="5.25" PointY="7.25" />
-        <EntityTypeShape EntityType="ServiceHubModel.Client" Width="1.5" PointX="0.75" PointY="7.625" />
-        <EntityTypeShape EntityType="ServiceHubModel.Location" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="ServiceHubModel.Rating" Width="1.5" PointX="10.75" PointY="5.75" />
-        <EntityTypeShape EntityType="ServiceHubModel.ServiceProvider" Width="1.5" PointX="3" PointY="7.125" />
-        <EntityTypeShape EntityType="ServiceHubModel.Service" Width="1.5" PointX="7.5" PointY="11.75" />
-        <EntityTypeShape EntityType="ServiceHubModel.Tag" Width="1.5" PointX="5.25" PointY="18" />
+        <EntityTypeShape EntityType="ServiceHubModel.AcceptedBid" Width="1.5" PointX="13.5" PointY="6.875" />
+        <EntityTypeShape EntityType="ServiceHubModel.AdditionalInfoRequest" Width="1.5" PointX="8.25" PointY="6.625" />
+        <EntityTypeShape EntityType="ServiceHubModel.AdditionalInfo" Width="1.5" PointX="8.25" PointY="13.875" />
+        <EntityTypeShape EntityType="ServiceHubModel.Bid" Width="1.5" PointX="11.25" PointY="6.375" />
+        <EntityTypeShape EntityType="ServiceHubModel.Client" Width="1.5" PointX="3.75" PointY="2.875" />
+        <EntityTypeShape EntityType="ServiceHubModel.Location" Width="1.5" PointX="0.75" PointY="6.875" />
+        <EntityTypeShape EntityType="ServiceHubModel.Rating" Width="1.5" PointX="15.75" PointY="6.625" />
+        <EntityTypeShape EntityType="ServiceHubModel.ServiceProvider" Width="1.5" PointX="3" PointY="6.375" />
+        <EntityTypeShape EntityType="ServiceHubModel.Service" Width="1.5" PointX="6" PointY="5.875" />
+        <EntityTypeShape EntityType="ServiceHubModel.Tag" Width="1.5" PointX="5.25" PointY="10.875" />
         <AssociationConnector Association="ServiceHubModel.FK_AcceptedBids_Bids" />
         <AssociationConnector Association="ServiceHubModel.FK_Ratings_AcceptedBids" />
         <AssociationConnector Association="ServiceHubModel.FK_AdditionalInfoRequests_ServiceProviders" />
         <AssociationConnector Association="ServiceHubModel.FK_AdditionalInfoRequests_Services" />
-        <AssociationConnector Association="ServiceHubModel.FK_AdditionalInfos_ServiceProviders" />
         <AssociationConnector Association="ServiceHubModel.FK_AdditionalInfos_Services" />
         <AssociationConnector Association="ServiceHubModel.FK_Bids_ServiceProviders" />
         <AssociationConnector Association="ServiceHubModel.FK_Bids_Services" />
@@ -30,6 +29,7 @@
         <AssociationConnector Association="ServiceHubModel.FK_Services_Tags" />
         <AssociationConnector Association="ServiceHubModel.LocationServiceProviderJoin" />
         <AssociationConnector Association="ServiceHubModel.TagServiceProviderJoin" />
+        <AssociationConnector Association="ServiceHubModel.FK_Locations_Locations" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

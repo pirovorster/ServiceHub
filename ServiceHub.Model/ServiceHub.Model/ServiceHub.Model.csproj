@@ -63,6 +63,7 @@
     <Compile Include="Client.cs">
       <DependentUpon>ServiceHubModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\ServiceProvider.cs" />
     <Compile Include="Location.cs">
       <DependentUpon>ServiceHubModel.tt</DependentUpon>
     </Compile>

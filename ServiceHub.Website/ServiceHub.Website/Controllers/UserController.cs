@@ -15,47 +15,54 @@ using System.Web.Script.Serialization;
 namespace ServiceHub.Website.Controllers
 {
 	[Authorize]
+
 	public class UserController : Controller
 	{
+		ClientService _service;
+		public UserController()
+		{
+			int userId = WebSecurity.CurrentUserId;
+			
+			_service=new ClientService(userId);
+		}
+
 		public ActionResult UserProfile()
 		{
+		
 			JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-			ViewBag.Tags =ViewBag.Locations = new MultiSelectList(new List<LookupValue>
-			{
-				new LookupValue(Guid.NewGuid(), "Value one"),
-				new LookupValue(Guid.NewGuid(), "Value two"),
-				new LookupValue(Guid.NewGuid(), "Value three"),
-				new LookupValue(Guid.NewGuid(), "Value four")
-			}, "Id", "Value");
+			UserProfileViewModel userProfileViewModel = _service.GetUserProfile();
 
-			//ViewBag.Tags = serializer.Serialize(new List<string>
-			//{
-			//	"Value one",
-			//	"Value two",
-			//	"Value three"
-
-			//});
-			return View();
+			ViewBag.Message = string.Empty;
+			SetViewBagData();
+			return View(userProfileViewModel);
 		}
 
 		[AcceptVerbs(HttpVerbs.Post)]
-		public ActionResult UserProfile(UserProfileViewModel userProfileViewModel, HttpPostedFileBase image)
+		public ActionResult UserProfile(UserProfileViewModel userProfileViewModel, HttpPostedFileBase logo)
 		{
+
 			if (ModelState.IsValid)
 			{
-				if (image != null)
+				if (logo != null)
 				{
 					//product.ImageMimeType = image.ContentType;
-					//product.ImageData = new byte[image.ContentLength];
-					//image.InputStream.Read(product.ImageData, 0, image.ContentLength);
+					userProfileViewModel.LogoData = new byte[logo.ContentLength];
+					logo.InputStream.Read(userProfileViewModel.LogoData, 0, logo.ContentLength);
 				}
-				//productsRepository.SaveProduct(product);
-				//TempData["message"] = product.Name + " has been saved.";
-				return View();
+				_service.SaveUserProfile(userProfileViewModel);
+
+				ViewBag.Message = "User Profile has been saved!";
 			}
-			else // Validation error, so redisplay same view
-				return View(userProfileViewModel);
+
+			SetViewBagData();
+			return View(userProfileViewModel);
+		}
+
+		private void SetViewBagData()
+		{
+			ViewBag.TagLookup = _service.GetTags().Select(o => o.Value);
+			ViewBag.LocationLookup = new MultiSelectList(_service.GetLocations(), "Id", "Value");
 		}
 
 		

@@ -32,7 +32,7 @@ namespace ServiceHub.Website
 
 						));
 
-			bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", "~/Content/custom.css"));
+			bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", "~/Content/custom.css", "~/Content/PagedList.css"));
 
 			bundles.Add(new StyleBundle("~/Content/select2/css").Include("~/Content/select2/select2.css"));
 

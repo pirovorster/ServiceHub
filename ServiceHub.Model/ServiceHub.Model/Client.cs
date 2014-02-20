@@ -23,6 +23,7 @@ namespace ServiceHub.Model
         public int OrderId { get; set; }
         public string Name { get; set; }
         public string ContactNumber { get; set; }
+        public int UserId { get; set; }
     
         public virtual ServiceProvider ServiceProvider { get; set; }
         public virtual ICollection<Service> Services { get; set; }

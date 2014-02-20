@@ -17,7 +17,6 @@ namespace ServiceHub.Model
         public ServiceProvider()
         {
             this.AdditionalInfoRequests = new HashSet<AdditionalInfoRequest>();
-            this.AdditionalInfos = new HashSet<AdditionalInfo>();
             this.Bids = new HashSet<Bid>();
             this.Ratings = new HashSet<Rating>();
             this.Locations = new HashSet<Location>();
@@ -28,9 +27,9 @@ namespace ServiceHub.Model
         public int OrderId { get; set; }
         public string About { get; set; }
         public byte[] Logo { get; set; }
+        public bool IsActive { get; set; }
     
         public virtual ICollection<AdditionalInfoRequest> AdditionalInfoRequests { get; set; }
-        public virtual ICollection<AdditionalInfo> AdditionalInfos { get; set; }
         public virtual ICollection<Bid> Bids { get; set; }
         public virtual Client Client { get; set; }
         public virtual ICollection<Rating> Ratings { get; set; }

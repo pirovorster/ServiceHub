@@ -17,11 +17,9 @@ namespace ServiceHub.Model
         public System.Guid Id { get; set; }
         public int OrderId { get; set; }
         public System.Guid ServiceId { get; set; }
-        public System.Guid ServiceProviderId { get; set; }
         public string Comment { get; set; }
         public System.DateTime TimeStamp { get; set; }
     
-        public virtual ServiceProvider ServiceProvider { get; set; }
         public virtual Service Service { get; set; }
     }
 }

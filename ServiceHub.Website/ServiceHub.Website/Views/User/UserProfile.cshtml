@@ -10,20 +10,19 @@
 
         $(document).ready(function () {
 
-
-            $('#ServiceProviderSection').hide();
-            $('#IsServiceProvider').on('change', function () {
-                if ($(this).is(":checked")) {
+            var setServiceProviderSection = function () {
+                if ($("#IsServiceProvider").is(":checked")) {
                     $('#ServiceProviderSection').show();
                 }
                 else {
                     $('#ServiceProviderSection').hide();
                 }
-            });
+            };
+            setServiceProviderSection();
+            $('#IsServiceProvider').on('change', setServiceProviderSection);
 
-
-            $("#Tags").select2({ tags: ["red", "green", "blue"] });
-            $('#Tags').select2('val', ['brown', 'red', 'green']);
+            //
+            $("#Tags").select2({ tags: [@Html.Raw(string.Join(",", ((IEnumerable<string>)ViewBag.TagLookup).Select(o => string.Format("\"{0}\"", o))))] });
             $("#Locations").select2();
         });
 
@@ -76,7 +75,7 @@
             </li>
             <li>
                 @Html.LabelFor(m => m.Locations)
-                @Html.ListBoxFor(m => m.Locations, (MultiSelectList)ViewBag.Locations, new { Multiple = "multiple", style = "width:300px", @class = "chosen-select" })
+                @Html.ListBoxFor(m => m.Locations, (MultiSelectList)ViewBag.LocationLookup, new { Multiple = "multiple", style = "width:300px", @class = "chosen-select" })
                 @Html.ValidationMessageFor(m => m.Locations)
             </li>
             <li>
@@ -89,4 +88,5 @@
     </fieldset>
 
     <input id="submit" type="submit" value="Save" />
+    @Html.Label((string)ViewBag.Message)
 }
