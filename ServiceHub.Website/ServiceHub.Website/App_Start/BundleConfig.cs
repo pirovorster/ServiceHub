@@ -20,6 +20,9 @@ namespace ServiceHub.Website
 			bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
 						"~/Scripts/jquery.unobtrusive*",
 						"~/Scripts/jquery.validate*",
+						"~/Scripts/MicrosoftAjax.js",
+						"~/Scripts/MicrosoftMvcAjax.js",
+						"~/Scripts/MicrosoftMvcValidation.js",
 						"~/Scripts/mvcfoolproof.unobtrusive.js",
 						"~/Scripts/MvcFoolproofJQueryValidation.js",
 						"~/Scripts/MvcFoolproofValidation.js"

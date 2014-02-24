@@ -8,6 +8,7 @@ using System.Web.Security;
 using System.Web.Mvc;
 using System.Drawing;
 using System.IO;
+using System.Globalization;
 
 namespace ServiceHub.Website
 {
@@ -124,23 +125,30 @@ namespace ServiceHub.Website
 
 		}
 
-		
-		public IEnumerable<LookupValue> GetLocations()
+
+		public void PostService(PostServiceViewModel postServiceViewModel)
 		{
 			using (ServiceHubEntities serviceHubEntities = new ServiceHubEntities())
 			{
-				return serviceHubEntities.Locations.ToList().Select(o => new LookupValue(o.Id, o.Name)).ToList().AsReadOnly();
+				Client client = serviceHubEntities.Clients.SingleOrDefault(o => o.UserId == _userId);
+				Tag tag = serviceHubEntities.Tags.SingleOrDefault(o => o.Id == postServiceViewModel.ServiceTagId);
+				Location location = serviceHubEntities.Locations.SingleOrDefault(o => o.Id == postServiceViewModel.LocationId);
+
+				Service service = new Service();
+				service.Description = postServiceViewModel.Description;
+				service.Client = client;
+				service.BiddingCompletionDate = postServiceViewModel.BiddingCompletionDate.Value;
+				service.ServiceDue = postServiceViewModel.ServiceDate.Value;
+				service.Tag = tag;
+				service.Location = location;
+				service.TimeStamp = DateTime.Now;
+				postServiceViewModel.Reference = service.Reference = string.Format(CultureInfo.InvariantCulture, "S{0}", DateTime.Now.Ticks);
+
+				serviceHubEntities.Services.Add(service);
+
+				serviceHubEntities.SaveChanges();
 			}
-		}
 
-		public IEnumerable<LookupValue> GetTags()
-		{
-			using (ServiceHubEntities serviceHubEntities = new ServiceHubEntities())
-			{
-				return serviceHubEntities.Tags.ToList().Select(o => new LookupValue(o.Id, o.Title)).ToList().AsReadOnly();
-
-
-			}
 		}
 	}
 }

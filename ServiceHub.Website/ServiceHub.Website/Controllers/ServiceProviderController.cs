@@ -9,19 +9,35 @@ namespace ServiceHub.Website.Controllers
 {
 	public class ServiceProviderController : Controller
 	{
-		private readonly ServiceProviderService _service;
+		private readonly ServiceProviderService _serviceProviderService;
+		private readonly LookupService _lookupService;
 		public ServiceProviderController()
 		{
-
-			_service = new ServiceProviderService();
+			_lookupService = new LookupService();
+			_serviceProviderService = new ServiceProviderService();
 		}
 
-		public ActionResult List(int? page)
+		public ActionResult List(int? page, string searchString,IEnumerable<int> locations, IEnumerable<Guid> tags)
 		{
+			int pageNo = 1;
 
-			return View(_service.GetServiceProviderPage(page.HasValue?page.Value:1,10));
+			if (page.HasValue)
+				pageNo = page.Value;
+
+			if (locations == null)
+				locations = Enumerable.Empty<int>();
+
+			if (tags == null)
+				tags = Enumerable.Empty<Guid>();
+
+			if (string.IsNullOrWhiteSpace(searchString))
+				searchString = string.Empty;
+
+			SetViewBagData();
+			return View(_serviceProviderService.GetServiceProviderPage(pageNo, 10, locations, tags, searchString));
 		}
 
+		
 		public ActionResult MyBids()
 		{
 
@@ -32,7 +48,7 @@ namespace ServiceHub.Website.Controllers
 		public ActionResult Thumbnail(Guid serviceProviderId)
 		{
 			byte[] imageBytes = null;
-			imageBytes =  _service.GetLogoData(serviceProviderId);
+			imageBytes =  _serviceProviderService.GetLogoData(serviceProviderId);
 
 			if (imageBytes == null)
 			{
@@ -42,6 +58,11 @@ namespace ServiceHub.Website.Controllers
 			{
 				return new FileContentResult(imageBytes, "image/jpeg");
 			}
+		}
+		private void SetViewBagData()
+		{
+			ViewBag.TagLookup = new MultiSelectList(_lookupService.GetTags(), "Id", "Value");
+			ViewBag.LocationLookup = new MultiSelectList(_lookupService.GetLocations(), "Id", "Value");
 		}
 
 	}

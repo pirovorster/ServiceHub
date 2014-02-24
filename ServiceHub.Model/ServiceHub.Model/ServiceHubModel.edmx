@@ -98,16 +98,16 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TagId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ServiceDue" Type="date" Nullable="false" />
           <Property Name="BiddingCompletionDate" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="Reference" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="LocationId" Type="int" Nullable="false" />
           <Property Name="ClientId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="TimeStamp" Type="datetime2" Precision="7" />
+          <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="Tags">
           <Key>
@@ -594,16 +594,16 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TagId" Type="Guid" Nullable="false" />
           <Property Name="ServiceDue" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="BiddingCompletionDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="Reference" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="Reference" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="LocationId" Type="Int32" Nullable="false" />
           <Property Name="ClientId" Type="Guid" Nullable="false" />
-          <Property Name="TimeStamp" Type="DateTime" Precision="7" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="7" Nullable="false" />
           <NavigationProperty Name="AdditionalInfoRequests" Relationship="ServiceHubModel.FK_AdditionalInfoRequests_Services" FromRole="Service" ToRole="AdditionalInfoRequest" />
           <NavigationProperty Name="AdditionalInfos" Relationship="ServiceHubModel.FK_AdditionalInfos_Services" FromRole="Service" ToRole="AdditionalInfo" />
           <NavigationProperty Name="Bids" Relationship="ServiceHubModel.FK_Bids_Services" FromRole="Service" ToRole="Bid" />

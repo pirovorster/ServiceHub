@@ -18,12 +18,13 @@ namespace ServiceHub.Website.Controllers
 
 	public class UserController : Controller
 	{
-		ClientService _service;
+		LookupService _lookupService;
+		ClientService _clientService;
 		public UserController()
 		{
 			int userId = WebSecurity.CurrentUserId;
-			
-			_service=new ClientService(userId);
+			_lookupService = new LookupService();
+			_clientService=new ClientService(userId);
 		}
 
 		public ActionResult UserProfile()
@@ -31,7 +32,7 @@ namespace ServiceHub.Website.Controllers
 		
 			JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-			UserProfileViewModel userProfileViewModel = _service.GetUserProfile();
+			UserProfileViewModel userProfileViewModel = _clientService.GetUserProfile();
 
 			ViewBag.Message = string.Empty;
 			SetViewBagData();
@@ -50,7 +51,7 @@ namespace ServiceHub.Website.Controllers
 					userProfileViewModel.LogoData = new byte[logo.ContentLength];
 					logo.InputStream.Read(userProfileViewModel.LogoData, 0, logo.ContentLength);
 				}
-				_service.SaveUserProfile(userProfileViewModel);
+				_clientService.SaveUserProfile(userProfileViewModel);
 
 				ViewBag.Message = "User Profile has been saved!";
 			}
@@ -61,8 +62,8 @@ namespace ServiceHub.Website.Controllers
 
 		private void SetViewBagData()
 		{
-			ViewBag.TagLookup = _service.GetTags().Select(o => o.Value);
-			ViewBag.LocationLookup = new MultiSelectList(_service.GetLocations(), "Id", "Value");
+			ViewBag.TagLookup = _lookupService.GetTags().Select(o => o.Value);
+			ViewBag.LocationLookup = new MultiSelectList(_lookupService.GetLocations(), "Id", "Value");
 		}
 
 		
