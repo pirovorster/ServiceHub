@@ -18,7 +18,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ServiceProviderId" Type="uniqueidentifier" Nullable="false" />
@@ -39,7 +39,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ServiceProviderId" Type="uniqueidentifier" Nullable="false" />
@@ -108,6 +108,7 @@
           <Property Name="LocationId" Type="int" Nullable="false" />
           <Property Name="ClientId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsCancelled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Tags">
           <Key>
@@ -502,7 +503,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ServiceId" Type="Guid" Nullable="false" />
           <Property Name="ServiceProviderId" Type="Guid" Nullable="false" />
@@ -526,7 +527,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ServiceId" Type="Guid" Nullable="false" />
           <Property Name="ServiceProviderId" Type="Guid" Nullable="false" />
@@ -610,6 +611,7 @@
           <NavigationProperty Name="Client" Relationship="ServiceHubModel.FK_Services_Clients" FromRole="Service" ToRole="Client" />
           <NavigationProperty Name="Location" Relationship="ServiceHubModel.FK_Services_Locations" FromRole="Service" ToRole="Location" />
           <NavigationProperty Name="Tag" Relationship="ServiceHubModel.FK_Services_Tags" FromRole="Service" ToRole="Tag" />
+          <Property Name="IsCancelled" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
@@ -883,6 +885,7 @@
           <EntitySetMapping Name="Services">
             <EntityTypeMapping TypeName="ServiceHubModel.Service">
               <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />

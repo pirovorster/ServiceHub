@@ -22,9 +22,8 @@ namespace ServiceHub.Website.Controllers
 		ClientService _clientService;
 		public UserController()
 		{
-			int userId = WebSecurity.CurrentUserId;
 			_lookupService = new LookupService();
-			_clientService=new ClientService(userId);
+			_clientService=new ClientService();
 		}
 
 		public ActionResult UserProfile()

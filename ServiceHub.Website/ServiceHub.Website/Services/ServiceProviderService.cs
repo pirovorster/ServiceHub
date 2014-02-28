@@ -15,7 +15,7 @@ namespace ServiceHub.Website
 	public sealed class ServiceProviderService
 	{
 
-		public IPagedList<ServiceProvider> GetServiceProviderPage(int page, int itemsPerPage, IEnumerable<int> locations, IEnumerable<Guid> tags, string searchString)
+		public IPagedList<ServiceProvider> GetServiceProvidersPage(int page, int itemsPerPage, IEnumerable<int> locations, IEnumerable<Guid> tags, string searchString)
 		{
 
 			using (ServiceHubEntities serviceHubEntities = new ServiceHubEntities())
@@ -41,7 +41,7 @@ namespace ServiceHub.Website
 				}
 
 				return serviceProviders
-					.OrderBy(o => o.Ratings.Average(i => i.Score))
+					.OrderByDescending(o => o.Ratings.Average(i => i.Score))
 					.ToPagedList(page, itemsPerPage);
 			}
 		}
@@ -55,5 +55,43 @@ namespace ServiceHub.Website
 
 			}
 		}
+		public void Bid(Guid serviceId, Guid serviceProvicerId, decimal bidValue)
+		{
+
+			using (ServiceHubEntities serviceHubEntities = new ServiceHubEntities())
+			{
+				Bid bid = new Bid
+				{
+					Amount = bidValue,
+					IsCancelled = false,
+					ServiceId = serviceId,
+					TimeStamp = DateTime.Now,
+					ServiceProviderId = serviceProvicerId
+
+				};
+
+				serviceHubEntities.Bids.Add(bid);
+				serviceHubEntities.SaveChanges();
+			}
+		}
+
+		public void RequestAdditionalInfo(Guid serviceId, Guid serviceProvicerId, string request)
+		{
+
+			using (ServiceHubEntities serviceHubEntities = new ServiceHubEntities())
+			{
+				AdditionalInfoRequest additionalInfoRequest = new AdditionalInfoRequest
+				{
+					Comment = request,
+					ServiceProviderId = serviceProvicerId,
+					ServiceId = serviceId,
+					TimeStamp = DateTime.Now,
+				};
+
+				serviceHubEntities.AdditionalInfoRequests.Add(additionalInfoRequest);
+				serviceHubEntities.SaveChanges();
+			}
+		}
+
 	}
 }

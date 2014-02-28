@@ -1,39 +1,85 @@
-﻿@{
-    ViewBag.Title = "Clients";
+﻿@model PagedList.IPagedList<ServiceHub.Model.Service>
+
+@using PagedList.Mvc
+@{
+
+    ViewBag.Title = "Service";
+}
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+            $("#Tags").select2();
+            $("#Locations").select2();
+            //searchString
+        });
+
+    </script>
+
+}
+@using (Html.BeginForm("Client", "Services", FormMethod.Post))
+{
+
+    @Html.Label("Search")
+    @Html.TextBox("SearchString")
+
+    @Html.Label("Service Type Tags")
+    @Html.ListBox("Tags", (MultiSelectList)ViewBag.TagLookup, new { Multiple = "multiple", style = "width:300px" })
+
+    @Html.Label("Working Area")
+    @Html.ListBox("Locations", (MultiSelectList)ViewBag.LocationLookup, new { Multiple = "multiple", style = "width:300px" })
+
+
+
+    <input id="submit" type="submit" value="Apply" />
+
+
+    <div class="table">
+        <div class="row headerRow">
+            <div>Reference</div>
+
+            <div>Time Stamp</div>
+
+            <div>Description</div>
+
+            <div>Service Due</div>
+
+            <div>Bidding Completion Date</div>
+
+            <div>Service Tag</div>
+
+            <div>Location</div>
+            <div></div>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="row">
+
+                <div>@Html.DisplayFor(o => item.Reference)</div>
+
+                <div>@item.TimeStamp.ToString("dd MMM yyyy")</div>
+
+                <div>@Html.DisplayFor(o => item.Description)</div>
+
+                <div>@item.ServiceDue.ToString("dd MMM yyyy")</div>
+
+                <div>@item.BiddingCompletionDate.ToString("dd MMM yyyy")</div>
+
+                <div>@Html.DisplayFor(o => item.Tag.Title)</div>
+
+                <div>@Html.DisplayFor(o => item.Location.Name)</div>
+                <div>@Html.ActionLink("Bid", "ServiceBid", "ServiceProvider", new  { serviceId = item.Id }, null)</div>
+            </div>
+
+        }
+    </div>
 }
 
-<div class="table">
-    <div class="row">
-        <div>some data</div>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-        <div>some data</div>
+@Html.PagedListPager(Model, page => Url.Action("Services",
+                            new { page, searchString = ViewBag.CurrentSearchString, locations = ViewBag.CurrentLocations, tags = ViewBag.CurrentTags }))
 
-        <div>some data</div>
 
-        <div>some data</div>
-
-        <div>some data</div>
-    </div>
-    <div class="row">
-        <div>some data</div>
-
-        <div>some data</div>
-
-        <div>some data</div>
-
-        <div>some data</div>
-
-        <div>some data</div>
-    </div>
-    <div class="row">
-        <div>some data</div>
-
-        <div>some data</div>
-
-        <div>some data</div>
-
-        <div>some data</div>
-
-        <div>some data</div>
-    </div>
-</div>

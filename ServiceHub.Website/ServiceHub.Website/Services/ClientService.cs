@@ -9,30 +9,30 @@ using System.Web.Mvc;
 using System.Drawing;
 using System.IO;
 using System.Globalization;
+using PagedList;
+using WebMatrix.WebData;
 
 namespace ServiceHub.Website
 {
 	public sealed class ClientService
 	{
-		private readonly int _userId;
-		public ClientService(int userId)
-		{
-			_userId = userId;
-		}
+		
 
 		public void SaveUserProfile(UserProfileViewModel userProfileViewModel)
 		{
 			if (userProfileViewModel == null)
 				throw new ArgumentNullException("userProfileViewModel");
 
+			int userId = WebSecurity.CurrentUserId;
+
 			using (ServiceHubEntities serviceHubEntities = new ServiceHubEntities())
 			{
-				Client client = serviceHubEntities.Clients.SingleOrDefault(o => o.UserId == _userId);
+				Client client = serviceHubEntities.Clients.SingleOrDefault(o => o.UserId == userId);
 				if (client == null)
 				{
 					client = new Client();
 					serviceHubEntities.Clients.Add(client);
-					client.UserId = _userId;
+					client.UserId = userId;
 				}
 
 				client.Name = userProfileViewModel.Name;
@@ -88,10 +88,11 @@ namespace ServiceHub.Website
 		{
 			UserProfileViewModel userProfileViewModel = new UserProfileViewModel();
 
+			int userId = WebSecurity.CurrentUserId;
 			using (ServiceHubEntities serviceHubEntities = new ServiceHubEntities())
 			{
 
-				Client client = serviceHubEntities.Clients.SingleOrDefault(o => o.UserId == _userId);
+				Client client = serviceHubEntities.Clients.SingleOrDefault(o => o.UserId == userId);
 				if (client == null)
 					return userProfileViewModel;
 
@@ -128,9 +129,11 @@ namespace ServiceHub.Website
 
 		public void PostService(PostServiceViewModel postServiceViewModel)
 		{
+
+			int userId = WebSecurity.CurrentUserId;
 			using (ServiceHubEntities serviceHubEntities = new ServiceHubEntities())
 			{
-				Client client = serviceHubEntities.Clients.SingleOrDefault(o => o.UserId == _userId);
+				Client client = serviceHubEntities.Clients.SingleOrDefault(o => o.UserId == userId);
 				Tag tag = serviceHubEntities.Tags.SingleOrDefault(o => o.Id == postServiceViewModel.ServiceTagId);
 				Location location = serviceHubEntities.Locations.SingleOrDefault(o => o.Id == postServiceViewModel.LocationId);
 
@@ -142,6 +145,7 @@ namespace ServiceHub.Website
 				service.Tag = tag;
 				service.Location = location;
 				service.TimeStamp = DateTime.Now;
+				service.IsCancelled = false;
 				postServiceViewModel.Reference = service.Reference = string.Format(CultureInfo.InvariantCulture, "S{0}", DateTime.Now.Ticks);
 
 				serviceHubEntities.Services.Add(service);
@@ -149,6 +153,94 @@ namespace ServiceHub.Website
 				serviceHubEntities.SaveChanges();
 			}
 
+		}
+
+		internal IPagedList<Service> GetServicesPage(int page, int itemsPerPage, IEnumerable<int> locations, IEnumerable<Guid> tags, string searchString)
+		{
+			using (ServiceHubEntities serviceHubEntities = new ServiceHubEntities())
+			{
+				IQueryable<Service> services = serviceHubEntities.Services
+					.Include("Client")
+					.Include("Tag")
+					.Include("Location")
+					.Where(o => !o.IsCancelled);
+
+				if (locations.Count() > 0 && tags.Count() > 0)
+					services = services.Where(o => locations.Contains(o.LocationId) || tags.Contains(o.TagId));
+				else if (locations.Count() > 0)
+					services = services.Where(o => locations.Contains(o.LocationId));
+				else if (tags.Count() > 0)
+					services = services.Where(o => tags.Contains(o.TagId));
+
+				if (!string.IsNullOrWhiteSpace(searchString))
+				{
+					string searchStringUpperCase = searchString.ToUpper();
+					services = services.Where(o => o.Description.ToUpper().Contains(searchStringUpperCase));
+				}
+
+				return services
+					.OrderByDescending(o => o.TimeStamp)
+					.ToPagedList(page, itemsPerPage);
+			}
+		}
+
+		internal ServiceBidViewModel GetService(Guid serviceId)
+		{
+			int userId = WebSecurity.CurrentUserId;
+			using (ServiceHubEntities serviceHubEntities = new ServiceHubEntities())
+			{
+				Service service = serviceHubEntities.Services
+					.Include("Client")
+					.Include("Tag")
+					.Include("Location")
+					.Where(o => !o.IsCancelled)
+					.SingleOrDefault(o => o.Id == serviceId);
+
+				decimal highestBid = 
+					new List<decimal>
+					{
+						0
+					}.Concat(
+					service
+					.Bids
+					.Where(o => !o.IsCancelled)
+					.GroupBy(o => o.ServiceProviderId)
+					.Select(o => o.OrderByDescending(i => i.TimeStamp).FirstOrDefault())
+					.Where(o => o != null)
+					.Select(o=>o.Amount))
+					.Max(o => o);
+
+				decimal serviceProviderCurrentBid = new List<decimal>
+					{
+						0
+					}.Concat(service
+					.Bids
+					.Where(o=>o.ServiceProvider.Client.UserId == userId && !o.IsCancelled)
+					.OrderByDescending(i => i.TimeStamp)
+					.Select(o=>o.Amount))
+					.Max(o=>o);
+
+				if (service != null)
+					return new ServiceBidViewModel
+					{
+						ServiceProviderId = serviceHubEntities.Clients.Single(o=>o.UserId ==userId).Id,
+						ServiceId = serviceId,
+						HighestBid = highestBid,
+						 ServiceProviderCurrentBid = serviceProviderCurrentBid,
+						BiddingCompletionDate = service.BiddingCompletionDate,
+						Description = service.Description,
+						Location = service.Location.Name,
+						Reference = service.Reference,
+						ServiceDate = service.ServiceDue,
+						ServiceTag = service.Tag.Title,
+						AddtionalInfo = service.AdditionalInfos.Select(o => o.Comment).ToList(),
+						AddtionalInfoRequests = service.AdditionalInfoRequests.Select(o => o.Comment).ToList(),
+
+					};
+				else
+					return new ServiceBidViewModel();
+
+			}
 		}
 	}
 }

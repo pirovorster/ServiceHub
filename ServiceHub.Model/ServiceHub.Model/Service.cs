@@ -31,6 +31,7 @@ namespace ServiceHub.Model
         public int LocationId { get; set; }
         public System.Guid ClientId { get; set; }
         public System.DateTime TimeStamp { get; set; }
+        public bool IsCancelled { get; set; }
     
         public virtual ICollection<AdditionalInfoRequest> AdditionalInfoRequests { get; set; }
         public virtual ICollection<AdditionalInfo> AdditionalInfos { get; set; }
