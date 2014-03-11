@@ -1,4 +1,5 @@
-﻿using ServiceHub.Website.Models;
+﻿using ServiceHub.Model;
+using ServiceHub.Website.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,24 +9,34 @@ using WebMatrix.WebData;
 
 namespace ServiceHub.Website.Controllers
 {
-	public class ClientController : Controller
+	public class ClientController : BaseController
 	{
 		private readonly LookupService _lookupService;
-		private readonly ClientService _clientService;
-		public ClientController()
+		private readonly ServiceService _clientService;
+		public ClientController(LookupService lookupService, ServiceService clientService)
 		{
-			_lookupService = new LookupService();
-			_clientService = new ClientService();
+			_lookupService = lookupService;
+			_clientService = clientService;
 		}
 		public ActionResult MyServices()
 		{
-			return View(Guid.NewGuid());
+			return View(_clientService.MyServiceItems());
 		}
 
-		public ActionResult Services(int? page, string searchString, IEnumerable<int> locations, IEnumerable<Guid> tags)
+		public ActionResult Services(
+			int? page, 
+			string searchString, 
+			IEnumerable<int> locations, 
+			IEnumerable<Guid> tags, 
+			DateTime? beginBiddingCompletionDate,
+			DateTime? endBiddingCompletionDate,
+			DateTime? beginEstimatedServiceDate,
+			DateTime? endEstimatedServiceDate
+			)
 		{
 			int pageNo = 1;
 
+			
 			if (page.HasValue)
 				pageNo = page.Value;
 
@@ -45,7 +56,7 @@ namespace ServiceHub.Website.Controllers
 			ViewBag.CurrentTags = tags;
 
 			SetViewBagServiceListData();
-			return View(_clientService.GetServicesPage(pageNo, 10, locations, tags, searchString));
+			return View(_clientService.GetServicesPage(pageNo, 10, locations, tags, searchString, beginBiddingCompletionDate, endBiddingCompletionDate, beginEstimatedServiceDate, endEstimatedServiceDate));
 		}
 
 		private void SetViewBagServiceListData()

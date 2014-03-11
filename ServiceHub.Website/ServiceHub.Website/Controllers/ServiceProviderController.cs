@@ -8,24 +8,24 @@ using WebMatrix.WebData;
 
 namespace ServiceHub.Website.Controllers
 {
-	public class ServiceProviderController : Controller
+	public class ServiceProviderController : BaseController
 	{
 
-		private readonly ClientService _clientService;
-		private readonly ServiceProviderService _serviceProviderService;
+		private readonly ServiceService _serviceService;
+		private readonly UserService _userService;
 		private readonly LookupService _lookupService;
-		public ServiceProviderController()
+		public ServiceProviderController(LookupService lookupService, ServiceService serviceService, UserService userService)
 		{
-			_lookupService = new LookupService();
-			_serviceProviderService = new ServiceProviderService();
-			_clientService = new ClientService();
+			_lookupService = lookupService;
+			_serviceService = serviceService;
+			_userService = userService;
 		}
 		//
 		[Authorize]
 		[HttpGet]
 		public ActionResult ServiceBid(Guid serviceId)
 		{
-			return View(_clientService.GetService(serviceId));
+			return View(_serviceService.GetService(serviceId));
 		}
 
 		public ActionResult List(int? page, string searchString,IEnumerable<int> locations, IEnumerable<Guid> tags)
@@ -51,23 +51,32 @@ namespace ServiceHub.Website.Controllers
 			ViewBag.CurrentTags = tags;
 
 			SetViewBagData();
-			return View(_serviceProviderService.GetServiceProvidersPage(pageNo, 10, locations, tags, searchString));
+			return View(_userService.GetUsersPage(pageNo, 10, locations, tags, searchString));
 		}
 
 		[HttpPost]
 		[Authorize]
-		public ActionResult Bid(Guid serviceId,Guid serviceProviderId, decimal bid)
+		public ActionResult Bid(Guid serviceId, decimal bid)
 		{
-			_serviceProviderService.Bid(serviceId, serviceProviderId, bid);
+			_serviceService.Bid(serviceId, bid);
 			return Content(string.Format(CultureInfo.InvariantCulture,"{0}",bid));
 		}
+
+		[HttpPost]
+		[Authorize]
+		public ActionResult CancelBid(Guid serviceId)
+		{
+			throw new NotImplementedException();
+		}
+
+		
 
 		[HttpPost]
 		[Authorize]
 		public ActionResult AddAdditionalInfoRequest(Guid serviceId, Guid serviceProviderId, string additionalInfo)
 		{
 
-			_serviceProviderService.RequestAdditionalInfo(serviceId, serviceProviderId, additionalInfo);
+			_serviceService.RequestAdditionalInfo(serviceId, serviceProviderId, additionalInfo);
 			return Content("Request has been sent.");
 		}
 		
@@ -79,10 +88,10 @@ namespace ServiceHub.Website.Controllers
 		}
 
 		[AcceptVerbs(HttpVerbs.Get)]
-		public ActionResult Thumbnail(Guid serviceProviderId)
+		public ActionResult Thumbnail(Guid userId)
 		{
 			byte[] imageBytes = null;
-			imageBytes =  _serviceProviderService.GetLogoData(serviceProviderId);
+			imageBytes = _userService.GetLogoData(userId);
 
 			if (imageBytes == null)
 			{

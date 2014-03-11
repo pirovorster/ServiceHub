@@ -17,13 +17,13 @@ namespace ServiceHub.Website.Models
 		}
 
 		public Guid ServiceId { get; set; }
-		public Guid ServiceProviderId { get; set; }
+		public Guid UserId { get; set; }
 
 		[Display(Name = "Highest Bid")]
 		public decimal HighestBid { get; set; }
 
 		[Display(Name = "My Highest Bid")]
-		public decimal ServiceProviderCurrentBid { get; set; }
+		public decimal UserCurrentBid { get; set; }
 
 		[Required]
 		[DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]

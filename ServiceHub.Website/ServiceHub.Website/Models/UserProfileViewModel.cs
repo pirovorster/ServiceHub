@@ -15,8 +15,8 @@ namespace ServiceHub.Website.Models
 		}
 
 		[Required]
-		[Display(Name = "Do you also which to bid on services?")]
-		public bool IsServiceProvider { get; set; }
+		[Display(Name = "Public Profile?")]
+		public bool IsPublic { get; set; }
 
 		[Required]
 		[Display(Name = "Name")]

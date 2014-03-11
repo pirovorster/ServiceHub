@@ -13,7 +13,11 @@
         $(document).ready(function () {
             $("#Tags").select2();
             $("#Locations").select2();
-            //searchString
+            $("#BeginEstimatedServiceDate").datepicker({ dateFormat: "dd MM yy" });
+            $("#EndEstimatedServiceDate").datepicker({ dateFormat: "dd MM yy" });
+
+            $("#BeginBiddingCompletionDate").datepicker({ dateFormat: "dd MM yy" });
+            $("#EndBiddingCompletionDate").datepicker({ dateFormat: "dd MM yy" });
         });
 
     </script>
@@ -31,7 +35,14 @@
     @Html.Label("Working Area")
     @Html.ListBox("Locations", (MultiSelectList)ViewBag.LocationLookup, new { Multiple = "multiple", style = "width:300px" })
 
-
+    
+     @Html.Label("Bidding Completion Date")
+    @Html.TextBox("BeginBiddingCompletionDate")<text>-</text>
+    @Html.TextBox("EndBiddingCompletionDate")
+    
+     @Html.Label("Estimated Service Date")
+    @Html.TextBox("BeginEstimatedServiceDate")<text>-</text>
+    @Html.TextBox("EndEstimatedServiceDate")
 
     <input id="submit" type="submit" value="Apply" />
 

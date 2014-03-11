@@ -29,15 +29,17 @@ namespace ServiceHub.Model
         public System.DateTime BiddingCompletionDate { get; set; }
         public string Reference { get; set; }
         public int LocationId { get; set; }
-        public System.Guid ClientId { get; set; }
         public System.DateTime TimeStamp { get; set; }
         public bool IsCancelled { get; set; }
+        public System.Guid UserId { get; set; }
+        public Nullable<System.Guid> AcceptedBidId { get; set; }
     
         public virtual ICollection<AdditionalInfoRequest> AdditionalInfoRequests { get; set; }
         public virtual ICollection<AdditionalInfo> AdditionalInfos { get; set; }
         public virtual ICollection<Bid> Bids { get; set; }
-        public virtual Client Client { get; set; }
         public virtual Location Location { get; set; }
         public virtual Tag Tag { get; set; }
+        public virtual User User { get; set; }
+        public virtual AcceptedBid AcceptedBid { get; set; }
     }
 }

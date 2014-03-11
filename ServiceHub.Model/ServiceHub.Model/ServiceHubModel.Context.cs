@@ -29,11 +29,11 @@ namespace ServiceHub.Model
         public virtual DbSet<AdditionalInfoRequest> AdditionalInfoRequests { get; set; }
         public virtual DbSet<AdditionalInfo> AdditionalInfos { get; set; }
         public virtual DbSet<Bid> Bids { get; set; }
-        public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Rating> Ratings { get; set; }
-        public virtual DbSet<ServiceProvider> ServiceProviders { get; set; }
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<UserProfile> UserProfiles { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

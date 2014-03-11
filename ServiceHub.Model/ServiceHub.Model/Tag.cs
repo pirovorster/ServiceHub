@@ -17,7 +17,7 @@ namespace ServiceHub.Model
         public Tag()
         {
             this.Services = new HashSet<Service>();
-            this.ServiceProviders = new HashSet<ServiceProvider>();
+            this.Users = new HashSet<User>();
         }
     
         public System.Guid Id { get; set; }
@@ -25,6 +25,6 @@ namespace ServiceHub.Model
         public string Title { get; set; }
     
         public virtual ICollection<Service> Services { get; set; }
-        public virtual ICollection<ServiceProvider> ServiceProviders { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

@@ -12,20 +12,16 @@ namespace ServiceHub.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Client
+    public partial class UserProfile
     {
-        public Client()
+        public UserProfile()
         {
-            this.Services = new HashSet<Service>();
+            this.Users = new HashSet<User>();
         }
     
-        public System.Guid Id { get; set; }
-        public int OrderId { get; set; }
-        public string Name { get; set; }
-        public string ContactNumber { get; set; }
         public int UserId { get; set; }
+        public string UserName { get; set; }
     
-        public virtual ServiceProvider ServiceProvider { get; set; }
-        public virtual ICollection<Service> Services { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

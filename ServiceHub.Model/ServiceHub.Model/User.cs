@@ -12,27 +12,32 @@ namespace ServiceHub.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class ServiceProvider
+    public partial class User
     {
-        public ServiceProvider()
+        public User()
         {
             this.AdditionalInfoRequests = new HashSet<AdditionalInfoRequest>();
             this.Bids = new HashSet<Bid>();
             this.Ratings = new HashSet<Rating>();
+            this.Services = new HashSet<Service>();
             this.Locations = new HashSet<Location>();
             this.Tags = new HashSet<Tag>();
         }
     
-        public System.Guid ClientId { get; set; }
+        public System.Guid Id { get; set; }
         public int OrderId { get; set; }
         public string About { get; set; }
         public byte[] Logo { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsPublic { get; set; }
+        public string Name { get; set; }
+        public string ContactNumber { get; set; }
+        public int UserProfileId { get; set; }
     
         public virtual ICollection<AdditionalInfoRequest> AdditionalInfoRequests { get; set; }
         public virtual ICollection<Bid> Bids { get; set; }
-        public virtual Client Client { get; set; }
         public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<Service> Services { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
         public virtual ICollection<Location> Locations { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
     }

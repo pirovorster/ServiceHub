@@ -1,22 +1,26 @@
-﻿using System;
+﻿using ServiceHub.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace ServiceHub.Website.Models
 {
-	public sealed class LookupValue
+	public sealed class MyServiceItem
 	{
-		private readonly object _id;
-		private readonly string _value;
-
-		public LookupValue(object id, string value)
+		private readonly Guid _serviceId;
+		private readonly decimal _amount;
+		private readonly string _reference;
+		private readonly string _status;
+		public MyServiceItem(Service service)
 		{
-			if (string.IsNullOrWhiteSpace(value))
-				throw new ArgumentException(" value cannot be null or whitespace");
+			if (service==null)
+				throw new ArgumentException("service cannot be null or whitespace");
 
-			_id = id;
-			_value = value;
+			_serviceId = id;
+			_amount = value;
+			_reference = "";
+			_status = "";
 		}
 
 		public object Id { get { return _id; } }

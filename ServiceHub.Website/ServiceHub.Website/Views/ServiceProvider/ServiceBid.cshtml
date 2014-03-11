@@ -21,7 +21,6 @@
     {
 
         @Html.HiddenFor(o => o.ServiceId)
-        @Html.HiddenFor(o => o.ServiceProviderId)
         @Html.TextArea("AdditionalInfo")
 
         <input type="submit" title="Request" value="Request" />
@@ -75,8 +74,8 @@
             @Html.DisplayFor(m => m.HighestBid)
         </li>
         <li>
-            @Html.LabelFor(m => m.ServiceProviderCurrentBid)
-            @Html.DisplayFor(m => m.ServiceProviderCurrentBid)
+            @Html.LabelFor(m => m.UserCurrentBid)
+            @Html.DisplayFor(m => m.UserCurrentBid)
         </li>
     </ol>
 </fieldset>
@@ -87,7 +86,6 @@
 
     @Html.TextBox("Bid", 0.00)
     @Html.HiddenFor(o => o.ServiceId)
-    @Html.HiddenFor(o => o.ServiceProviderId)
     <input type="submit" title="Bid" value="Bid" />
 }
 

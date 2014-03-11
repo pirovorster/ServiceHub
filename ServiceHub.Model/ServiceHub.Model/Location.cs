@@ -17,8 +17,8 @@ namespace ServiceHub.Model
         public Location()
         {
             this.Services = new HashSet<Service>();
-            this.ServiceProviders = new HashSet<ServiceProvider>();
             this.Children = new HashSet<Location>();
+            this.Users = new HashSet<User>();
         }
     
         public int Id { get; set; }
@@ -26,8 +26,8 @@ namespace ServiceHub.Model
         public Nullable<int> ParentId { get; set; }
     
         public virtual ICollection<Service> Services { get; set; }
-        public virtual ICollection<ServiceProvider> ServiceProviders { get; set; }
         public virtual ICollection<Location> Children { get; set; }
         public virtual Location Parent { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

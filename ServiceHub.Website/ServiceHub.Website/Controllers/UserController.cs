@@ -11,27 +11,31 @@ using WebMatrix.WebData;
 using ServiceHub.Website.Filters;
 using ServiceHub.Website.Models;
 using System.Web.Script.Serialization;
+using System.Globalization;
+using System.IO;
 
 namespace ServiceHub.Website.Controllers
 {
 	[Authorize]
 
-	public class UserController : Controller
+	public class UserController : BaseController
 	{
 		LookupService _lookupService;
-		ClientService _clientService;
-		public UserController()
+		ServiceService _serviceService;
+		UserService _userService;
+		public UserController(LookupService lookupService, ServiceService serviceService, UserService userService)
 		{
-			_lookupService = new LookupService();
-			_clientService=new ClientService();
-		}
+			_lookupService = lookupService;
+			_serviceService = serviceService;
+			_userService = userService;
 
+		}
 		public ActionResult UserProfile()
 		{
-		
+
 			JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-			UserProfileViewModel userProfileViewModel = _clientService.GetUserProfile();
+			UserProfileViewModel userProfileViewModel = _userService.GetUserProfile();
 
 			ViewBag.Message = string.Empty;
 			SetViewBagData();
@@ -39,18 +43,12 @@ namespace ServiceHub.Website.Controllers
 		}
 
 		[AcceptVerbs(HttpVerbs.Post)]
-		public ActionResult UserProfile(UserProfileViewModel userProfileViewModel, HttpPostedFileBase logo)
+		public ActionResult UserProfile(UserProfileViewModel userProfileViewModel)
 		{
 
 			if (ModelState.IsValid)
 			{
-				if (logo != null)
-				{
-					//product.ImageMimeType = image.ContentType;
-					userProfileViewModel.LogoData = new byte[logo.ContentLength];
-					logo.InputStream.Read(userProfileViewModel.LogoData, 0, logo.ContentLength);
-				}
-				_clientService.SaveUserProfile(userProfileViewModel);
+				_userService.SaveUser(userProfileViewModel);
 
 				ViewBag.Message = "User Profile has been saved!";
 			}
@@ -59,12 +57,41 @@ namespace ServiceHub.Website.Controllers
 			return View(userProfileViewModel);
 		}
 
+		public ActionResult MyHistory()
+		{
+			return View(_userService.GetHistory());
+		}
+
+		public void UploadImage(HttpPostedFileBase imageFile)
+		{
+			if (imageFile != null)
+			{
+				byte[] logo = new byte[imageFile.ContentLength];
+				imageFile.InputStream.Read(logo, 0, imageFile.ContentLength);
+				_userService.SaveLogoData(logo);
+			}
+		}
+
+		public ActionResult GetProfilePicture()
+		{
+			byte[] image = _userService.GetLogoData();
+
+			if (image == null)
+			{
+				return new FilePathResult("~/Images/noimage.png", "image/png");
+			}
+			else
+			{
+				return new FileContentResult(image, "image/jpeg");
+			}
+		}
+
 		private void SetViewBagData()
 		{
 			ViewBag.TagLookup = _lookupService.GetTags().Select(o => o.Value);
 			ViewBag.LocationLookup = new MultiSelectList(_lookupService.GetLocations(), "Id", "Value");
 		}
 
-		
+
 	}
 }

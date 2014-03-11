@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServiceHub.Model
 {
-	public partial class ServiceProvider
+	public partial class User
 	{
 		public double Rating
 		{

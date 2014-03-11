@@ -12,23 +12,24 @@ using System.IO;
 namespace ServiceHub.Website
 {
 	public sealed class LookupService
-	{	
+	{
+		private readonly ServiceHubEntities _serviceHubEntities;
+		public LookupService(ServiceHubEntities serviceHubEntities)
+		{
+			_serviceHubEntities = serviceHubEntities;
+		}
 		public IEnumerable<LookupValue> GetLocations()
 		{
-			using (ServiceHubEntities serviceHubEntities = new ServiceHubEntities())
-			{
-				return serviceHubEntities.Locations.ToList().Select(o => new LookupValue(o.Id, o.Name)).ToList().AsReadOnly();
-			}
+
+			return _serviceHubEntities.Locations.ToList().Select(o => new LookupValue(o.Id, o.Name)).ToList().AsReadOnly();
+
 		}
 
 		public IEnumerable<LookupValue> GetTags()
 		{
-			using (ServiceHubEntities serviceHubEntities = new ServiceHubEntities())
-			{
-				return serviceHubEntities.Tags.ToList().Select(o => new LookupValue(o.Id, o.Title)).ToList().AsReadOnly();
 
+			return _serviceHubEntities.Tags.ToList().Select(o => new LookupValue(o.Id, o.Title)).ToList().AsReadOnly();
 
-			}
 		}
 	}
 }

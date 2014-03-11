@@ -33,15 +33,14 @@
 	border-top: 1px solid #fff;
 }
 
-
-	.row > div {
-		display: table-cell;
-		vertical-align: middle;
-		padding: 0px 10px 0px 10px;
-		font: 16px/44px 'NewCicleSemi', Arial, sans-serif;
-		color: #004a92;
-		border-left: 1px dotted #a6abaf;
-	}
+.row > div {
+	display: table-cell;
+	vertical-align: middle;
+	padding: 0px 10px 0px 10px;
+	font: 16px/44px 'NewCicleSemi', Arial, sans-serif;
+	color: #004a92;
+	border-left: 1px dotted #a6abaf;
+}
 
 .headerRow {
 	background: #616a72;
@@ -52,4 +51,16 @@
 		vertical-align: auto;
 		color: #fff;
 		border-color: #8c9196;
+	}
+
+
+.layout {
+	width: 100%;
+}
+
+	.layout .twoColumn {
+		width: 50%;
+		display: inline-block;
+		margin-right: -4px;
+		vertical-align: top;
 	}

@@ -1,35 +1,27 @@
-﻿@model System.Guid
-@{
-    ViewBag.Title = "My Services";
-}
+﻿@model IEnumerable<ServiceHub.Website.Models.MyServiceItem>
+    @{
+        ViewBag.Title = "My Services";
+    }
 
-@section scripts
+    @section scripts
 {
-    <script>
-        $(document).ready(function () {
+        <script>
+            $(document).ready(function () {
 
-            $("#UserProfileTabs").tabs();
-        });
+                $("#UserProfileTabs").tabs();
+            });
 
-    </script>
+        </script>
 
-}
+    }
 
 
-<div id="UserProfileTabs">
-    <ul>
-      
-
-            <li><a href="#ClientHistory">History</a></li>
+    <div id="UserProfileTabs">
+        <ul>
             <li><a href="#ActiveServices">Active Services</a></li>
             <li><a href="#PastServices">Past Services</a></li>
-       
+        </ul>
 
-    </ul>
- 
-        <div id="ClientHistory">
-            @Html.Partial("_ClientHistory", Model)
-        </div>
         <div id="ActiveServices">
             @Html.Partial("_ActiveServices", Model)
         </div>
@@ -37,4 +29,4 @@
             @Html.Partial("_PastServices", Model)
         </div>
 
-</div>
+    </div>

@@ -5,32 +5,33 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="bc94ff57e0244df194ce010123bd3c71" Name="Diagram1">
-        <EntityTypeShape EntityType="ServiceHubModel.AcceptedBid" Width="1.5" PointX="13.5" PointY="6.875" />
-        <EntityTypeShape EntityType="ServiceHubModel.AdditionalInfoRequest" Width="1.5" PointX="8.25" PointY="6.625" />
-        <EntityTypeShape EntityType="ServiceHubModel.AdditionalInfo" Width="1.5" PointX="8.25" PointY="13.875" />
-        <EntityTypeShape EntityType="ServiceHubModel.Bid" Width="1.5" PointX="11.25" PointY="6.375" />
-        <EntityTypeShape EntityType="ServiceHubModel.Client" Width="1.5" PointX="3.75" PointY="2.875" />
-        <EntityTypeShape EntityType="ServiceHubModel.Location" Width="1.5" PointX="0.75" PointY="6.875" />
-        <EntityTypeShape EntityType="ServiceHubModel.Rating" Width="1.5" PointX="15.75" PointY="6.625" />
-        <EntityTypeShape EntityType="ServiceHubModel.ServiceProvider" Width="1.5" PointX="3" PointY="6.375" />
-        <EntityTypeShape EntityType="ServiceHubModel.Service" Width="1.5" PointX="6" PointY="5.875" />
-        <EntityTypeShape EntityType="ServiceHubModel.Tag" Width="1.5" PointX="5.25" PointY="10.875" />
+        <EntityTypeShape EntityType="ServiceHubModel.AcceptedBid" PointX="12" PointY="9.25" Width="1.5" />
+        <EntityTypeShape EntityType="ServiceHubModel.AdditionalInfoRequest" PointX="12.75" PointY="4.875" Width="1.5" />
+        <EntityTypeShape EntityType="ServiceHubModel.AdditionalInfo" PointX="9.75" PointY="13" Width="1.5" />
+        <EntityTypeShape EntityType="ServiceHubModel.Bid" PointX="9.75" PointY="4.625" Width="1.5" />
+        <EntityTypeShape EntityType="ServiceHubModel.Location" PointX="0.75" PointY="2" Width="1.5" />
+        <EntityTypeShape EntityType="ServiceHubModel.Rating" PointX="15.25" PointY="6.125" Width="1.5" />
+        <EntityTypeShape EntityType="ServiceHubModel.Service" PointX="7.5" PointY="4.125" Width="1.5" />
+        <EntityTypeShape EntityType="ServiceHubModel.Tag" PointX="5.25" PointY="5.25" Width="1.5" />
         <AssociationConnector Association="ServiceHubModel.FK_AcceptedBids_Bids" />
         <AssociationConnector Association="ServiceHubModel.FK_Ratings_AcceptedBids" />
-        <AssociationConnector Association="ServiceHubModel.FK_AdditionalInfoRequests_ServiceProviders" />
         <AssociationConnector Association="ServiceHubModel.FK_AdditionalInfoRequests_Services" />
         <AssociationConnector Association="ServiceHubModel.FK_AdditionalInfos_Services" />
-        <AssociationConnector Association="ServiceHubModel.FK_Bids_ServiceProviders" />
         <AssociationConnector Association="ServiceHubModel.FK_Bids_Services" />
-        <AssociationConnector Association="ServiceHubModel.FK_ServiceProviders_Clients" />
-        <AssociationConnector Association="ServiceHubModel.FK_Services_Clients" />
         <AssociationConnector Association="ServiceHubModel.FK_Services_Locations" />
-        <AssociationConnector Association="ServiceHubModel.FK_Ratings_ServiceProviders" />
         <AssociationConnector Association="ServiceHubModel.FK_Services_Tags" />
-        <AssociationConnector Association="ServiceHubModel.LocationServiceProviderJoin" />
-        <AssociationConnector Association="ServiceHubModel.TagServiceProviderJoin" />
         <AssociationConnector Association="ServiceHubModel.FK_Locations_Locations" />
-      </Diagram>
+        <EntityTypeShape EntityType="ServiceHubModel.UserProfile" PointX="0.75" PointY="5.5" Width="1.5" />
+        <EntityTypeShape EntityType="ServiceHubModel.User" Width="1.5" PointX="3" PointY="2.625" />
+        <AssociationConnector Association="ServiceHubModel.FK_AdditionalInfoRequests_ServiceProviders" />
+        <AssociationConnector Association="ServiceHubModel.FK_Bids_ServiceProviders" />
+        <AssociationConnector Association="ServiceHubModel.FK_Ratings_ServiceProviders" />
+        <AssociationConnector Association="ServiceHubModel.FK_Services_Users" />
+        <AssociationConnector Association="ServiceHubModel.FK_ServiceProviders_UserProfile" />
+        <AssociationConnector Association="ServiceHubModel.LocationUserJoin" />
+        <AssociationConnector Association="ServiceHubModel.TagUserJoin" />
+        <AssociationConnector Association="ServiceHubModel.FK_Services_AcceptedBids" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

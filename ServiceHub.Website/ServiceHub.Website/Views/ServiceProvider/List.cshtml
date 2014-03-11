@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<ServiceHub.Model.ServiceProvider>
+﻿@model PagedList.IPagedList<ServiceHub.Model.User>
 
 @using PagedList.Mvc
 @{
@@ -13,7 +13,6 @@
         $(document).ready(function () {
             $("#Tags").select2();
             $("#Locations").select2();
-            //searchString
         });
 
     </script>
@@ -32,6 +31,7 @@
     @Html.ListBox("Locations", (MultiSelectList)ViewBag.LocationLookup, new { Multiple = "multiple", style = "width:300px" })
 
 
+    
 
     <input id="submit" type="submit" value="Apply" />
 
@@ -51,11 +51,11 @@
         @foreach (var item in Model)
         {
             <div class="row">
-                <div><img src="@Url.Content("~/ServiceProvider/Thumbnail?serviceProviderId="+item.ClientId)" /></div>
+                <div><img src="@Url.Content("~/ServiceProvider/Thumbnail?userId=" + item.Id)" /></div>
 
-                <div>@Html.DisplayFor(o => item.Client.Name)</div>
+                <div>@Html.DisplayFor(o => item.Name)</div>
 
-                <div>@Html.DisplayFor(o => item.Client.ContactNumber)</div>
+                <div>@Html.DisplayFor(o => item.ContactNumber)</div>
 
                 <div>@Html.DisplayFor(o => item.Rating)</div>
 

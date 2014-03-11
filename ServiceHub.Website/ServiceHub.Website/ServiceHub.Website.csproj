@@ -47,6 +47,15 @@
     <Reference Include="MVC Foolproof Validation">
       <HintPath>..\packages\foolproof.0.9.4517\lib\MVC Foolproof Validation.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common">
+      <HintPath>..\packages\Ninject.Web.Common.3.0.0.7\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc">
+      <HintPath>..\packages\Ninject.MVC3.3.0.0.6\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
@@ -124,6 +133,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.5.3\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
     <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.30506.0\lib\net40\WebMatrix.Data.dll</HintPath>
@@ -189,8 +201,10 @@
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientController .cs" />
@@ -201,14 +215,16 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\MyServiceItem.cs" />
+    <Compile Include="Models\HistoryItem.cs" />
     <Compile Include="Models\LookupValue.cs" />
     <Compile Include="Models\ServiceBidViewModel.cs" />
     <Compile Include="Models\PostServiceViewModel.cs" />
     <Compile Include="Models\UserProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LookupService.cs" />
-    <Compile Include="Services\ServiceProviderService.cs" />
-    <Compile Include="Services\ClientService.cs" />
+    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\ServiceService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\arrow.png" />
@@ -396,19 +412,15 @@
     <Content Include="Views\Client\ServiceBids.cshtml" />
     <Content Include="Views\ServiceProvider\ServiceBid.cshtml" />
     <Content Include="Views\User\UserProfile.cshtml" />
-    <Content Include="Views\Shared\_MyBids.cshtml" />
-    <Content Include="Views\Shared\_MyServices.cshtml" />
+    <Content Include="Views\Shared\_PastBids.cshtml" />
     <Content Include="Views\Shared\_RatingForm.cshtml" />
-    <Content Include="Views\Shared\_ServiceProviderHistory.cshtml" />
-    <Content Include="Views\Shared\_ClientHistory.cshtml" />
     <Content Include="Views\Shared\_ActiveServices.cshtml" />
     <Content Include="Views\Shared\_PastServices.cshtml" />
-    <Content Include="Views\Shared\_AcceptedBids.cshtml" />
-    <Content Include="Views\Shared\_CurrentBids.cshtml" />
-    <Content Include="Views\Shared\_UnsuccessfulBids.cshtml" />
+    <Content Include="Views\Shared\_ActiveBids.cshtml" />
     <Content Include="Views\Client\MyServices.cshtml" />
     <Content Include="Views\ServiceProvider\MyBids.cshtml" />
     <Content Include="Views\Client\PostService.cshtml" />
+    <Content Include="Views\User\MyHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

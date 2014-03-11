@@ -10,20 +10,28 @@
 
         $(document).ready(function () {
 
-            var setServiceProviderSection = function () {
-                if ($("#IsServiceProvider").is(":checked")) {
-                    $('#ServiceProviderSection').show();
-                }
-                else {
-                    $('#ServiceProviderSection').hide();
-                }
-            };
-            setServiceProviderSection();
-            $('#IsServiceProvider').on('change', setServiceProviderSection);
+
 
             //
             $("#Tags").select2({ tags: [@Html.Raw(string.Join(",", ((IEnumerable<string>)ViewBag.TagLookup).Select(o => string.Format("\"{0}\"", o))))] });
             $("#Locations").select2();
+
+            $("#ProfileUpload").on("click", function () {
+                $("#ImageFile").click();
+            });
+
+            $("#UploadTarget").on("load", function () {
+
+                d = new Date();
+                $("#ProfileImage").attr("src", "@Url.Action("GetProfilePicture", "User")?" + d.getTime());
+            });
+
+            $("input:file").change(function () {
+                $("#ImgForm").submit();
+            });
+
+
+
         });
 
     </script>
@@ -35,12 +43,36 @@
 
 }
 
+@using (Html.BeginForm("UploadImage", "User", FormMethod.Post,
+    new
+    {
+        enctype = "multipart/form-data",
+        id = "ImgForm",
+        name = "ImgForm",
+        target = "UploadTarget",
+        style = "display:none;"
+    }))
+{
+    <h3>Upload Image</h3>
+    <input type="file" name="ImageFile" id="ImageFile" />
+
+}
+<iframe id="UploadTarget" name="UploadTarget" style="position: absolute; left: -999em; top: -999em;"></iframe>
+
+
+
 @using (Html.BeginForm("UserProfile", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
     <fieldset>
         <legend>Client</legend>
         <ol>
+            <li>
+                <img id="ProfileImage" src="@Url.Action("GetProfilePicture", "User")" /><br />
+
+                <a id="ProfileUpload">Upload New</a>
+            </li>
+
             <li>
                 @Html.LabelFor(m => m.Name)
                 @Html.TextBoxFor(m => m.Name)
@@ -50,23 +82,6 @@
                 @Html.LabelFor(m => m.ContactNumber)
                 @Html.TextBoxFor(m => m.ContactNumber)
                 @Html.ValidationMessageFor(m => m.ContactNumber)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.IsServiceProvider)
-                @Html.CheckBoxFor(m => m.IsServiceProvider)
-                @Html.ValidationMessageFor(m => m.IsServiceProvider)
-            </li>
-        </ol>
-
-    </fieldset>
-
-    <fieldset id="ServiceProviderSection">
-        <legend>Service Privoder</legend>
-        <ol>
-
-            <li>
-                @Html.LabelFor(m => m.LogoData)
-                <div><input type="file" name="Logo" /></div>
             </li>
             <li>
                 @Html.LabelFor(m => m.About)
@@ -82,6 +97,11 @@
                 @Html.LabelFor(m => m.Tags)
                 @Html.TextAreaFor(m => m.Tags)
                 @Html.ValidationMessageFor(m => m.Tags)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.IsPublic)
+                @Html.CheckBoxFor(m => m.IsPublic)
+                @Html.ValidationMessageFor(m => m.IsPublic)
             </li>
         </ol>
 

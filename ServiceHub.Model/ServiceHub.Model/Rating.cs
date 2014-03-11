@@ -16,12 +16,12 @@ namespace ServiceHub.Model
     {
         public System.Guid AcceptedBidId { get; set; }
         public int OrderId { get; set; }
-        public System.Guid ServiceProviderId { get; set; }
         public double Score { get; set; }
         public string Comment { get; set; }
         public System.DateTime TimeStamp { get; set; }
+        public System.Guid UserId { get; set; }
     
         public virtual AcceptedBid AcceptedBid { get; set; }
-        public virtual ServiceProvider ServiceProvider { get; set; }
+        public virtual User User { get; set; }
     }
 }

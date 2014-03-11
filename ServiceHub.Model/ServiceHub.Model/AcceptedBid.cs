@@ -14,6 +14,11 @@ namespace ServiceHub.Model
     
     public partial class AcceptedBid
     {
+        public AcceptedBid()
+        {
+            this.Services = new HashSet<Service>();
+        }
+    
         public System.Guid BidId { get; set; }
         public int OrderId { get; set; }
         public System.DateTime TimeStamp { get; set; }
@@ -21,5 +26,6 @@ namespace ServiceHub.Model
     
         public virtual Bid Bid { get; set; }
         public virtual Rating Rating { get; set; }
+        public virtual ICollection<Service> Services { get; set; }
     }
 }
