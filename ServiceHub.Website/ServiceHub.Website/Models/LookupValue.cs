@@ -6,21 +6,21 @@ using System.Web;
 
 namespace ServiceHub.Website.Models
 {
-	public sealed class MyServiceItem
+	public sealed class LookupValue
 	{
-		private readonly Guid _serviceId;
-		private readonly decimal _amount;
-		private readonly string _reference;
-		private readonly string _status;
-		public MyServiceItem(Service service)
+		private readonly object _id;
+		private readonly string _value;
+		public LookupValue(object id, string value)
 		{
-			if (service==null)
-				throw new ArgumentException("service cannot be null or whitespace");
+			if (id == null)
+				throw new ArgumentNullException("id");
 
-			_serviceId = id;
-			_amount = value;
-			_reference = "";
-			_status = "";
+
+			if (string.IsNullOrWhiteSpace(value))
+				throw new ArgumentNullException("value");
+
+			_id = id;
+			_value = value;
 		}
 
 		public object Id { get { return _id; } }
