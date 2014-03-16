@@ -35,7 +35,9 @@ namespace ServiceHub.Website
 
 						));
 
-			bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", "~/Content/custom.css", "~/Content/PagedList.css"));
+			bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css", 
+                "~/Content/custom.css", 
+                "~/Content/PagedList.css"));
 
 			bundles.Add(new StyleBundle("~/Content/select2/css").Include("~/Content/select2/select2.css"));
 
@@ -53,6 +55,12 @@ namespace ServiceHub.Website
 						"~/Content/themes/base/jquery.ui.progressbar.css",
 						"~/Content/themes/base/jquery.ui.theme.css"));
 
-		}
+
+
+
+            bundles.Add(new StyleBundle("~/Content/bootstrapstyle").Include("~/Content/bootstrap.css", "~/Content/bootstrap-theme.css", "~/Content/justified-nav.css"));
+            bundles.Add(new ScriptBundle("~/bundles/bootstrapscript").Include("~/Scripts/bootstrap.js"));
+
+        }
 	}
 }
