@@ -18,7 +18,7 @@ namespace ServiceHub.Website.Models
 
 		private readonly DateTime _estimatedServiceDue;
 		private readonly DateTime _biddingCompletion;
-		public MyBidItem(Bid service, Guid userId)
+		public MyBidItem(Service service, Guid userId)
 		{
 			if (service == null)
 				throw new ArgumentException("service cannot be null or whitespace");
