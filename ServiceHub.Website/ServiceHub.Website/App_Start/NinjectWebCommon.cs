@@ -55,7 +55,7 @@ namespace ServiceHub.Website.App_Start
         private static void RegisterServices(IKernel kernel)
         {
 
-			kernel.Bind<ServiceHubEntities>().To<ServiceHubEntities>();
+			kernel.Bind<ServiceHubEntities>().To<ServiceHubEntities>().InRequestScope();
 
 			kernel.Bind<UserService>().To<UserService>();
 

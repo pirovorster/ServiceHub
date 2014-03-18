@@ -11,6 +11,8 @@ using System.IO;
 using PagedList;
 using WebMatrix.WebData;
 using System.Globalization;
+using ServiceHub.Website.Controllers;
+using System.Drawing.Imaging;
 
 namespace ServiceHub.Website
 {
@@ -29,25 +31,27 @@ namespace ServiceHub.Website
 
 			int userProfileId = WebSecurity.CurrentUserId;
 			User user = _serviceHubEntities.Users.SingleOrDefault(o => o.UserProfileId == userProfileId);
-			
-				if (user == null)
-				{
-					user = new User();
-					_serviceHubEntities.Users.Add(user);
-					user.UserProfileId = userProfileId;
-				}
 
-				user.About = userProfileViewModel.About ?? string.Empty;
-				user.Name = userProfileViewModel.Name;
-				user.ContactNumber = userProfileViewModel.ContactNumber;
+			if (user == null)
+			{
+				user = new User();
+				_serviceHubEntities.Users.Add(user);
+				user.UserProfileId = userProfileId;
+			}
 
-				user.IsPublic = userProfileViewModel.IsPublic;
+			user.About = userProfileViewModel.About ?? string.Empty;
+			user.Name = userProfileViewModel.Name;
+			user.ContactNumber = userProfileViewModel.ContactNumber;
 
-				foreach (Location location in user.Locations.ToList())
-					user.Locations.Remove(location);
-				foreach (Location location in _serviceHubEntities.Locations.Where(o => userProfileViewModel.Locations.Contains(o.Id)).ToList())
-					user.Locations.Add(location);
+			user.IsPublic = userProfileViewModel.IsPublic;
 
+			foreach (Location location in user.Locations.ToList())
+				user.Locations.Remove(location);
+			foreach (Location location in _serviceHubEntities.Locations.Where(o => userProfileViewModel.Locations.Contains(o.Id)).ToList())
+				user.Locations.Add(location);
+
+			if (userProfileViewModel.Tags != null)
+			{
 				List<string> tagsText = userProfileViewModel.Tags.Split(',').ToList();
 
 				List<Tag> existingTags = _serviceHubEntities.Tags.Where(o => tagsText.Contains(o.Title)).ToList();
@@ -63,8 +67,9 @@ namespace ServiceHub.Website
 					user.Tags.Remove(tag);
 				foreach (Tag tag in existingTags.ToList())
 					user.Tags.Add(tag);
-		
+			}
 
+			_serviceHubEntities.SaveChanges();
 		}
 		public IPagedList<User> GetUsersPage(int page, int itemsPerPage, IEnumerable<int> locations, IEnumerable<Guid> tags, string searchString)
 		{
@@ -95,13 +100,16 @@ namespace ServiceHub.Website
 
 		public byte[] GetLogoData()
 		{
+
+
 			int userProfileId = WebSecurity.CurrentUserId;
 
-			byte[] image = _serviceHubEntities.Users.Single(o => o.UserProfileId == userProfileId).Logo;
+			User user = _serviceHubEntities.Users.SingleOrDefault(o => o.UserProfileId == userProfileId);
 
-			
+			if (user == null)
+				return null;
 
-			return image;
+			return user.Logo;
 		}
 
 		public byte[] GetLogoData(Guid userId)
@@ -110,23 +118,31 @@ namespace ServiceHub.Website
 			return image;
 		}
 
-		public void  SaveLogoData(byte[] logo)
+		public void SaveLogoData(byte[] logo)
 		{
 			int userProfileId = WebSecurity.CurrentUserId;
 
 			User user = _serviceHubEntities.Users.SingleOrDefault(o => o.UserProfileId == userProfileId);
-
 			if (user == null)
 			{
 				user = new User();
 				_serviceHubEntities.Users.Add(user);
 				user.UserProfileId = userProfileId;
+				user.Name = string.Empty;
+				user.ContactNumber = string.Empty;
 			}
 
-			user.Logo = logo;
-
+			ImageConverter imageConverter = new ImageConverter();
+			using (Image img = (Image)imageConverter.ConvertFrom(logo))
+			{
+				using (MemoryStream memoryStream = new MemoryStream())
+				{
+					ImageResizer imageResizer = new ImageResizer(300, 300, 70);
+					imageResizer.ResizeImage(img, memoryStream);
+					user.Logo = memoryStream.ToArray();
+				}
+			}
 			_serviceHubEntities.SaveChanges();
-		
 		}
 
 
@@ -147,7 +163,6 @@ namespace ServiceHub.Website
 
 			userProfileViewModel.Tags = string.Join(",", user.Tags.Select(o => o.Title));
 			userProfileViewModel.Locations = user.Locations.Select(o => o.Id).ToList();
-		
 			return userProfileViewModel;
 
 		}
@@ -157,18 +172,18 @@ namespace ServiceHub.Website
 		internal IEnumerable<HistoryItem> GetHistory()
 		{
 
-			DateTime aMonthAgo=DateTime.Now.AddMonths(-1);
+			DateTime aMonthAgo = DateTime.Now.AddMonths(-1);
 			return
-			_serviceHubEntities.AcceptedBids.Select(o=>new {Timestamp = o.TimeStamp, Action ="Accepted Bid", Description=o.Bid.Service.Reference}).Concat(
-			_serviceHubEntities.AdditionalInfoRequests.Select(o=>new {Timestamp = o.TimeStamp, Action ="Requested Additional Info", Description=o.Service.Reference})).Concat(
-			_serviceHubEntities.AdditionalInfos.Select(o=>new {Timestamp = o.TimeStamp, Action ="Added Additional Info", Description=o.Service.Reference})).Concat(
-			_serviceHubEntities.Bids.Select(o=>new {Timestamp = o.TimeStamp, Action ="Bid on Service", Description=o.Service.Reference})).Concat(
-			_serviceHubEntities.Services.Select(o=>new {Timestamp = o.TimeStamp, Action ="Posted Service", Description=o.Reference}))
-			.Where(o=>o.Timestamp>=aMonthAgo)
-			.OrderByDescending(o=>o.Timestamp).ToList()
-			.Select(o=>new HistoryItem(o.Timestamp,o.Action,o.Description));
+			_serviceHubEntities.AcceptedBids.Select(o => new { Timestamp = o.TimeStamp, Action = "Accepted Bid", Description = o.Bid.Service.Reference }).Concat(
+			_serviceHubEntities.AdditionalInfoRequests.Select(o => new { Timestamp = o.TimeStamp, Action = "Requested Additional Info", Description = o.Service.Reference })).Concat(
+			_serviceHubEntities.AdditionalInfos.Select(o => new { Timestamp = o.TimeStamp, Action = "Added Additional Info", Description = o.Service.Reference })).Concat(
+			_serviceHubEntities.Bids.Select(o => new { Timestamp = o.TimeStamp, Action = "Bid on Service", Description = o.Service.Reference })).Concat(
+			_serviceHubEntities.Services.Select(o => new { Timestamp = o.TimeStamp, Action = "Posted Service", Description = o.Reference }))
+			.Where(o => o.Timestamp >= aMonthAgo)
+			.OrderByDescending(o => o.Timestamp).ToList()
+			.Select(o => new HistoryItem(o.Timestamp, o.Action, o.Description));
 		}
 
-		
+
 	}
 }

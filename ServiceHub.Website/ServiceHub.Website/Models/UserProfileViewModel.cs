@@ -33,11 +33,11 @@ namespace ServiceHub.Website.Models
 		public byte[] LogoData { get; set; }
 
 		[Display(Name = "Working Areas")]
-		[RequiredIf("IsServiceProvider", true, ErrorMessage = "You need to add at least one area.")]
+		[RequiredIf("IsPublic", true, ErrorMessage = "You need to add at least one area if you want to be viewed publically.")]
 		public List<int> Locations { get; set; }
 
-		[Display(Name = "Tags")]
-		[RequiredIf("IsServiceProvider", true, ErrorMessage = "You need to add at least one tag.")]
+		[Display(Name = "Service Tags")]
+		[RequiredIf("IsPublic", true, ErrorMessage = "You need to add at least one tag if you want to be viewed publically.")]
 		public string Tags { get; set; }
 	}
 }

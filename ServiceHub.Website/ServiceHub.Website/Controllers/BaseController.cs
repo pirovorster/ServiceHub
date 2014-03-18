@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace ServiceHub.Website.Controllers
 {
+	
     public class BaseController : Controller
     {
 		protected override void OnActionExecuted(ActionExecutedContext filterContext)

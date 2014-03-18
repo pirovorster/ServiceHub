@@ -20,7 +20,7 @@ namespace ServiceHub.Website.Controllers
 		}
 		public ActionResult MyServices()
 		{
-			return View(_clientService.MyServiceItems());
+			return View(_clientService.MyBidItems());
 		}
 
 		public ActionResult Services(

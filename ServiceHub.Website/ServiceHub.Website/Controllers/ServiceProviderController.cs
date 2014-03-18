@@ -84,7 +84,7 @@ namespace ServiceHub.Website.Controllers
 		public ActionResult MyBids()
 		{
 
-			return View(Guid.NewGuid());
+			return View(_serviceService.MyBidItems());
 		}
 
 		[AcceptVerbs(HttpVerbs.Get)]

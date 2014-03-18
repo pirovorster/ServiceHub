@@ -1,4 +1,5 @@
-﻿@model System.Guid
+﻿@model IEnumerable<ServiceHub.Website.Models.MyBidItem>
+
 @{
     ViewBag.Title = "My Bids";
 }
@@ -18,18 +19,13 @@
 
 <div id="UserProfileTabs">
     <ul>
-
-        <li><a href="#ServiceProviderHistory">History</a></li>
-        <li><a href="#AcceptedBids">Accepted Bids</a></li>
-        <li><a href="#CurrentBids">Current Bids</a></li>
-        <li><a href="#UnsuccessfulBids">Unsuccessful Bids</a></li>
-
-
+        <li><a href="#ActiveBids">Active Bids</a></li>
+        <li><a href="#PastBids">Past Bids</a></li>
     </ul>
-    <div id="ServiceProviderHistory">
+    <div id="ActiveBids">
         @Html.Partial("_ActiveBids", Model)
     </div>
-    <div id="AcceptedBids">
+    <div id="PastBids">
         @Html.Partial("_PastBids", Model)
     </div>
   

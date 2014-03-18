@@ -7,7 +7,7 @@ using System.Web;
 
 namespace ServiceHub.Website.Models
 {
-	public sealed class MyServiceItem
+	public sealed class MyBidItem
 	{
 		private readonly Guid _serviceId;
 		private readonly decimal _myHighestBid;
@@ -18,7 +18,7 @@ namespace ServiceHub.Website.Models
 
 		private readonly DateTime _estimatedServiceDue;
 		private readonly DateTime _biddingCompletion;
-		public MyServiceItem(Service service, Guid userId)
+		public MyBidItem(Bid service, Guid userId)
 		{
 			if (service == null)
 				throw new ArgumentException("service cannot be null or whitespace");

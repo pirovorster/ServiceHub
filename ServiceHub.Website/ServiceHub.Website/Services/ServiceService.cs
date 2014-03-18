@@ -195,7 +195,7 @@ namespace ServiceHub.Website
 			_serviceHubEntities.Services.Add(service);
 		}
 
-		internal IEnumerable<MyServiceItem> MyServiceItems()
+		internal IEnumerable<MyBidItem> MyBidItems()
 		{
 			int userProfileId = WebSecurity.CurrentUserId;
 
@@ -204,7 +204,7 @@ namespace ServiceHub.Website
 			_serviceHubEntities
 			.Services.Where(o => o.Bids.Any(i=>!i.IsCancelled && i.User.UserProfileId == userProfileId) && o.BiddingCompletionDate >= aMonthAgo)
 			.ToList()
-			.Select(o => new MyServiceItem(o, o.UserId));
+			.Select(o => new MyBidItem(o, o.UserId));
 		}
 		
 	}
