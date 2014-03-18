@@ -1,0 +1,89 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/bootstrapstyle")
+    <title>HomePage</title>
+</head>
+<body>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Project name</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Nav header</li>
+                            <li><a href="#">Separated link</a></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="../navbar/">Default</a></li>
+                    <li class="active"><a href="./">Static top</a></li>
+                    <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+    <div class="container">
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-lg-6" style="height:300px; background-color:red;">
+
+                </div>
+                <div class="col-lg-6" style="height:300px; background-color:blue;">
+
+                </div>
+            </div>
+            <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-lg-4">
+                <h3>Post Service Request</h3>
+                <img class="img-circle" src="~/Images/blue-circle-200-200.png" style="width:100px;" />
+
+                <p><a class="btn btn-primary" href="#" role="button">View details »</a></p>
+            </div>
+            <div class="col-lg-4 ">
+                <h3>Service Providers Bid</h3>
+                <img class="img-circle" src="~/Images/green-circle-200-200.png" style="width:100px;" />
+
+                <p><a class="btn btn-primary" href="#" role="button">View details »</a></p>
+            </div>
+            <div class="col-lg-4">
+                <h3>Select Winning Bid</h3>
+                <img class="img-circle" src="~/Images/orange-circle-200-200.png" style="width:100px;" />
+                <p><a class="btn btn-primary" href="#" role="button">View details »</a></p>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+
+    @Scripts.Render("~/bundles/bootstrapscript")
+
+</body>
+</html>

@@ -205,6 +205,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientController .cs" />
@@ -229,7 +230,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\arrow.png" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\close.png" />
+    <Content Include="Content\justified-nav.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\select2\select2-spinner.gif" />
     <Content Include="Content\select2\select2.css" />
@@ -299,9 +305,18 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\blue-circle-200-200.png" />
+    <Content Include="Images\green-circle-200-200.png" />
     <Content Include="Images\noimage.png" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
+    <Content Include="Images\orange-circle-200-200.png" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
     <Content Include="Scripts\jquery-2.1.0.min.map" />
@@ -422,6 +437,8 @@
     <Content Include="Views\ServiceProvider\MyBids.cshtml" />
     <Content Include="Views\Client\PostService.cshtml" />
     <Content Include="Views\User\MyHistory.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Test\HomePage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
