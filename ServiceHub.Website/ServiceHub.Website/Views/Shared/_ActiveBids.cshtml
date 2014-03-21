@@ -12,12 +12,12 @@
 
         <div>Service Reference</div>
 
-        <div>Status</div>
+        <div></div>
 
     </div>
     @foreach (var item in Model.Where(o => !o.IsCompleted))
     {
-        <div class="row">
+         <div class="row">
 
             <div>@Html.DisplayFor(o => item.BiddingCompletionDate)</div>
 
@@ -27,9 +27,10 @@
 
             <div>@Html.DisplayFor(o => item.MyHighestBid)</div>
 
-            <div>@Html.DisplayFor(o => item.Reference)</div>
+            <div>@Html.ActionLink(item.Reference, "ServiceBid", "ServiceProvider", new { serviceId = item.ServiceId }, null)</div>
 
-            <div>@Html.DisplayFor(o => item.Status)</div>
+            <div>@Html.ActionLink("Cancel Bid", "CancelBid", "ServiceProvider", new { serviceId = item.ServiceId }, null)</div>
+
 
         </div>
 

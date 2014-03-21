@@ -217,6 +217,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\MyServiceItem.cs" />
+    <Compile Include="Models\MyBidItem.cs" />
     <Compile Include="Models\HistoryItem.cs" />
     <Compile Include="Models\LookupValue.cs" />
     <Compile Include="Models\ServiceBidViewModel.cs" />

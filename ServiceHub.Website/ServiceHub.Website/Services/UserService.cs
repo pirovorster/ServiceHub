@@ -172,14 +172,15 @@ namespace ServiceHub.Website
 		internal IEnumerable<HistoryItem> GetHistory()
 		{
 
+			int userProfileId = WebSecurity.CurrentUserId;
 			DateTime aMonthAgo = DateTime.Now.AddMonths(-1);
 			return
-			_serviceHubEntities.AcceptedBids.Select(o => new { Timestamp = o.TimeStamp, Action = "Accepted Bid", Description = o.Bid.Service.Reference }).Concat(
-			_serviceHubEntities.AdditionalInfoRequests.Select(o => new { Timestamp = o.TimeStamp, Action = "Requested Additional Info", Description = o.Service.Reference })).Concat(
-			_serviceHubEntities.AdditionalInfos.Select(o => new { Timestamp = o.TimeStamp, Action = "Added Additional Info", Description = o.Service.Reference })).Concat(
-			_serviceHubEntities.Bids.Select(o => new { Timestamp = o.TimeStamp, Action = "Bid on Service", Description = o.Service.Reference })).Concat(
-			_serviceHubEntities.Services.Select(o => new { Timestamp = o.TimeStamp, Action = "Posted Service", Description = o.Reference }))
-			.Where(o => o.Timestamp >= aMonthAgo)
+			_serviceHubEntities.AcceptedBids.Select(o => new { Timestamp = o.TimeStamp, Action = "Accepted Bid", Description = o.Bid.Service.Reference,UserProfileId =o.Bid.User.UserProfileId }).Concat(
+			_serviceHubEntities.AdditionalInfoRequests.Select(o => new { Timestamp = o.TimeStamp, Action = "Requested Additional Info", Description = o.Service.Reference, UserProfileId = o.Service.User.UserProfileId })).Concat(
+			_serviceHubEntities.AdditionalInfos.Select(o => new { Timestamp = o.TimeStamp, Action = "Added Additional Info", Description = o.Service.Reference, UserProfileId = o.Service.User.UserProfileId })).Concat(
+			_serviceHubEntities.Bids.Select(o => new { Timestamp = o.TimeStamp, Action = "Bid on Service", Description = o.Service.Reference, UserProfileId = o.User.UserProfileId })).Concat(
+			_serviceHubEntities.Services.Select(o => new { Timestamp = o.TimeStamp, Action = "Posted Service", Description = o.Reference, UserProfileId = o.User.UserProfileId }))
+			.Where(o => o.UserProfileId==userProfileId && o.Timestamp >= aMonthAgo)
 			.OrderByDescending(o => o.Timestamp).ToList()
 			.Select(o => new HistoryItem(o.Timestamp, o.Action, o.Description));
 		}

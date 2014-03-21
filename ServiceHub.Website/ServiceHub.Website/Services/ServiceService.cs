@@ -206,6 +206,18 @@ namespace ServiceHub.Website
 			.ToList()
 			.Select(o => new MyBidItem(o, o.UserId));
 		}
+
+		internal IEnumerable<MyServiceItem> MyServiceItems()
+		{
+			int userProfileId = WebSecurity.CurrentUserId;
+
+			DateTime aMonthAgo = DateTime.Now.AddMonths(-3);
+			return
+			_serviceHubEntities
+			.Services.Where(o => (o.AcceptedBid == null && !o.IsCancelled) || (o.AcceptedBid != null && o.AcceptedBid.TimeStamp >= aMonthAgo) || o.BiddingCompletionDate >= aMonthAgo)
+			.ToList()
+			.Select(o => new MyServiceItem(o));
+		}
 		
 	}
 }
