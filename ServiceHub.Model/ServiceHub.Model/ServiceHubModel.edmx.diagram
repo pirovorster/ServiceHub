@@ -21,16 +21,18 @@
         <AssociationConnector Association="ServiceHubModel.FK_Services_Locations" />
         <AssociationConnector Association="ServiceHubModel.FK_Services_Tags" />
         <AssociationConnector Association="ServiceHubModel.FK_Locations_Locations" />
-        <EntityTypeShape EntityType="ServiceHubModel.UserProfile" PointX="0.75" PointY="5.5" Width="1.5" />
         <EntityTypeShape EntityType="ServiceHubModel.User" Width="1.5" PointX="3" PointY="2.625" />
         <AssociationConnector Association="ServiceHubModel.FK_AdditionalInfoRequests_ServiceProviders" />
         <AssociationConnector Association="ServiceHubModel.FK_Bids_ServiceProviders" />
         <AssociationConnector Association="ServiceHubModel.FK_Ratings_ServiceProviders" />
         <AssociationConnector Association="ServiceHubModel.FK_Services_Users" />
-        <AssociationConnector Association="ServiceHubModel.FK_ServiceProviders_UserProfile" />
         <AssociationConnector Association="ServiceHubModel.LocationUserJoin" />
         <AssociationConnector Association="ServiceHubModel.TagUserJoin" />
         <AssociationConnector Association="ServiceHubModel.FK_Services_AcceptedBids" />
+        <EntityTypeShape EntityType="ServiceHubModel.UserProfileLogo" Width="1.5" PointX="3" PointY="7.625" />
+        <EntityTypeShape EntityType="ServiceHubModel.AspNetUser" Width="1.5" PointX="0.75" PointY="5.75" />
+        <AssociationConnector Association="ServiceHubModel.FK_UserProfileLogos_UserProfileLogos" />
+        <AssociationConnector Association="ServiceHubModel.FK_Users_AspNetUsers" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

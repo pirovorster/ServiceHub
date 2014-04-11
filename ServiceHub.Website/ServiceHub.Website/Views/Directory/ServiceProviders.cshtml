@@ -1,0 +1,101 @@
+﻿@model PagedList.IPagedList<ServiceHub.Model.User>
+
+@using PagedList.Mvc
+@{
+
+    ViewBag.Title = "Service Providers";
+}
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+            $("#Tags").select2();
+            $("#Locations").select2();
+        });
+
+    </script>
+
+}
+
+<div class="well bs-component">
+    @using (Html.BeginForm("List", "ServiceProvider", FormMethod.Post,new { @class = "form-horizontal"}))
+{
+
+    <fieldset>
+        <legend>Search</legend>
+        <div class="form-group">
+
+            @Html.Label("Search", new { @class = "col-lg-2 control-label" })
+            <div class="col-lg-10">
+                @Html.TextBox("SearchString")
+            </div>
+        </div>
+        <div class="form-group">
+
+            @Html.Label("Service Type Tags", new { @class = "col-lg-2 control-label" })
+            <div class="col-lg-10">
+                @Html.ListBox("Tags", (MultiSelectList)ViewBag.TagLookup, new { Multiple = "multiple" })
+            </div>
+        </div>
+        <div class="form-group">
+
+            @Html.Label("Working Area", new { @class = "col-lg-2 control-label" })
+            <div class="col-lg-10">
+                @Html.ListBox("Locations", (MultiSelectList)ViewBag.LocationLookup, new { Multiple = "multiple", style = "width:280px" })
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-lg-10">
+
+                <input id="submit" type="submit" value="Apply" />
+            </div>
+        </div>
+
+    </fieldset>
+
+
+
+
+
+
+
+
+    <div class="table">
+        <div class="row headerRow">
+            <div></div>
+
+            <div>Name</div>
+
+            <div>Contact Number</div>
+
+            <div>Rating</div>
+
+            <div>Tags</div>
+        </div>
+        @foreach (var item in Model)
+        {
+        <div class="row">
+            <div><img src="@Url.Content("~/Directory/Thumbnail?userId=" + item.Id)" /></div>
+
+            <div>@Html.DisplayFor(o => item.Name)</div>
+
+            <div>@Html.DisplayFor(o => item.ContactNumber)</div>
+
+            <div>@Html.DisplayFor(o => item.Rating)</div>
+
+            <div>@string.Join(", ", item.Tags.Select(i => i.Title).ToArray())</div>
+        </div>
+
+        }
+    </div>
+}
+</div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("List",
+                            new { page, searchString = ViewBag.CurrentSearchString, locations = ViewBag.CurrentLocations, tags = ViewBag.CurrentTags }))
+

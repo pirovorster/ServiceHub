@@ -7,86 +7,139 @@
     <script>
         $(document).ready(function () {
 
-            $("#OpenMoreDetailDialog").dialog({ autoOpen: false, modal: true, draggable: false, resizable: false });
-            $("#OpenMoreDetailDialogButton").on("click", function () {
-                $("#OpenMoreDetailDialog").dialog("open");
-            });
+
 
         });
+
+        function AddAddtionalInfoRequest() {
+            $("#AddtionalInfoRequestsList").append($("#AdditionalInfo").val() + "<br />");
+        }
     </script>
 }
 
-<div id="OpenMoreDetailDialog">
-    @using (Ajax.BeginForm("AddAdditionalInfoRequest", "ServiceProvider", new AjaxOptions { UpdateTargetId = "AdditionalInfoRequestResult"/*, LoadingElementId = "loading"*/}))
-    {
+<div class="modal fade" id="OpenMoreDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Additional Info Request</h4>
+            </div>
+            @using (Ajax.BeginForm("AddAdditionalInfoRequest", "ServiceProvider", new AjaxOptions { OnSuccess = "AddAddtionalInfoRequest", UpdateTargetId = "AdditionalInfoRequestResult"/*, LoadingElementId = "loading"*/}))
+            {
+                <div class="modal-body">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.AddtionalInfoRequests, new { @class = "col-lg-2 control-label" })
+                        <div class="col-lg-10" id="AddtionalInfoRequestsList">
+                            @foreach (string request in Model.AddtionalInfoRequests)
+                            {
+                                @Html.DisplayFor(m => request)<br />
+                            }
+                        </div>
+                    </div>
 
-        @Html.HiddenFor(o => o.ServiceId)
-        @Html.TextArea("AdditionalInfo")
+                    @Html.HiddenFor(o => o.ServiceId)
+                    @Html.TextArea("AdditionalInfo")
 
-        <input type="submit" title="Request" value="Request" />
-    }
 
-    <div id="AdditionalInfoRequestResult"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" title="Request" value="Request" class="btn btn-default" />
+                </div>
+            }
+
+            <div id="AdditionalInfoRequestResult"></div>
+        </div>
+    </div>
 </div>
-<fieldset>
-    <legend>Service Bid</legend>
-    <ol>
-        <li>
-            @Html.LabelFor(m => m.Reference)
-            @Html.DisplayFor(m => m.Reference)
-        </li>
-        <li>
-            @Html.LabelFor(m => m.Description)
-            @Html.DisplayFor(m => m.Description) <a id="OpenMoreDetailDialogButton" href="#">Ask For More Detail</a>
-        </li>
-        <li>
-            @Html.LabelFor(m => m.AddtionalInfo)
-            @foreach (string info in Model.AddtionalInfo)
-            {
-                @Html.DisplayFor(m => info)
-            }
-        </li>
-        <li>
-            @Html.LabelFor(m => m.ServiceDate)
-            @Html.DisplayFor(m => m.ServiceDate)
-        </li>
-        <li>
-            @Html.LabelFor(m => m.BiddingCompletionDate)
-            @Html.DisplayFor(m => m.BiddingCompletionDate)
-        </li>
-        <li>
-            @Html.LabelFor(m => m.ServiceTag)
-            @Html.DisplayFor(m => m.ServiceTag)
-        </li>
-        <li>
-            @Html.LabelFor(m => m.Location)
-            @Html.DisplayFor(m => m.Location)
-        </li>
-        <li>
-            @Html.LabelFor(m => m.AddtionalInfoRequests)
-            @foreach (string request in Model.AddtionalInfoRequests)
-            {
-                @Html.DisplayFor(m => request)
-            }
-        </li>
-        <li>
-            @Html.LabelFor(m => m.HighestBid)
-            @Html.DisplayFor(m => m.HighestBid)
-        </li>
-        <li>
-            @Html.LabelFor(m => m.UserCurrentBid)
-            @Html.DisplayFor(m => m.UserCurrentBid)
-        </li>
-    </ol>
-</fieldset>
+
+<div class="well bs-component">
+    <div class="form-horizontal">
+        <fieldset>
+            <legend>Service Bid</legend>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Reference, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.DisplayFor(m => m.Reference)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Description, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.DisplayFor(m => m.Description) <a id="OpenMoreDetailDialogButton" data-toggle="modal" data-target="#OpenMoreDetailDialog" href="#">Ask For More Detail</a>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.AddtionalInfo, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @foreach (string info in Model.AddtionalInfo)
+                    {
+                        @Html.DisplayFor(m => info)<br />
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ServiceDate, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.DisplayFor(m => m.ServiceDate)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.BiddingCompletionDate, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.DisplayFor(m => m.BiddingCompletionDate)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.BiddingCompletionDate, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.DisplayFor(m => m.BiddingCompletionDate)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ServiceTag, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.DisplayFor(m => m.ServiceTag)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Location, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.DisplayFor(m => m.Location)
+                </div>
+            </div>
 
 
-@using (Ajax.BeginForm("Bid", "ServiceProvider", new AjaxOptions { UpdateTargetId = "BidResult"/*, LoadingElementId = "loading"*/}))
-{
+            <div class="form-group">
+                @Html.LabelFor(m => m.LowestBid, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.DisplayFor(m => m.LowestBid)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.UserCurrentBid, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.DisplayFor(m => m.UserCurrentBid)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10">
+                    @using (Ajax.BeginForm("Bid", "ServiceProvider", new AjaxOptions { UpdateTargetId = "BidResult"/*, LoadingElementId = "loading"*/}))
+                    {
 
-    @Html.TextBox("Bid", 0.00)
-    @Html.HiddenFor(o => o.ServiceId)
-    <input type="submit" title="Bid" value="Bid" />
-}
+                        @Html.TextBox("Bid", 0.00)
+                        @Html.HiddenFor(o => o.ServiceId)
+                        <input type="submit" title="Bid" value="Bid" class="btn btn-default" />
+                    }
+                </div>
+            </div>
 
+        </fieldset>
+
+
+
+
+    </div>
+</div>
 <div id="BidResult"></div>

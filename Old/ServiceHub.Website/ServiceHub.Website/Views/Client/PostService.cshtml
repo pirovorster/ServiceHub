@@ -1,0 +1,59 @@
+﻿@model ServiceHub.Website.Models.PostServiceViewModel
+@{
+    ViewBag.Title = "Post Service";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function () {
+
+            $("#BiddingCompletionDate").datepicker({ dateFormat: "dd MM yy" });
+            $("#ServiceDate").datepicker({ dateFormat: "dd MM yy" });
+            $("#LocationId").select2();
+            $("#ServiceTagId").select2();
+        });
+
+    </script>
+
+}
+
+@using (Html.BeginForm("PostService", "Client", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Client</legend>
+        @Html.DisplayFor(o => o.Reference)
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.Description)
+                @Html.TextAreaFor(m => m.Description)
+                @Html.ValidationMessageFor(m => m.Description)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ServiceDate)
+                @Html.TextBoxFor(m => m.ServiceDate)
+                @Html.ValidationMessageFor(m => m.ServiceDate)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.BiddingCompletionDate)
+                @Html.TextBoxFor(m => m.BiddingCompletionDate)
+                @Html.ValidationMessageFor(m => m.BiddingCompletionDate)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.LocationId)
+                @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationLookup, new { style = "width:300px" })
+                @Html.ValidationMessageFor(m => m.LocationId)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ServiceTagId)
+                @Html.DropDownListFor(m => m.ServiceTagId, (SelectList)ViewBag.TagLookup, new { style = "width:300px" })
+                @Html.ValidationMessageFor(m => m.ServiceTagId)
+            </li>
+        </ol>
+
+    </fieldset>
+    
+    <input type="submit" value="Post" />
+}

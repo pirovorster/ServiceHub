@@ -1,5 +1,5 @@
-[assembly: WebActivator.PreApplicationStartMethod(typeof(ServiceHub.Website.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(ServiceHub.Website.App_Start.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(ServiceHub.Website.App_Start.NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(ServiceHub.Website.App_Start.NinjectWebCommon), "Stop")]
 
 namespace ServiceHub.Website.App_Start
 {
@@ -11,7 +11,7 @@ namespace ServiceHub.Website.App_Start
     using Ninject;
     using Ninject.Web.Common;
 	using ServiceHub.Model;
-
+	using Microsoft.AspNet.Identity;
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -41,11 +41,19 @@ namespace ServiceHub.Website.App_Start
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
-            kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
-            kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
-            
-            RegisterServices(kernel);
-            return kernel;
+            try
+            {
+                kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
+                kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
+
+                RegisterServices(kernel);
+                return kernel;
+            }
+            catch
+            {
+                kernel.Dispose();
+                throw;
+            }
         }
 
         /// <summary>
@@ -54,14 +62,17 @@ namespace ServiceHub.Website.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-
 			kernel.Bind<ServiceHubEntities>().To<ServiceHubEntities>().InRequestScope();
 
-			kernel.Bind<UserService>().To<UserService>();
+			kernel.Bind<ServiceProviderService>().To<ServiceProviderService>().InRequestScope().WithConstructorArgument("aspNetUserId",(context,o)=> HttpContext.Current.User.Identity.GetUserId());
 
-			kernel.Bind<ServiceService>().To<ServiceService>();
+			kernel.Bind<ClientService>().To<ClientService>().InRequestScope().WithConstructorArgument("aspNetUserId", (context, o) => HttpContext.Current.User.Identity.GetUserId());
 
-			kernel.Bind<LookupService>().To<LookupService>();
+			kernel.Bind<UserProfileService>().To<UserProfileService>().InRequestScope().WithConstructorArgument("aspNetUserId", (context, o) => HttpContext.Current.User.Identity.GetUserId());
+
+			kernel.Bind<LookupService>().To<LookupService>().InRequestScope();
+
+			kernel.Bind<DirectoryService>().To<DirectoryService>().InRequestScope();
         }        
     }
 }

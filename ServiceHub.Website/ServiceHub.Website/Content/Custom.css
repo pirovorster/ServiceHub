@@ -1,5 +1,5 @@
-﻿textarea, .select2-container {
-	width: 300px;
+﻿ .select2-container {
+	width: 280px;
 	resize: none;
 	margin: 5px 0 6px 0;
 	padding: 5px;
@@ -14,7 +14,7 @@
 }
 
 .select2-container {
-	width: 311.81px !important;
+	width: 280px !important;
 }
 
 
@@ -27,13 +27,13 @@
 
 
 
-.row {
+.table .row {
 	display: table-row;
 	background: #f4f4f4;
 	border-top: 1px solid #fff;
 }
 
-.row > div {
+.table .row > div {
 	display: table-cell;
 	vertical-align: middle;
 	padding: 0px 10px 0px 10px;
@@ -42,12 +42,12 @@
 	border-left: 1px dotted #a6abaf;
 }
 
-.headerRow {
+.table .headerRow {
 	background: #616a72;
 	color: #fff;
 }
 
-	.headerRow > div {
+	.table .headerRow > div {
 		vertical-align: auto;
 		color: #fff;
 		border-color: #8c9196;

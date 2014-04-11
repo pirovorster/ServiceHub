@@ -8,20 +8,21 @@ namespace ServiceHub.Website.Controllers
 {
 	public class HomeController : Controller
 	{
+		[HttpGet]
 		public ActionResult Index()
 		{
-			ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
 			return View();
 		}
 
+		[HttpGet]
 		public ActionResult About()
 		{
-			ViewBag.Message = "Your app description page.";
+			ViewBag.Message = "Your application description page.";
 
 			return View();
 		}
 
+		[HttpGet]
 		public ActionResult Contact()
 		{
 			ViewBag.Message = "Your contact page.";

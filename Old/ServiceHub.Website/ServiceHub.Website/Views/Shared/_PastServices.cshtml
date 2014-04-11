@@ -1,0 +1,34 @@
+﻿@model IEnumerable<ServiceHub.Website.Models.MyServiceItem>
+
+<div class="table">
+    <div class="row headerRow">
+        <div>Bidding Completion</div>
+
+        <div>Estimated Service Due</div>
+
+        <div>Lowest Bid</div>
+
+        <div>Service Reference</div>
+
+        <div>Status</div>
+
+    </div>
+    @foreach (var item in Model.Where(o => o.IsCompleted))
+    {
+        <div class="row">
+
+            <div>@Html.DisplayFor(o => item.BiddingCompletionDate)</div>
+
+            <div>@Html.DisplayFor(o => item.ServiceDue)</div>
+            
+            <div>@Html.DisplayFor(o => item.LowestBid)</div>
+
+            <div>@Html.ActionLink(item.Reference, "ServiceBid", "ServiceProvider", new { serviceId = item.ServiceId }, null)</div>
+
+            <div>@Html.DisplayFor(o => item.Status)</div>
+
+
+        </div>
+
+    }
+</div>

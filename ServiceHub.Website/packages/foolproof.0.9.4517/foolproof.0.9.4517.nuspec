@@ -10,8 +10,5 @@
     <projectUrl>http://foolproof.codeplex.com/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>MVC Foolproof Validation aims to extend the Data Annotation validation provided in ASP.NET MVC. Includes such annotations as [GreaterThan], [RequredIfTrue], [RequiredIfRegExMatch] and more. It also provides simply method for creating custom contingent validators.</description>
-    <releaseNotes />
-    <copyright />
-    <language />
   </metadata>
 </package>

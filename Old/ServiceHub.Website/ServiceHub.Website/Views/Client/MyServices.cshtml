@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ServiceHub.Website.Models.MyServiceItem>
+    @{
+        ViewBag.Title = "My Services";
+    }
+
+    @section scripts
+{
+        <script>
+            $(document).ready(function () {
+
+                $("#UserProfileTabs").tabs();
+            });
+
+        </script>
+
+    }
+
+
+    <div id="UserProfileTabs">
+        <ul>
+            <li><a href="#ActiveServices">Active Services</a></li>
+            <li><a href="#PastServices">Past Services</a></li>
+        </ul>
+
+        <div id="ActiveServices">
+            @Html.Partial("_ActiveServices", Model)
+        </div>
+        <div id="PastServices">
+            @Html.Partial("_PastServices", Model)
+        </div>
+
+    </div>

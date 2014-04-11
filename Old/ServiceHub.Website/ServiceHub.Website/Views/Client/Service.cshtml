@@ -1,0 +1,106 @@
+﻿@model ServiceHub.Website.Models.ServiceViewModel
+@{
+    ViewBag.Title = "Service";
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+
+        });
+
+        function ConfirmDelete() {
+            return confirm("Are you ure you want to cancel this service?");
+        }
+
+        function AddAdditionalInfo() {
+           
+            $("#AdditionalInfos").append("<li>" + $("#AdditionalInfo").val() + "</li>");
+            $("#AdditionalInfo").val("");
+        }
+    </script>
+}
+
+@using (Html.BeginForm("CancelSevice", "Client", FormMethod.Post, new { onsubmit = "return ConfirmDelete();" }))
+{
+
+
+
+    if (Model.IsCancelled)
+    {
+        <text>Cancelled</text>
+    }
+    else
+    {
+        @Html.HiddenFor(o => o.ServiceId)
+        <input type="submit" title="Cancel" value="Cancel" id="Cancel" />
+    }
+
+    <fieldset>
+        <legend>Service</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.Reference)
+                @Html.DisplayFor(m => m.Reference)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Description)
+                @Html.DisplayFor(m => m.Description)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.AddtionalInfo)
+                <div id="AdditionalInfos">
+                    <ol>
+                        @foreach (string info in Model.AddtionalInfo)
+                        {
+                            <li>
+                                @Html.DisplayFor(m => info)
+                            </li>
+                        }
+                    </ol>
+                </div>
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ServiceDate)
+                @Html.DisplayFor(m => m.ServiceDate)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.BiddingCompletionDate)
+                @Html.DisplayFor(m => m.BiddingCompletionDate)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ServiceTag)
+                @Html.DisplayFor(m => m.ServiceTag)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Location)
+                @Html.DisplayFor(m => m.Location)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.AddtionalInfoRequests)
+                <ol>
+                    @foreach (string request in Model.AddtionalInfoRequests)
+                    {
+                        <li>
+                            @Html.DisplayFor(m => request)
+                        </li>
+                    }
+                </ol>
+
+            </li>
+
+        </ol>
+    </fieldset>
+}
+@if (!Model.IsCancelled)
+{
+    using (Ajax.BeginForm("AddAdditionalInfo", "Client", new AjaxOptions { UpdateTargetId = "AdditionalInfoRequestResult", OnSuccess = "AddAdditionalInfo();" /*, LoadingElementId = "loading"*/}))
+    {
+
+        @Html.HiddenFor(o => o.ServiceId)
+        @Html.TextArea("AdditionalInfo")
+
+        <input type="submit" title="Add Additional Info" value="Request" />
+    }
+    <div id="AdditionalInfoRequestResult"></div>
+}

@@ -6,27 +6,24 @@
     @section scripts
 {
         <script>
-            $(document).ready(function () {
-
-                $("#UserProfileTabs").tabs();
-            });
+           
 
         </script>
 
     }
 
 
-    <div id="UserProfileTabs">
-        <ul>
-            <li><a href="#ActiveServices">Active Services</a></li>
-            <li><a href="#PastServices">Past Services</a></li>
-        </ul>
+   
 
-        <div id="ActiveServices">
-            @Html.Partial("_ActiveServices", Model)
-        </div>
-        <div id="PastServices">
-            @Html.Partial("_PastServices", Model)
-        </div>
 
-    </div>
+<ul class="nav nav-tabs">
+    <li><a data-toggle="tab" href="#ActiveServices">Active Services</a></li>
+    <li><a data-toggle="tab" href="#PastServices">Past Services</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane active" id="ActiveServices">@Html.Partial("_ActiveServices", Model)</div>
+    <div class="tab-pane" id="PastServices">        @Html.Partial("_PastServices", Model)</div>
+
+</div>

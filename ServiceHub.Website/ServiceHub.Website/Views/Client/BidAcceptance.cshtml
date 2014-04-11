@@ -1,0 +1,42 @@
+﻿@model ServiceHub.Website.Models.BidAcceptanceViewModel
+@{
+    ViewBag.Title = "Bid Acceptance";
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+
+        });
+
+
+    </script>
+
+
+}
+
+
+@foreach (var finalServiceProviderBid in Model.FinalServiceProviderBidViewModels)
+{
+    <div class="row">
+        <div class="col-lg-3">
+            <div><img src="@Url.Content("~/Directory/Thumbnail?userId=" + finalServiceProviderBid.UserId)" /></div>
+
+          
+
+        </div>
+        <div class="col-lg-6" >
+            <div>@Html.DisplayFor(o => finalServiceProviderBid.Name)</div>
+            <div>@Html.DisplayFor(o =>string.Join(",", finalServiceProviderBid.Tags))</div>
+            <div>@Html.DisplayFor(o =>string.Join(",", finalServiceProviderBid.Locations))</div>
+
+            <div>@Html.DisplayFor(o =>string.Join(",", finalServiceProviderBid.About))</div>
+
+        </div>
+        <div class="col-lg-3" >
+            <div>@Html.DisplayFor(o => finalServiceProviderBid.Bid)</div>
+
+        </div>
+    </div>
+
+}

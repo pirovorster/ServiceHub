@@ -57,9 +57,13 @@
     <Compile Include="AdditionalInfoRequest.cs">
       <DependentUpon>ServiceHubModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>ServiceHubModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Bid.cs">
       <DependentUpon>ServiceHubModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Extensions.cs" />
     <Compile Include="Entities\ServiceProvider.cs" />
     <Compile Include="Location.cs">
       <DependentUpon>ServiceHubModel.tt</DependentUpon>
@@ -92,7 +96,7 @@
     <Compile Include="User.cs">
       <DependentUpon>ServiceHubModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="UserProfile.cs">
+    <Compile Include="UserProfileLogo.cs">
       <DependentUpon>ServiceHubModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>

@@ -1,0 +1,127 @@
+﻿@model PagedList.IPagedList<ServiceHub.Model.Service>
+
+@using PagedList.Mvc
+@{
+
+    ViewBag.Title = "Service";
+}
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+            $("#Tags").select2();
+            $("#Locations").select2();
+            $('.datepicker').datepicker({ format: "dd MM yy" });
+            //$("#BeginEstimatedServiceDate").datepicker({ dateFormat: "dd MM yy" });
+            //$("#EndEstimatedServiceDate").datepicker({ dateFormat: "dd MM yy" });
+
+            //$("#BeginBiddingCompletionDate").datepicker({ dateFormat: "dd MM yy" });
+            //$("#EndBiddingCompletionDate").datepicker({ dateFormat: "dd MM yy" });
+        });
+
+    </script>
+
+}
+
+<div class="well bs-component">
+    @using (Html.BeginForm("Client", "Services", FormMethod.Post))
+    {
+        <fieldset>
+            <legend>Search</legend>
+            <div class="form-group">
+
+                @Html.Label("Search", new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.TextBox("SearchString")
+                </div>
+            </div>
+            <div class="form-group">
+
+                @Html.Label("Service Type Tags", new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.ListBox("Tags", (MultiSelectList)ViewBag.TagLookup, new { Multiple = "multiple" })
+                </div>
+            </div>
+            <div class="form-group">
+
+                @Html.Label("Working Area", new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.ListBox("Locations", (MultiSelectList)ViewBag.LocationLookup, new { Multiple = "multiple", style = "width:280px" })
+                </div>
+            </div>
+            <div class="form-group">
+
+                @Html.Label("Bidding Completion Date", new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.TextBox("BeginBiddingCompletionDate", null, new { @readonly = "readonly", @class = "form-control datepicker"})<text>-</text>
+                    @Html.TextBox("EndBiddingCompletionDate", null, new { @readonly = "readonly", @class = "form-control datepicker"})
+                </div>
+            </div>
+            <div class="form-group">
+
+                @Html.Label("Estimated Service Date", new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.TextBox("BeginEstimatedServiceDate",null, new {@readonly="readonly", @class = "form-control datepicker"})<text>-</text>
+                    @Html.TextBox("EndEstimatedServiceDate", null, new { @readonly = "readonly", @class = "form-control datepicker" })
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="col-lg-10">
+
+                    <input id="submit" type="submit" value="Apply" />
+                </div>
+            </div>
+
+        </fieldset>
+
+
+        <div class="table">
+            <div class="row headerRow">
+                <div>Reference</div>
+
+                <div>Time Stamp</div>
+
+                <div>Description</div>
+
+                <div>Service Due</div>
+
+                <div>Bidding Completion Date</div>
+
+                <div>Service Tag</div>
+
+                <div>Location</div>
+                <div></div>
+            </div>
+            @foreach (var item in Model)
+            {
+                <div class="row">
+
+                    <div>@Html.DisplayFor(o => item.Reference)</div>
+
+                    <div>@item.TimeStamp.ToString("dd MMM yyyy")</div>
+
+                    <div>@Html.DisplayFor(o => item.Description)</div>
+
+                    <div>@item.ServiceDue.ToString("dd MMM yyyy")</div>
+
+                    <div>@item.BiddingCompletionDate.ToString("dd MMM yyyy")</div>
+
+                    <div>@Html.DisplayFor(o => item.Tag.Title)</div>
+
+                    <div>@Html.DisplayFor(o => item.Location.Name)</div>
+                    <div>@Html.ActionLink("Bid", "ServiceBid", "ServiceProvider", new { serviceId = item.Id }, null)</div>
+                </div>
+
+            }
+        </div>
+    }
+</div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Services",
+                            new { page, searchString = ViewBag.CurrentSearchString, locations = ViewBag.CurrentLocations, tags = ViewBag.CurrentTags }))
+
+

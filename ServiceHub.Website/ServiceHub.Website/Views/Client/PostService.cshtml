@@ -10,8 +10,8 @@
 
         $(document).ready(function () {
 
-            $("#BiddingCompletionDate").datepicker({ dateFormat: "dd MM yy" });
-            $("#ServiceDate").datepicker({ dateFormat: "dd MM yy" });
+            $("#BiddingCompletionDate").datepicker({ format: "dd MM yy" });
+            $("#ServiceDate").datepicker({ format: "dd MM yy" });
             $("#LocationId").select2();
             $("#ServiceTagId").select2();
         });
@@ -20,40 +20,60 @@
 
 }
 
-@using (Html.BeginForm("PostService", "Client", FormMethod.Post))
-{
-    <fieldset>
-        <legend>Client</legend>
-        @Html.DisplayFor(o => o.Reference)
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.Description)
-                @Html.TextAreaFor(m => m.Description)
-                @Html.ValidationMessageFor(m => m.Description)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ServiceDate)
-                @Html.TextBoxFor(m => m.ServiceDate)
-                @Html.ValidationMessageFor(m => m.ServiceDate)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.BiddingCompletionDate)
-                @Html.TextBoxFor(m => m.BiddingCompletionDate)
-                @Html.ValidationMessageFor(m => m.BiddingCompletionDate)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.LocationId)
-                @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationLookup, new { style = "width:300px" })
-                @Html.ValidationMessageFor(m => m.LocationId)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ServiceTagId)
-                @Html.DropDownListFor(m => m.ServiceTagId, (SelectList)ViewBag.TagLookup, new { style = "width:300px" })
-                @Html.ValidationMessageFor(m => m.ServiceTagId)
-            </li>
-        </ol>
+<div class="well bs-component">
+    @using (Html.BeginForm("PostService", "Client", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
 
-    </fieldset>
-    
-    <input type="submit" value="Post" />
-}
+        <fieldset>
+            <legend>Post Service</legend>
+            <div class="form-group">
+                @Html.DisplayFor(o => o.Reference, new { @class = "col-lg-2 control-label" })
+                
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Description, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.TextAreaFor(m => m.Description)
+                    @Html.ValidationMessageFor(m => m.Description)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ServiceDate, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(m => m.ServiceDate,null, new { @readonly = "readonly", @class = "form-control datepicker" })
+                    @Html.ValidationMessageFor(m => m.ServiceDate)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.BiddingCompletionDate, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(m => m.BiddingCompletionDate, null, new { @readonly = "readonly", @class = "form-control datepicker" })
+                    @Html.ValidationMessageFor(m => m.BiddingCompletionDate)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LocationId, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.DropDownListFor(m => m.LocationId, (SelectList)ViewBag.LocationLookup)
+                    @Html.ValidationMessageFor(m => m.LocationId)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ServiceTagId, new { @class = "col-lg-2 control-label" })
+                <div class="col-lg-10">
+                    @Html.DropDownListFor(m => m.ServiceTagId, (SelectList)ViewBag.TagLookup)
+                    @Html.ValidationMessageFor(m => m.ServiceTagId)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-10">
+
+
+                    <input type="submit" value="Post" />
+                </div>
+            </div>
+        </fieldset>
+
+    }
+
+</div>

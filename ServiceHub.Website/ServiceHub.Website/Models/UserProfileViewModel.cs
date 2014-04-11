@@ -9,9 +9,30 @@ namespace ServiceHub.Website.Models
 {
 	public sealed class UserProfileViewModel
 	{
+
 		public UserProfileViewModel()
 		{
+
 			Locations = new List<int>();
+		}
+
+		public UserProfileViewModel(Model.User user)
+		{
+
+			if (user != null)
+			{
+				Name = user.Name;
+				ContactNumber = user.ContactNumber;
+				About = user.About;
+				LogoData = user.AspNetUser.UserProfileLogo == null ? null : user.AspNetUser.UserProfileLogo.LogoData;
+				Tags = string.Join(",", user.Tags.Select(o => o.Title));
+				Locations = user.Locations.Select(o => o.Id).ToList();
+			}
+			else
+			{
+				Locations = new List<int>();
+
+			}
 		}
 
 		[Required]

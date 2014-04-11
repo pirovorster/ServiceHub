@@ -1,0 +1,1042 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ServiceHubModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AcceptedBids">
+          <Key>
+            <PropertyRef Name="BidId" />
+          </Key>
+          <Property Name="BidId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsCancelled" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AdditionalInfoRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AdditionalInfos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Bids">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsCancelled" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Locations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
+        </EntityType>
+        <EntityType Name="LocationUserJoin">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="LocationId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ratings">
+          <Key>
+            <PropertyRef Name="AcceptedBidId" />
+          </Key>
+          <Property Name="AcceptedBidId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Score" Type="float" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TagId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ServiceDue" Type="date" Nullable="false" />
+          <Property Name="BiddingCompletionDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="AcceptedBidId" Type="uniqueidentifier" />
+          <Property Name="IsCancelled" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tags">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TagUserJoin">
+          <Key>
+            <PropertyRef Name="ServiceProviderId" />
+            <PropertyRef Name="TagId" />
+          </Key>
+          <Property Name="ServiceProviderId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TagId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserProfileLogos">
+          <Key>
+            <PropertyRef Name="UserProfileId" />
+          </Key>
+          <Property Name="UserProfileId" Type="int" Nullable="false" />
+          <Property Name="LogoData" Type="varbinary(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="About" Type="nvarchar(max)" />
+          <Property Name="IsPublic" Type="bit" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ContactNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserProfileId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="56" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AcceptedBids_Bids">
+          <End Role="Bids" Type="Self.Bids" Multiplicity="1" />
+          <End Role="AcceptedBids" Type="Self.AcceptedBids" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Bids">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AcceptedBids">
+              <PropertyRef Name="BidId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdditionalInfoRequests_ServiceProviders">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="AdditionalInfoRequests" Type="Self.AdditionalInfoRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdditionalInfoRequests">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdditionalInfoRequests_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="AdditionalInfoRequests" Type="Self.AdditionalInfoRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdditionalInfoRequests">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdditionalInfos_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="AdditionalInfos" Type="Self.AdditionalInfos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdditionalInfos">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bids_ServiceProviders">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Bids" Type="Self.Bids" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bids">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bids_Services">
+          <End Role="Services" Type="Self.Services" Multiplicity="1" />
+          <End Role="Bids" Type="Self.Bids" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bids">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Locations_Locations">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="0..1" />
+          <End Role="Locations1" Type="Self.Locations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Locations1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationServiceProviderJoin_Locations">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="LocationUserJoin" Type="Self.LocationUserJoin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LocationUserJoin">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LocationServiceProviderJoin_ServiceProviders">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="LocationUserJoin" Type="Self.LocationUserJoin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LocationUserJoin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ratings_AcceptedBids">
+          <End Role="AcceptedBids" Type="Self.AcceptedBids" Multiplicity="1" />
+          <End Role="Ratings" Type="Self.Ratings" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AcceptedBids">
+              <PropertyRef Name="BidId" />
+            </Principal>
+            <Dependent Role="Ratings">
+              <PropertyRef Name="AcceptedBidId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ratings_ServiceProviders">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Ratings" Type="Self.Ratings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ratings">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceProviders_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_AcceptedBids">
+          <End Role="AcceptedBids" Type="Self.AcceptedBids" Multiplicity="0..1" />
+          <End Role="Services" Type="Self.Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AcceptedBids">
+              <PropertyRef Name="BidId" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="AcceptedBidId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Locations">
+          <End Role="Locations" Type="Self.Locations" Multiplicity="1" />
+          <End Role="Services" Type="Self.Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Locations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Tags">
+          <End Role="Tags" Type="Self.Tags" Multiplicity="1" />
+          <End Role="Services" Type="Self.Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tags">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Services" Type="Self.Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TagServiceProviderJoin_ServiceProviders">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TagUserJoin" Type="Self.TagUserJoin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TagUserJoin">
+              <PropertyRef Name="ServiceProviderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TagServiceProviderJoin_Tags">
+          <End Role="Tags" Type="Self.Tags" Multiplicity="1" />
+          <End Role="TagUserJoin" Type="Self.TagUserJoin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tags">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TagUserJoin">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserProfileLogos_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="UserProfileLogos" Type="Self.UserProfileLogos" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserProfileLogos">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ServiceHubModelStoreContainer">
+          <EntitySet Name="AcceptedBids" EntityType="Self.AcceptedBids" Schema="data" store:Type="Tables" />
+          <EntitySet Name="AdditionalInfoRequests" EntityType="Self.AdditionalInfoRequests" Schema="data" store:Type="Tables" />
+          <EntitySet Name="AdditionalInfos" EntityType="Self.AdditionalInfos" Schema="data" store:Type="Tables" />
+          <EntitySet Name="Bids" EntityType="Self.Bids" Schema="data" store:Type="Tables" />
+          <EntitySet Name="Locations" EntityType="Self.Locations" Schema="data" store:Type="Tables" />
+          <EntitySet Name="LocationUserJoin" EntityType="Self.LocationUserJoin" Schema="data" store:Type="Tables" />
+          <EntitySet Name="Ratings" EntityType="Self.Ratings" Schema="data" store:Type="Tables" />
+          <EntitySet Name="Services" EntityType="Self.Services" Schema="data" store:Type="Tables" />
+          <EntitySet Name="Tags" EntityType="Self.Tags" Schema="data" store:Type="Tables" />
+          <EntitySet Name="TagUserJoin" EntityType="Self.TagUserJoin" Schema="data" store:Type="Tables" />
+          <EntitySet Name="UserProfileLogos" EntityType="Self.UserProfileLogos" Schema="data" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="data" store:Type="Tables" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AcceptedBids_Bids" Association="Self.FK_AcceptedBids_Bids">
+            <End Role="Bids" EntitySet="Bids" />
+            <End Role="AcceptedBids" EntitySet="AcceptedBids" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdditionalInfoRequests_ServiceProviders" Association="Self.FK_AdditionalInfoRequests_ServiceProviders">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="AdditionalInfoRequests" EntitySet="AdditionalInfoRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdditionalInfoRequests_Services" Association="Self.FK_AdditionalInfoRequests_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="AdditionalInfoRequests" EntitySet="AdditionalInfoRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdditionalInfos_Services" Association="Self.FK_AdditionalInfos_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="AdditionalInfos" EntitySet="AdditionalInfos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bids_ServiceProviders" Association="Self.FK_Bids_ServiceProviders">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Bids" EntitySet="Bids" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bids_Services" Association="Self.FK_Bids_Services">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Bids" EntitySet="Bids" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Locations_Locations" Association="Self.FK_Locations_Locations">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Locations1" EntitySet="Locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationServiceProviderJoin_Locations" Association="Self.FK_LocationServiceProviderJoin_Locations">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="LocationUserJoin" EntitySet="LocationUserJoin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LocationServiceProviderJoin_ServiceProviders" Association="Self.FK_LocationServiceProviderJoin_ServiceProviders">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="LocationUserJoin" EntitySet="LocationUserJoin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ratings_AcceptedBids" Association="Self.FK_Ratings_AcceptedBids">
+            <End Role="AcceptedBids" EntitySet="AcceptedBids" />
+            <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ratings_ServiceProviders" Association="Self.FK_Ratings_ServiceProviders">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceProviders_UserProfile" Association="Self.FK_ServiceProviders_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_AcceptedBids" Association="Self.FK_Services_AcceptedBids">
+            <End Role="AcceptedBids" EntitySet="AcceptedBids" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Locations" Association="Self.FK_Services_Locations">
+            <End Role="Locations" EntitySet="Locations" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Tags" Association="Self.FK_Services_Tags">
+            <End Role="Tags" EntitySet="Tags" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Users" Association="Self.FK_Services_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TagServiceProviderJoin_ServiceProviders" Association="Self.FK_TagServiceProviderJoin_ServiceProviders">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TagUserJoin" EntitySet="TagUserJoin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TagServiceProviderJoin_Tags" Association="Self.FK_TagServiceProviderJoin_Tags">
+            <End Role="Tags" EntitySet="Tags" />
+            <End Role="TagUserJoin" EntitySet="TagUserJoin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserProfileLogos_UserProfile" Association="Self.FK_UserProfileLogos_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UserProfileLogos" EntitySet="UserProfileLogos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ServiceHubModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ServiceHubEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AcceptedBids" EntityType="ServiceHubModel.AcceptedBid" />
+          <EntitySet Name="AdditionalInfoRequests" EntityType="ServiceHubModel.AdditionalInfoRequest" />
+          <EntitySet Name="AdditionalInfos" EntityType="ServiceHubModel.AdditionalInfo" />
+          <EntitySet Name="Bids" EntityType="ServiceHubModel.Bid" />
+          <EntitySet Name="Locations" EntityType="ServiceHubModel.Location" />
+          <EntitySet Name="Ratings" EntityType="ServiceHubModel.Rating" />
+          <EntitySet Name="Services" EntityType="ServiceHubModel.Service" />
+          <EntitySet Name="Tags" EntityType="ServiceHubModel.Tag" />
+          <AssociationSet Name="FK_AcceptedBids_Bids" Association="ServiceHubModel.FK_AcceptedBids_Bids">
+            <End EntitySet="Bids" Role="Bid" />
+            <End EntitySet="AcceptedBids" Role="AcceptedBid" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ratings_AcceptedBids" Association="ServiceHubModel.FK_Ratings_AcceptedBids">
+            <End EntitySet="AcceptedBids" Role="AcceptedBid" />
+            <End EntitySet="Ratings" Role="Rating" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdditionalInfoRequests_Services" Association="ServiceHubModel.FK_AdditionalInfoRequests_Services">
+            <End EntitySet="Services" Role="Service" />
+            <End EntitySet="AdditionalInfoRequests" Role="AdditionalInfoRequest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdditionalInfos_Services" Association="ServiceHubModel.FK_AdditionalInfos_Services">
+            <End EntitySet="Services" Role="Service" />
+            <End EntitySet="AdditionalInfos" Role="AdditionalInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bids_Services" Association="ServiceHubModel.FK_Bids_Services">
+            <End EntitySet="Services" Role="Service" />
+            <End EntitySet="Bids" Role="Bid" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Locations" Association="ServiceHubModel.FK_Services_Locations">
+            <End EntitySet="Locations" Role="Location" />
+            <End EntitySet="Services" Role="Service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Tags" Association="ServiceHubModel.FK_Services_Tags">
+            <End EntitySet="Tags" Role="Tag" />
+            <End EntitySet="Services" Role="Service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Locations_Locations" Association="ServiceHubModel.FK_Locations_Locations">
+            <End EntitySet="Locations" Role="Location" />
+            <End EntitySet="Locations" Role="Location1" />
+          </AssociationSet>
+          <EntitySet Name="UserProfiles" EntityType="ServiceHubModel.UserProfile" />
+          <EntitySet Name="Users" EntityType="ServiceHubModel.User" />
+          <AssociationSet Name="FK_AdditionalInfoRequests_ServiceProviders" Association="ServiceHubModel.FK_AdditionalInfoRequests_ServiceProviders">
+            <End Role="User" EntitySet="Users" />
+            <End Role="AdditionalInfoRequest" EntitySet="AdditionalInfoRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bids_ServiceProviders" Association="ServiceHubModel.FK_Bids_ServiceProviders">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Bid" EntitySet="Bids" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ratings_ServiceProviders" Association="ServiceHubModel.FK_Ratings_ServiceProviders">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Rating" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Users" Association="ServiceHubModel.FK_Services_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Service" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceProviders_UserProfile" Association="ServiceHubModel.FK_ServiceProviders_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="LocationUserJoin" Association="ServiceHubModel.LocationUserJoin">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="TagUserJoin" Association="ServiceHubModel.TagUserJoin">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Tag" EntitySet="Tags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_AcceptedBids" Association="ServiceHubModel.FK_Services_AcceptedBids">
+            <End Role="AcceptedBid" EntitySet="AcceptedBids" />
+            <End Role="Service" EntitySet="Services" />
+          </AssociationSet>
+          <EntitySet Name="UserProfileLogos" EntityType="ServiceHubModel.UserProfileLogo" />
+          <AssociationSet Name="FK_UserProfileLogos_UserProfile" Association="ServiceHubModel.FK_UserProfileLogos_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="UserProfileLogo" EntitySet="UserProfileLogos" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="AcceptedBid">
+          <Key>
+            <PropertyRef Name="BidId" />
+          </Key>
+          <Property Name="BidId" Nullable="false" Type="Guid" />
+          <Property Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="TimeStamp" Nullable="false" Precision="7" Type="DateTime" />
+          <Property Name="IsCancelled" Nullable="false" Type="Boolean" />
+          <NavigationProperty Name="Bid" Relationship="ServiceHubModel.FK_AcceptedBids_Bids" FromRole="AcceptedBid" ToRole="Bid" />
+          <NavigationProperty Name="Rating" Relationship="ServiceHubModel.FK_Ratings_AcceptedBids" FromRole="AcceptedBid" ToRole="Rating" />
+          <NavigationProperty Name="Services" Relationship="ServiceHubModel.FK_Services_AcceptedBids" FromRole="AcceptedBid" ToRole="Service" />
+        </EntityType>
+        <EntityType Name="AdditionalInfoRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Guid" />
+          <Property Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="ServiceId" Nullable="false" Type="Guid" />
+          <Property Name="Comment" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="TimeStamp" Nullable="false" Precision="7" Type="DateTime" />
+          <NavigationProperty Name="Service" Relationship="ServiceHubModel.FK_AdditionalInfoRequests_Services" FromRole="AdditionalInfoRequest" ToRole="Service" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="ServiceHubModel.FK_AdditionalInfoRequests_ServiceProviders" FromRole="AdditionalInfoRequest" ToRole="User" />
+        </EntityType>
+        <EntityType Name="AdditionalInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Nullable="false" Type="Guid" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="ServiceId" Nullable="false" Type="Guid" />
+          <Property Name="Comment" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="TimeStamp" Nullable="false" Precision="7" Type="DateTime" />
+          <NavigationProperty Name="Service" Relationship="ServiceHubModel.FK_AdditionalInfos_Services" FromRole="AdditionalInfo" ToRole="Service" />
+        </EntityType>
+        <EntityType Name="Bid">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Guid" />
+          <Property Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="ServiceId" Nullable="false" Type="Guid" />
+          <Property Name="Amount" Nullable="false" Precision="19" Scale="4" Type="Decimal" />
+          <Property Name="TimeStamp" Nullable="false" Precision="7" Type="DateTime" />
+          <Property Name="IsCancelled" Nullable="false" Type="Boolean" />
+          <NavigationProperty Name="AcceptedBid" Relationship="ServiceHubModel.FK_AcceptedBids_Bids" FromRole="Bid" ToRole="AcceptedBid" />
+          <NavigationProperty Name="Service" Relationship="ServiceHubModel.FK_Bids_Services" FromRole="Bid" ToRole="Service" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="ServiceHubModel.FK_Bids_ServiceProviders" FromRole="Bid" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="ParentId" Type="Int32" />
+          <NavigationProperty Name="Services" Relationship="ServiceHubModel.FK_Services_Locations" FromRole="Location" ToRole="Service" />
+          <NavigationProperty Name="Children" Relationship="ServiceHubModel.FK_Locations_Locations" FromRole="Location" ToRole="Location1" />
+          <NavigationProperty Name="Parent" Relationship="ServiceHubModel.FK_Locations_Locations" FromRole="Location1" ToRole="Location" />
+          <NavigationProperty Name="Users" Relationship="ServiceHubModel.LocationUserJoin" FromRole="Location" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Rating">
+          <Key>
+            <PropertyRef Name="AcceptedBidId" />
+          </Key>
+          <Property Name="AcceptedBidId" Nullable="false" Type="Guid" />
+          <Property Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Score" Nullable="false" Type="Double" />
+          <Property Name="Comment" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="TimeStamp" Nullable="false" Precision="7" Type="DateTime" />
+          <NavigationProperty Name="AcceptedBid" Relationship="ServiceHubModel.FK_Ratings_AcceptedBids" FromRole="Rating" ToRole="AcceptedBid" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="ServiceHubModel.FK_Ratings_ServiceProviders" FromRole="Rating" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Guid" />
+          <Property Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="TagId" Nullable="false" Type="Guid" />
+          <Property Name="ServiceDue" Nullable="false" Precision="0" Type="DateTime" />
+          <Property Name="BiddingCompletionDate" Nullable="false" Precision="7" Type="DateTime" />
+          <Property Name="Reference" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" Type="String" />
+          <Property Name="LocationId" Nullable="false" Type="Int32" />
+          <Property Name="TimeStamp" Nullable="false" Precision="7" Type="DateTime" />
+          <NavigationProperty Name="AdditionalInfoRequests" Relationship="ServiceHubModel.FK_AdditionalInfoRequests_Services" FromRole="Service" ToRole="AdditionalInfoRequest" />
+          <NavigationProperty Name="AdditionalInfos" Relationship="ServiceHubModel.FK_AdditionalInfos_Services" FromRole="Service" ToRole="AdditionalInfo" />
+          <NavigationProperty Name="Bids" Relationship="ServiceHubModel.FK_Bids_Services" FromRole="Service" ToRole="Bid" />
+          <NavigationProperty Name="Location" Relationship="ServiceHubModel.FK_Services_Locations" FromRole="Service" ToRole="Location" />
+          <NavigationProperty Name="Tag" Relationship="ServiceHubModel.FK_Services_Tags" FromRole="Service" ToRole="Tag" />
+          <Property Name="IsCancelled" Nullable="false" Type="Boolean" />
+          <Property Name="UserId" Nullable="false" Type="Guid" />
+          <NavigationProperty Name="User" Relationship="ServiceHubModel.FK_Services_Users" FromRole="Service" ToRole="User" />
+          <Property Name="AcceptedBidId" Type="Guid" />
+          <NavigationProperty Name="AcceptedBid" Relationship="ServiceHubModel.FK_Services_AcceptedBids" FromRole="Service" ToRole="AcceptedBid" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Guid" />
+          <Property Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="Title" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+          <NavigationProperty Name="Services" Relationship="ServiceHubModel.FK_Services_Tags" FromRole="Tag" ToRole="Service" />
+          <NavigationProperty Name="Users" Relationship="ServiceHubModel.TagUserJoin" FromRole="Tag" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_AcceptedBids_Bids">
+          <End Type="ServiceHubModel.Bid" Multiplicity="1" Role="Bid" />
+          <End Type="ServiceHubModel.AcceptedBid" Multiplicity="0..1" Role="AcceptedBid" />
+          <ReferentialConstraint>
+            <Principal Role="Bid">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AcceptedBid">
+              <PropertyRef Name="BidId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ratings_AcceptedBids">
+          <End Type="ServiceHubModel.AcceptedBid" Multiplicity="1" Role="AcceptedBid" />
+          <End Type="ServiceHubModel.Rating" Multiplicity="0..1" Role="Rating" />
+          <ReferentialConstraint>
+            <Principal Role="AcceptedBid">
+              <PropertyRef Name="BidId" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="AcceptedBidId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdditionalInfoRequests_Services">
+          <End Type="ServiceHubModel.Service" Multiplicity="1" Role="Service" />
+          <End Type="ServiceHubModel.AdditionalInfoRequest" Multiplicity="*" Role="AdditionalInfoRequest" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdditionalInfoRequest">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdditionalInfos_Services">
+          <End Type="ServiceHubModel.Service" Multiplicity="1" Role="Service" />
+          <End Type="ServiceHubModel.AdditionalInfo" Multiplicity="*" Role="AdditionalInfo" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdditionalInfo">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bids_Services">
+          <End Type="ServiceHubModel.Service" Multiplicity="1" Role="Service" />
+          <End Type="ServiceHubModel.Bid" Multiplicity="*" Role="Bid" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bid">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Locations">
+          <End Type="ServiceHubModel.Location" Multiplicity="1" Role="Location" />
+          <End Type="ServiceHubModel.Service" Multiplicity="*" Role="Service" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Tags">
+          <End Type="ServiceHubModel.Tag" Multiplicity="1" Role="Tag" />
+          <End Type="ServiceHubModel.Service" Multiplicity="*" Role="Service" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Locations_Locations">
+          <End Type="ServiceHubModel.Location" Multiplicity="0..1" Role="Location" />
+          <End Type="ServiceHubModel.Location" Multiplicity="*" Role="Location1" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Location1">
+              <PropertyRef Name="ParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
+          <Property Name="UserName" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" Type="String" />
+          <NavigationProperty Name="Users" Relationship="ServiceHubModel.FK_ServiceProviders_UserProfile" FromRole="UserProfile" ToRole="User" />
+          <NavigationProperty Name="UserProfileLogo" Relationship="ServiceHubModel.FK_UserProfileLogos_UserProfile" FromRole="UserProfile" ToRole="UserProfileLogo" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="About" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserProfileId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AdditionalInfoRequests" Relationship="ServiceHubModel.FK_AdditionalInfoRequests_ServiceProviders" FromRole="User" ToRole="AdditionalInfoRequest" />
+          <NavigationProperty Name="Bids" Relationship="ServiceHubModel.FK_Bids_ServiceProviders" FromRole="User" ToRole="Bid" />
+          <NavigationProperty Name="Ratings" Relationship="ServiceHubModel.FK_Ratings_ServiceProviders" FromRole="User" ToRole="Rating" />
+          <NavigationProperty Name="Services" Relationship="ServiceHubModel.FK_Services_Users" FromRole="User" ToRole="Service" />
+          <NavigationProperty Name="UserProfile" Relationship="ServiceHubModel.FK_ServiceProviders_UserProfile" FromRole="User" ToRole="UserProfile" />
+          <NavigationProperty Name="Locations" Relationship="ServiceHubModel.LocationUserJoin" FromRole="User" ToRole="Location" />
+          <NavigationProperty Name="Tags" Relationship="ServiceHubModel.TagUserJoin" FromRole="User" ToRole="Tag" />
+        </EntityType>
+        <Association Name="FK_AdditionalInfoRequests_ServiceProviders">
+          <End Type="ServiceHubModel.User" Role="User" Multiplicity="1" />
+          <End Type="ServiceHubModel.AdditionalInfoRequest" Role="AdditionalInfoRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdditionalInfoRequest">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bids_ServiceProviders">
+          <End Type="ServiceHubModel.User" Role="User" Multiplicity="1" />
+          <End Type="ServiceHubModel.Bid" Role="Bid" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bid">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ratings_ServiceProviders">
+          <End Type="ServiceHubModel.User" Role="User" Multiplicity="1" />
+          <End Type="ServiceHubModel.Rating" Role="Rating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rating">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Users">
+          <End Type="ServiceHubModel.User" Role="User" Multiplicity="1" />
+          <End Type="ServiceHubModel.Service" Role="Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceProviders_UserProfile">
+          <End Type="ServiceHubModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="ServiceHubModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="LocationUserJoin">
+          <End Type="ServiceHubModel.Location" Role="Location" Multiplicity="*" />
+          <End Type="ServiceHubModel.User" Role="User" Multiplicity="*" />
+        </Association>
+        <Association Name="TagUserJoin">
+          <End Type="ServiceHubModel.User" Role="User" Multiplicity="*" />
+          <End Type="ServiceHubModel.Tag" Role="Tag" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Services_AcceptedBids">
+          <End Type="ServiceHubModel.AcceptedBid" Role="AcceptedBid" Multiplicity="0..1" />
+          <End Type="ServiceHubModel.Service" Role="Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AcceptedBid">
+              <PropertyRef Name="BidId" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="AcceptedBidId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserProfileLogo">
+          <Key>
+            <PropertyRef Name="UserProfileId" />
+          </Key>
+          <Property Name="UserProfileId" Type="Int32" Nullable="false" />
+          <Property Name="LogoData" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="UserProfile" Relationship="ServiceHubModel.FK_UserProfileLogos_UserProfile" FromRole="UserProfileLogo" ToRole="UserProfile" />
+        </EntityType>
+        <Association Name="FK_UserProfileLogos_UserProfile">
+          <End Type="ServiceHubModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="ServiceHubModel.UserProfileLogo" Role="UserProfileLogo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserProfileLogo">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ServiceHubModelStoreContainer" CdmEntityContainer="ServiceHubEntities">
+          <EntitySetMapping Name="AcceptedBids">
+            <EntityTypeMapping TypeName="ServiceHubModel.AcceptedBid">
+              <MappingFragment StoreEntitySet="AcceptedBids">
+                <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="BidId" ColumnName="BidId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdditionalInfoRequests">
+            <EntityTypeMapping TypeName="ServiceHubModel.AdditionalInfoRequest">
+              <MappingFragment StoreEntitySet="AdditionalInfoRequests">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdditionalInfos">
+            <EntityTypeMapping TypeName="ServiceHubModel.AdditionalInfo">
+              <MappingFragment StoreEntitySet="AdditionalInfos">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bids">
+            <EntityTypeMapping TypeName="ServiceHubModel.Bid">
+              <MappingFragment StoreEntitySet="Bids">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="ServiceHubModel.Location">
+              <MappingFragment StoreEntitySet="Locations">
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ratings">
+            <EntityTypeMapping TypeName="ServiceHubModel.Rating">
+              <MappingFragment StoreEntitySet="Ratings">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="AcceptedBidId" ColumnName="AcceptedBidId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="ServiceHubModel.Service">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="AcceptedBidId" ColumnName="AcceptedBidId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IsCancelled" ColumnName="IsCancelled" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="BiddingCompletionDate" ColumnName="BiddingCompletionDate" />
+                <ScalarProperty Name="ServiceDue" ColumnName="ServiceDue" />
+                <ScalarProperty Name="TagId" ColumnName="TagId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="ServiceHubModel.Tag">
+              <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfiles">
+            <EntityTypeMapping TypeName="ServiceHubModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ServiceHubModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserProfileId" ColumnName="UserProfileId" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="About" ColumnName="About" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="LocationUserJoin" TypeName="ServiceHubModel.LocationUserJoin" StoreEntitySet="LocationUserJoin">
+            <EndProperty Name="User">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="Location">
+              <ScalarProperty Name="Id" ColumnName="LocationId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TagUserJoin" TypeName="ServiceHubModel.TagUserJoin" StoreEntitySet="TagUserJoin">
+            <EndProperty Name="Tag">
+              <ScalarProperty Name="Id" ColumnName="TagId" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="Id" ColumnName="ServiceProviderId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="UserProfileLogos">
+            <EntityTypeMapping TypeName="ServiceHubModel.UserProfileLogo">
+              <MappingFragment StoreEntitySet="UserProfileLogos">
+                <ScalarProperty Name="LogoData" ColumnName="LogoData" />
+                <ScalarProperty Name="UserProfileId" ColumnName="UserProfileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

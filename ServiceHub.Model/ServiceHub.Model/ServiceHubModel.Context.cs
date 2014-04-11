@@ -33,7 +33,8 @@ namespace ServiceHub.Model
         public virtual DbSet<Rating> Ratings { get; set; }
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
-        public virtual DbSet<UserProfile> UserProfiles { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserProfileLogo> UserProfileLogos { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
     }
 }

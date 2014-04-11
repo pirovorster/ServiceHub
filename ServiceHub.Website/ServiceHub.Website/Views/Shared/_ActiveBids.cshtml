@@ -6,14 +6,11 @@
 
         <div>Estimated Service Due</div>
 
-        <div>Highest Bid</div>
+        <div>Lowest Bid</div>
 
-        <div>My Highest Bid</div>
+        <div>My Lowest Bid</div>
 
         <div>Service Reference</div>
-
-        <div></div>
-
     </div>
     @foreach (var item in Model.Where(o => !o.IsCompleted))
     {
@@ -23,13 +20,12 @@
 
             <div>@Html.DisplayFor(o => item.ServiceDue)</div>
 
-            <div>@Html.DisplayFor(o => item.HighestBid)</div>
+            <div>@Html.DisplayFor(o => item.LowestBid)</div>
 
-            <div>@Html.DisplayFor(o => item.MyHighestBid)</div>
+            <div>@Html.DisplayFor(o => item.MyLowestBid)</div>
 
             <div>@Html.ActionLink(item.Reference, "ServiceBid", "ServiceProvider", new { serviceId = item.ServiceId }, null)</div>
 
-            <div>@Html.ActionLink("Cancel Bid", "CancelBid", "ServiceProvider", new { serviceId = item.ServiceId }, null)</div>
 
 
         </div>

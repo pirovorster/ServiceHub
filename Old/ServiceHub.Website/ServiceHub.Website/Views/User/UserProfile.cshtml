@@ -1,0 +1,112 @@
+﻿@model ServiceHub.Website.Models.UserProfileViewModel
+@{
+    ViewBag.Title = "Profile";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function () {
+
+
+
+            //
+            $("#Tags").select2({ tags: [@Html.Raw(string.Join(",", ((IEnumerable<string>)ViewBag.TagLookup).Select(o => string.Format("\"{0}\"", o))))] });
+            $("#Locations").select2();
+
+            $("#ProfileUpload").on("click", function () {
+                $("#ImageFile").click();
+            });
+
+            $("#UploadTarget").on("load", function () {
+
+                d = new Date();
+                $("#ProfileImage").attr("src", "@Url.Action("GetProfilePicture", "User")?" + d.getTime());
+            });
+
+            $("input:file").change(function () {
+                $("#ImgForm").submit();
+            });
+
+
+
+        });
+
+    </script>
+
+}
+
+@section styles
+{
+
+}
+
+@using (Html.BeginForm("UploadImage", "User", FormMethod.Post,
+    new
+    {
+        enctype = "multipart/form-data",
+        id = "ImgForm",
+        name = "ImgForm",
+        target = "UploadTarget",
+        style = "display:none;"
+    }))
+{
+    <h3>Upload Image</h3>
+    <input type="file" name="ImageFile" id="ImageFile" />
+
+}
+<iframe id="UploadTarget" name="UploadTarget" style="position: absolute; left: -999em; top: -999em;"></iframe>
+
+
+
+@using (Html.BeginForm("UserProfile", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <fieldset>
+        <legend>Client</legend>
+        <ol>
+            <li>
+                <img id="ProfileImage" src="@Url.Action("GetProfilePicture", "User")" /><br />
+
+                <a id="ProfileUpload">Upload New</a>
+            </li>
+
+            <li>
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name)
+                @Html.ValidationMessageFor(m => m.Name)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ContactNumber)
+                @Html.TextBoxFor(m => m.ContactNumber)
+                @Html.ValidationMessageFor(m => m.ContactNumber)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.About)
+                @Html.TextAreaFor(m => m.About)
+                @Html.ValidationMessageFor(m => m.About)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Locations)
+                @Html.ListBoxFor(m => m.Locations, (MultiSelectList)ViewBag.LocationLookup, new { Multiple = "multiple", style = "width:300px", @class = "chosen-select" })
+                @Html.ValidationMessageFor(m => m.Locations)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Tags)
+                @Html.TextAreaFor(m => m.Tags)
+                @Html.ValidationMessageFor(m => m.Tags)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.IsPublic)
+                @Html.CheckBoxFor(m => m.IsPublic)
+                @Html.ValidationMessageFor(m => m.IsPublic)
+            </li>
+        </ol>
+
+    </fieldset>
+
+    <input id="submit" type="submit" value="Save" />
+    @Html.Label((string)ViewBag.Message)
+}
