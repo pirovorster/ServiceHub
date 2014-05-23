@@ -1,0 +1,34 @@
+﻿@model IEnumerable<ServiceHub.Website.Models.MyBidItem>
+
+@{
+    ViewBag.Title = "My Bids";
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $("#UserProfileTabs").tabs();
+        });
+
+    </script>
+
+}
+
+
+<div id="UserProfileTabs">
+    <ul>
+        <li><a href="#ActiveBids">Active Bids</a></li>
+        <li><a href="#PastBids">Past Bids</a></li>
+    </ul>
+    <div id="ActiveBids">
+        @Html.Partial("_ActiveBids", Model)
+    </div>
+    <div id="PastBids">
+        @Html.Partial("_PastBids", Model)
+    </div>
+  
+
+
+</div>

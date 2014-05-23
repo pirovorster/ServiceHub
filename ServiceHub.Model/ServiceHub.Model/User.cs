@@ -27,18 +27,17 @@ namespace ServiceHub.Model
         public System.Guid Id { get; set; }
         public int OrderId { get; set; }
         public string About { get; set; }
-        public byte[] Logo { get; set; }
         public bool IsPublic { get; set; }
         public string Name { get; set; }
         public string ContactNumber { get; set; }
-        public int UserProfileId { get; set; }
+        public string AspNetUserId { get; set; }
     
         public virtual ICollection<AdditionalInfoRequest> AdditionalInfoRequests { get; set; }
         public virtual ICollection<Bid> Bids { get; set; }
         public virtual ICollection<Rating> Ratings { get; set; }
         public virtual ICollection<Service> Services { get; set; }
-        public virtual UserProfile UserProfile { get; set; }
         public virtual ICollection<Location> Locations { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

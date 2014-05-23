@@ -1,0 +1,92 @@
+﻿@model ServiceHub.Website.Models.ServiceBidViewModel
+@{
+    ViewBag.Title = "Service Bid";
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+
+            $("#OpenMoreDetailDialog").dialog({ autoOpen: false, modal: true, draggable: false, resizable: false });
+            $("#OpenMoreDetailDialogButton").on("click", function () {
+                $("#OpenMoreDetailDialog").dialog("open");
+            });
+
+        });
+    </script>
+}
+
+<div id="OpenMoreDetailDialog">
+    @using (Ajax.BeginForm("AddAdditionalInfoRequest", "ServiceProvider", new AjaxOptions { UpdateTargetId = "AdditionalInfoRequestResult"/*, LoadingElementId = "loading"*/}))
+    {
+
+        @Html.HiddenFor(o => o.ServiceId)
+        @Html.TextArea("AdditionalInfo")
+
+        <input type="submit" title="Request" value="Request" />
+    }
+
+    <div id="AdditionalInfoRequestResult"></div>
+</div>
+<fieldset>
+    <legend>Service Bid</legend>
+    <ol>
+        <li>
+            @Html.LabelFor(m => m.Reference)
+            @Html.DisplayFor(m => m.Reference)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.Description)
+            @Html.DisplayFor(m => m.Description) <a id="OpenMoreDetailDialogButton" href="#">Ask For More Detail</a>
+        </li>
+        <li>
+            @Html.LabelFor(m => m.AddtionalInfo)
+            @foreach (string info in Model.AddtionalInfo)
+            {
+                @Html.DisplayFor(m => info)
+            }
+        </li>
+        <li>
+            @Html.LabelFor(m => m.ServiceDate)
+            @Html.DisplayFor(m => m.ServiceDate)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.BiddingCompletionDate)
+            @Html.DisplayFor(m => m.BiddingCompletionDate)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.ServiceTag)
+            @Html.DisplayFor(m => m.ServiceTag)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.Location)
+            @Html.DisplayFor(m => m.Location)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.AddtionalInfoRequests)
+            @foreach (string request in Model.AddtionalInfoRequests)
+            {
+                @Html.DisplayFor(m => request)
+            }
+        </li>
+        <li>
+            @Html.LabelFor(m => m.HighestBid)
+            @Html.DisplayFor(m => m.HighestBid)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.UserCurrentBid)
+            @Html.DisplayFor(m => m.UserCurrentBid)
+        </li>
+    </ol>
+</fieldset>
+
+
+@using (Ajax.BeginForm("Bid", "ServiceProvider", new AjaxOptions { UpdateTargetId = "BidResult"/*, LoadingElementId = "loading"*/}))
+{
+
+    @Html.TextBox("Bid", 0.00)
+    @Html.HiddenFor(o => o.ServiceId)
+    <input type="submit" title="Bid" value="Bid" />
+}
+
+<div id="BidResult"></div>

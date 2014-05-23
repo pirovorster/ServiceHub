@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Anono Might", "Index", "Home", null, new { @class = "navbar-brand" })
+
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+                    <li class="dropdown">
+
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sites <b class="caret"></b></a>
+
+                        <ul class="dropdown-menu">
+                            @foreach (KeyValuePair<string, string> site in (IEnumerable<KeyValuePair<string, string>>)ViewBag.Sites)
+                            {
+                                <li>
+                                    <a href="~/@(site.Key)">@site.Value </a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="container body-content main-container">
+        @RenderBody()
+
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Report Post</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label class="form-control">Reason</label>
+                        <select class="form-control" id="ReportClass">
+                            <option value="OffTopic">Off Topic</option>
+                            <option value="Illegal">Illegal</option>
+                            <option value="Spam">Spam</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <input type="hidden" name="PostId" id="PostId" />
+                        <div id="ReportMessage"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            $('.report a').on("click", function () {
+                var dataId = $(this).closest(".row").attr("data-id");
+                $(".modal-body #PostId").val(dataId);
+                $(".modal-body #ReportMessage").html("");
+
+            });
+
+            $('#reportModal .btn-primary').on("click", function () {
+
+                $(".modal-body #ReportMessage").html("");
+                $.ajax({
+                    type: "POST",
+                    url: "/Site/Report",
+                    // The key needs to match your method's input parameter (case-sensitive).
+                    data: JSON.stringify(
+                        {
+                            postId: $(".modal-body #PostId").val(),
+                            siteName: $("input[name='SiteName'").val(),
+                            reportClass: $(".modal-body #ReportClass").val()
+                        }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $(".modal-body #ReportMessage").html("Post reported successfully");
+                    },
+                    failure: function (errMsg) {
+                        $(".modal-body #ReportMessage").html("Report was unsuccessful.");
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

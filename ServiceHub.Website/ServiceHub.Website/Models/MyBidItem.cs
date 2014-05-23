@@ -10,8 +10,8 @@ namespace ServiceHub.Website.Models
 	public sealed class MyBidItem
 	{
 		private readonly Guid _serviceId;
-		private readonly decimal _myHighestBid;
-		private readonly decimal _highestBid;
+		private readonly decimal _myLowestBid;
+		private readonly decimal _lowestBid;
 		private readonly string _reference;
 		private readonly string _status;
 		private readonly bool _isCompleted;
@@ -24,21 +24,18 @@ namespace ServiceHub.Website.Models
 				throw new ArgumentException("service cannot be null or whitespace");
 
 			_serviceId = service.Id;
-			_highestBid = service.Bids
-				.Where(o => !o.IsCancelled)
-				.GroupBy(o => o.UserId)
-				.Select(o => o.OrderByDescending(i => i.TimeStamp).FirstOrDefault())
-				.Where(o => o != null)
-				.Max(o => o.Amount);
-			_myHighestBid = service.Bids
-				.Where(o => !o.IsCancelled && o.UserId == userId)
-				.OrderByDescending(o => o.TimeStamp)
-				.First().Amount;
+			_lowestBid = service
+				.LatestBids()
+				.Min(o => o.Amount);
+
+			_myLowestBid = service.LatestBidForUser(userId).Amount;
 
 			_reference = service.Reference;
 			_isCompleted = service.BiddingCompletionDate<DateTime.Now;
 
-			if (service.AcceptedBid!=null && !service.AcceptedBid.IsCancelled)
+			if (service.AcceptedBid.IsCancelled)
+				_status = "Cancelled";
+			 else if (service.AcceptedBid!=null )
 			{
 				if (service.AcceptedBid.Bid.UserId == userId)
 					_status = "Successful";
@@ -47,6 +44,8 @@ namespace ServiceHub.Website.Models
 			}
 			else
 				_status = "To be accepted!";
+
+			//To do: cancelled service
 
 			_estimatedServiceDue = service.ServiceDue;
 			_biddingCompletion = service.BiddingCompletionDate;
@@ -57,11 +56,11 @@ namespace ServiceHub.Website.Models
 
 
 		[DisplayFormat(DataFormatString = "{0:c}")]
-		public decimal MyHighestBid { get { return _myHighestBid; } }
+		public decimal MyLowestBid { get { return _myLowestBid; } }
 
 
 		[DisplayFormat(DataFormatString = "{0:c}")]
-		public decimal HighestBid { get { return _highestBid; } }
+		public decimal LowestBid { get { return _lowestBid; } }
 		public string Reference { get { return _reference; } }
 		public string Status { get { return _status; } }
 		public bool IsCompleted { get { return _isCompleted; } }

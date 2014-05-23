@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using DotNetOpenAuth.AspNet;
-using Microsoft.Web.WebPages.OAuth;
-using WebMatrix.WebData;
-using ServiceHub.Website.Filters;
 using ServiceHub.Website.Models;
 using System.Web.Script.Serialization;
 using System.Globalization;
@@ -17,38 +12,38 @@ using System.IO;
 namespace ServiceHub.Website.Controllers
 {
 	[Authorize]
-
 	public class UserController : BaseController
 	{
 		LookupService _lookupService;
-		ServiceService _serviceService;
-		UserService _userService;
-		public UserController(LookupService lookupService, ServiceService serviceService, UserService userService)
+		UserProfileService _userProfileService;
+		public UserController(LookupService lookupService, UserProfileService userProfileService)
 		{
 			_lookupService = lookupService;
-			_serviceService = serviceService;
-			_userService = userService;
+			_userProfileService = userProfileService;
 
 		}
+
+
+		[HttpGet]
 		public ActionResult UserProfile()
 		{
 
 			JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-			UserProfileViewModel userProfileViewModel = _userService.GetUserProfile();
+			UserProfileViewModel userProfileViewModel = _userProfileService.GetUserProfile();
 
 			ViewBag.Message = string.Empty;
 			SetViewBagData();
 			return View(userProfileViewModel);
 		}
 
-		[AcceptVerbs(HttpVerbs.Post)]
+		[HttpPost]
 		public ActionResult UserProfile(UserProfileViewModel userProfileViewModel)
 		{
 
 			if (ModelState.IsValid)
 			{
-				_userService.SaveUser(userProfileViewModel);
+				_userProfileService.SaveUserProfile(userProfileViewModel);
 
 				ViewBag.Message = "User Profile has been saved!";
 			}
@@ -57,24 +52,23 @@ namespace ServiceHub.Website.Controllers
 			return View(userProfileViewModel);
 		}
 
-		public ActionResult MyHistory()
-		{
-			return View(_userService.GetHistory());
-		}
 
+		[HttpPost]
 		public void UploadImage(HttpPostedFileBase imageFile)
 		{
 			if (imageFile != null)
 			{
 				byte[] logo = new byte[imageFile.ContentLength];
 				imageFile.InputStream.Read(logo, 0, imageFile.ContentLength);
-				_userService.SaveLogoData(logo);
+				_userProfileService.SaveLogoData(logo);
 			}
 		}
 
+
+		[HttpGet]
 		public ActionResult GetProfilePicture()
 		{
-			byte[] image = _userService.GetLogoData();
+			byte[] image = _userProfileService.GetLogoData();
 
 			if (image == null)
 			{
@@ -85,6 +79,8 @@ namespace ServiceHub.Website.Controllers
 				return new FileContentResult(image, "image/jpeg");
 			}
 		}
+
+
 
 		private void SetViewBagData()
 		{
