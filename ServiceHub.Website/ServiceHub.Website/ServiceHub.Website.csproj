@@ -426,6 +426,7 @@
     <Content Include="Views\Account\ChangeUsername.cshtml" />
     <Content Include="Views\Account\WaitingForConfirmation.cshtml" />
     <Content Include="Views\Account\ConfirmationReceived.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
