@@ -26,7 +26,7 @@ namespace ServiceHub.Website
 
 			User user = _serviceHubEntities.Users.SingleOrDefault(o => o.Id == userId);
 
-			if (user == null)
+			if (user == null || user.AspNetUser.UserProfileLogo == null)
 				return null;
 
 			byte[] image = user.AspNetUser.UserProfileLogo.LogoData;

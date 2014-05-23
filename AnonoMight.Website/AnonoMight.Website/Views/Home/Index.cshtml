@@ -1,0 +1,17 @@
+﻿@model IEnumerable<string>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-12">
+       
+        @foreach (string siteName in Model)
+        {
+            <a href="~/@siteName">
+                <img id="ProfileImage" src="@Url.Action("GetSiteImage", "Site", new { SiteName = siteName })" />
+            </a>
+        }
+    </div>
+
+</div>

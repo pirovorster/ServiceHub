@@ -21,7 +21,7 @@ namespace ServiceHub.Website.Models
 		private readonly List<string> _addtionalInfo;
 		private readonly List<string> _addtionalInfoRequests;
 		private readonly bool _isCancelled;
-
+		private readonly bool _isAccepted;
 		public ServiceViewModel(Service service)
 		{
 		
@@ -38,6 +38,7 @@ namespace ServiceHub.Website.Models
 				_addtionalInfo = service.AdditionalInfos.Select(o => o.Comment).ToList();
 				_addtionalInfoRequests = service.AdditionalInfoRequests.Select(o => o.Comment).ToList();
 				_isCancelled = service.IsCancelled;
+				_isAccepted = service.AcceptedBid != null && !service.AcceptedBid.IsCancelled;
 			}
 			else
 			{
@@ -47,6 +48,8 @@ namespace ServiceHub.Website.Models
 			
 		}
 
+
+		public bool IsAccepted { get { return _isAccepted; } }
 		public Guid ServiceId { get { return _serviceId; } }
 
 		[Required]

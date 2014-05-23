@@ -27,14 +27,13 @@ namespace ServiceHub.Website.Models
 		public ServiceBidViewModel(Model.Service service, User user)
 		{
 			decimal lowestBid =
-				new List<decimal>
-					{
-						0
-					}.Concat(
+				
 				service
 				.LatestBids()
-				.Select(o => o.Amount))
-				.Min(o => o);
+				.Select(o => o.Amount)
+				.OrderBy(o=>o)
+				.FirstOrDefault();
+				
 
 			Bid latestBid = service
 				.LatestBidForUser(user.Id);
@@ -45,7 +44,7 @@ namespace ServiceHub.Website.Models
 			{
 				_userId = user.Id;
 				_serviceId = service.Id;
-				_lowestBid = lowestBid;
+				_lowestBid =  lowestBid;
 				_userCurrentBid = userCurrentBid;
 				_biddingCompletionDate = service.BiddingCompletionDate;
 				_description = service.Description;

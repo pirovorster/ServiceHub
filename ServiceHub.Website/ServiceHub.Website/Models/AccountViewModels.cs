@@ -3,11 +3,25 @@
 namespace ServiceHub.Website.Models
 {
     public class ExternalLoginConfirmationViewModel
-    {
-        [Required]
-        [Display(Name = "User name")]
+	{
+		[RegularExpression(@"^.+@.+\..{2,}$", ErrorMessage = "Incorrect email format")]
+		[Display(Name = "Email")]
+		[Required, DataType(DataType.EmailAddress)]
         public string UserName { get; set; }
     }
+
+	public class ChangeUsernameViewModel
+	{
+		[RegularExpression(@"^.+@.+\..{2,}$", ErrorMessage = "Incorrect email format")]
+		[Display(Name = "Email")]
+		[Required, DataType(DataType.EmailAddress)]
+		public string UserName { get; set; }
+
+		[Display(Name = "Confirm Email")]
+		[Required, DataType(DataType.EmailAddress)]
+		[Compare("UserName", ErrorMessage = "The new email and confirmation email do not match.")]
+		public string ConfirmUserName { get; set; }
+	}
 
     public class ManageUserViewModel
     {
@@ -30,8 +44,8 @@ namespace ServiceHub.Website.Models
 
     public class LoginViewModel
     {
-        [Required]
-        [Display(Name = "User name")]
+		[Display(Name = "Email")]
+		[Required, DataType(DataType.EmailAddress)]
         public string UserName { get; set; }
 
         [Required]
@@ -44,9 +58,10 @@ namespace ServiceHub.Website.Models
     }
 
     public class RegisterViewModel
-    {
-        [Required]
-        [Display(Name = "User name")]
+	{
+		[RegularExpression(@"^.+@.+\..{2,}$", ErrorMessage = "Incorrect email format")]
+		[Display(Name = "Email")]
+		[Required, DataType(DataType.EmailAddress)]
         public string UserName { get; set; }
 
         [Required]

@@ -61,6 +61,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -191,6 +192,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201404081955049_InitialCreate.cs" />
+    <Compile Include="Migrations\201404081955049_InitialCreate.Designer.cs">
+      <DependentUpon>201404081955049_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BidAcceptanceViewModel.cs" />
     <Compile Include="Models\FinalBidViewModel.cs" />
@@ -206,9 +212,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\MustHaveProfileRouteConstraint.cs" />
     <Compile Include="Services\ClientService.cs" />
+    <Compile Include="Services\EmailAttachment.cs" />
+    <Compile Include="Services\EmailSender.cs" />
     <Compile Include="Services\ImageResizer.cs" />
     <Compile Include="Services\DirectoryService.cs" />
     <Compile Include="Services\LookupService.cs" />
+    <Compile Include="Services\Rating.cs" />
     <Compile Include="Services\ServiceProviderService.cs" />
     <Compile Include="Services\UserProfileService.cs" />
     <Compile Include="Startup.cs" />
@@ -371,7 +380,9 @@
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -404,7 +415,6 @@
     <Content Include="Views\Directory\ServiceProviders.cshtml" />
     <Content Include="Views\ServiceProvider\MyBids.cshtml" />
     <Content Include="Views\ServiceProvider\ServiceBid.cshtml" />
-    <Content Include="Views\User\MyHistory.cshtml" />
     <Content Include="Views\User\UserProfile.cshtml" />
     <Content Include="Views\Client\BidAcceptance.cshtml" />
     <Content Include="Views\Client\MyServices.cshtml" />
@@ -412,6 +422,10 @@
     <Content Include="Views\Client\Service.cshtml" />
     <Content Include="Views\Client\ServiceBids.cshtml" />
     <Content Include="Views\Directory\Services.cshtml" />
+    <Content Include="Views\Shared\_BidAcceptanceServiceProviders.cshtml" />
+    <Content Include="Views\Account\ChangeUsername.cshtml" />
+    <Content Include="Views\Account\WaitingForConfirmation.cshtml" />
+    <Content Include="Views\Account\ConfirmationReceived.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -428,6 +442,11 @@
       <Project>{d3d8c472-ee89-4493-82cc-8ef9f7150a44}</Project>
       <Name>ServiceHub.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201404081955049_InitialCreate.resx">
+      <DependentUpon>201404081955049_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

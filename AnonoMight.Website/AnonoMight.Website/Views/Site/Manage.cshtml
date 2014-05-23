@@ -1,0 +1,79 @@
+﻿@model AnonoMight.Website.Models.ManageSiteModel
+
+@{
+    ViewBag.Title = "Manage Site";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+
+<div class="well bs-component">
+    @using (Html.BeginForm("Manage", "Site", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+    {
+        <fieldset>
+            <legend>Site</legend>
+
+            <div class="form-group">
+                <input type="file" name="ImageFile" id="ImageFile" value="Upload" />
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-lg-2 control-label" })
+
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Title, new { @class = "col-lg-2 control-label" })
+
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Title)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SiteType, new { @class = "col-lg-2 control-label" })
+
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(m => m.SiteType, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.SiteType)
+                    Definitions=0,
+                    FacebookProfiles=1
+                    Tweets=2
+                    ImagePosts=3 
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Description, new { @class = "col-lg-2 control-label" })
+
+                <div class="col-lg-10">
+                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+            </div>
+
+            
+            
+            <div class="form-group">
+                @Html.LabelFor(m => m.Active, new { @class = "col-lg-2 control-label" })
+
+                <div class="col-lg-10">
+                    @Html.CheckBoxFor(m => m.Active)
+                    @Html.ValidationMessageFor(m => m.Active)
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="col-lg-10">
+                    <input id="submit" type="submit" value="Save" />
+                    @Html.Label((string)ViewBag.Message)
+                </div>
+            </div>
+        </fieldset>
+
+
+
+
+    }
+</div>

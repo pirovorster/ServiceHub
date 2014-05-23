@@ -62,12 +62,12 @@ namespace ServiceHub.Website
 		internal IEnumerable<MyBidItem> MyBidItems()
 		{
 			
-			DateTime aMonthAgo = DateTime.Now.AddMonths(-3);
 			return
 			_serviceHubEntities
 			.Services
 			.IncludeAll()
-			.Where(o => o.Bids.Any(i => !i.IsCancelled && i.User.AspNetUserId == _aspNetUserId) && o.BiddingCompletionDate >= aMonthAgo)
+			.Where(o => o.Bids.Any(i => i.User.AspNetUserId == _aspNetUserId))
+			.OrderByDescending(o=>o.TimeStamp)
 			.ToList()
 			.Select(o => new MyBidItem(o, o.UserId));
 		}

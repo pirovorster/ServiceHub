@@ -16,7 +16,7 @@ namespace ServiceHub.Model
 				.Bids
 				.Where(o => !o.IsCancelled)
 				.GroupBy(o => o.UserId)
-				.Select(o => o.OrderBy(i => i.TimeStamp).FirstOrDefault())
+				.Select(o => o.OrderByDescending(i => i.TimeStamp).FirstOrDefault())
 				.Where(o => o != null);
 		}
 

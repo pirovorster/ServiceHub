@@ -1,0 +1,45 @@
+﻿.imageRow, .textRow {
+	background-color: #f5f2f2;
+}
+
+	.imageRow:nth-of-type(odd), .textRow:nth-of-type(odd) {
+		background-color: transparent;
+	}
+
+	.imageRow .date, .textRow .date {
+		float: left;
+	}
+
+	.imageRow .report, .textRow .report {
+		float: right;
+	}
+
+.clear {
+	clear: both;
+}
+
+
+
+.imageContainer {
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+ .main-container {
+            padding: 20px;
+        }
+
+        .site-header {
+            padding-bottom: 20px;
+        }
+
+.topPhoto {
+	max-height:140px;
+	max-width:140px;
+}
+
+.topPhoto {
+	padding:6px;
+	background-color:gold;
+}

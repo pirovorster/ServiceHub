@@ -114,20 +114,6 @@ namespace ServiceHub.Website
 			}
 		}
 
-		internal IEnumerable<HistoryItem> GetHistory()
-		{
-			DateTime aMonthAgo = DateTime.Now.AddMonths(-1);
-			return
-			_serviceHubEntities.AcceptedBids.Select(o => new { Timestamp = o.TimeStamp, Action = "Accepted Bid", Description = o.Bid.Service.Reference, AspNetUserId = o.Bid.User.AspNetUserId }).Concat(
-			_serviceHubEntities.AdditionalInfoRequests.Select(o => new { Timestamp = o.TimeStamp, Action = "Requested Additional Info", Description = o.Service.Reference, AspNetUserId = o.Service.User.AspNetUserId })).Concat(
-			_serviceHubEntities.AdditionalInfos.Select(o => new { Timestamp = o.TimeStamp, Action = "Added Additional Info", Description = o.Service.Reference, AspNetUserId = o.Service.User.AspNetUserId })).Concat(
-			_serviceHubEntities.Bids.Select(o => new { Timestamp = o.TimeStamp, Action = "Bid on Service", Description = o.Service.Reference, AspNetUserId = o.User.AspNetUserId })).Concat(
-			_serviceHubEntities.Services.Select(o => new { Timestamp = o.TimeStamp, Action = "Posted Service", Description = o.Reference, AspNetUserId = o.User.AspNetUserId }))
-			.Where(o => o.AspNetUserId == _aspNetUserId && o.Timestamp >= aMonthAgo)
-			.OrderByDescending(o => o.Timestamp).ToList()
-			.Select(o => new HistoryItem(o.Timestamp, o.Action, o.Description));
-		}
-
 
 	}
 }

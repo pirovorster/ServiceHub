@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AnonoMightModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Reports">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ReportClass" Type="tinyint" Nullable="false" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PostId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sites">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SiteTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SiteType" Type="tinyint" Nullable="false" />
+          <Property Name="SiteLogo" Type="varbinary(max)" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Definitions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Reports" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FacebookProfiles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Link" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Reports" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+          <Property Name="ProfileImage" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="ImagePosts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Link" Type="varbinary(max)" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Reports" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tweets">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Reports" Type="int" Nullable="false" />
+        </EntityType>
+        <Function Name="CreateDefinitionsTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="data">
+          <Parameter Name="tableName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="CreateFacebookProfilesTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="data">
+          <Parameter Name="tableName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="CreateImagePostsTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="data">
+          <Parameter Name="tableName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="CreateTweetsTable" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="data">
+          <Parameter Name="tableName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetTopFacebookLink" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="data">
+          <Parameter Name="tableName" Type="nvarchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="AnonoMightModelStoreContainer">
+          <EntitySet Name="Reports" EntityType="Self.Reports" Schema="data" store:Type="Tables" />
+          <EntitySet Name="Sites" EntityType="Self.Sites" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Definitions" EntityType="Self.Definitions" Schema="templates" store:Type="Tables" />
+          <EntitySet Name="FacebookProfiles" EntityType="Self.FacebookProfiles" Schema="templates" store:Type="Tables" />
+          <EntitySet Name="ImagePosts" EntityType="Self.ImagePosts" Schema="templates" store:Type="Tables" />
+          <EntitySet Name="Tweets" EntityType="Self.Tweets" Schema="templates" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AnonoMightModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AnonoMightEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Sites" EntityType="AnonoMightModel.Site" />
+          <EntitySet Name="Definitions" EntityType="AnonoMightModel.Definition" />
+          <EntitySet Name="FacebookProfiles" EntityType="AnonoMightModel.FacebookProfile" />
+          <EntitySet Name="ImagePosts" EntityType="AnonoMightModel.ImagePost" />
+          <EntitySet Name="Tweets" EntityType="AnonoMightModel.Tweet" />
+          <FunctionImport Name="CreateDefinitionsTable">
+          <Parameter Name="tableName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CreateFacebookProfilesTable">
+          <Parameter Name="tableName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CreateImagePostsTable">
+          <Parameter Name="tableName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CreateTweetsTable">
+          <Parameter Name="tableName" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Reports" EntityType="AnonoMightModel.Report" />
+          <FunctionImport Name="GetTopFacebookLink">
+            <Parameter Name="tableName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetTopFacebookLinkForTheLastMonth" EntitySet="FacebookProfiles" ReturnType="Collection(AnonoMightModel.FacebookProfile)">
+            <Parameter Name="tableName" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Site">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiteName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SiteTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SiteType" Type="Byte" Nullable="false" />
+          <Property Name="SiteLogo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Definition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Reports" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FacebookProfile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Link" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Reports" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ProfileImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="ImagePost">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Link" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Reports" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tweet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Reports" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportClass" Type="Byte" Nullable="false" />
+          <Property Name="SiteName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostId" Type="Guid" Nullable="false" />
+          <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="7" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AnonoMightModelStoreContainer" CdmEntityContainer="AnonoMightEntities">
+          <EntitySetMapping Name="Sites">
+            <EntityTypeMapping TypeName="AnonoMightModel.Site">
+              <MappingFragment StoreEntitySet="Sites">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="SiteLogo" ColumnName="SiteLogo" />
+                <ScalarProperty Name="SiteType" ColumnName="SiteType" />
+                <ScalarProperty Name="SiteTitle" ColumnName="SiteTitle" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Definitions">
+            <EntityTypeMapping TypeName="AnonoMightModel.Definition">
+              <MappingFragment StoreEntitySet="Definitions">
+                <ScalarProperty Name="Reports" ColumnName="Reports" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacebookProfiles">
+            <EntityTypeMapping TypeName="AnonoMightModel.FacebookProfile">
+              <MappingFragment StoreEntitySet="FacebookProfiles">
+                <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Reports" ColumnName="Reports" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImagePosts">
+            <EntityTypeMapping TypeName="AnonoMightModel.ImagePost">
+              <MappingFragment StoreEntitySet="ImagePosts">
+                <ScalarProperty Name="Reports" ColumnName="Reports" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tweets">
+            <EntityTypeMapping TypeName="AnonoMightModel.Tweet">
+              <MappingFragment StoreEntitySet="Tweets">
+                <ScalarProperty Name="Reports" ColumnName="Reports" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CreateDefinitionsTable" FunctionName="AnonoMightModel.Store.CreateDefinitionsTable" />
+          <FunctionImportMapping FunctionImportName="CreateFacebookProfilesTable" FunctionName="AnonoMightModel.Store.CreateFacebookProfilesTable" />
+          <FunctionImportMapping FunctionImportName="CreateImagePostsTable" FunctionName="AnonoMightModel.Store.CreateImagePostsTable" />
+          <FunctionImportMapping FunctionImportName="CreateTweetsTable" FunctionName="AnonoMightModel.Store.CreateTweetsTable" />
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="AnonoMightModel.Report">
+              <MappingFragment StoreEntitySet="Reports">
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="ReportClass" ColumnName="ReportClass" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetTopFacebookLink" FunctionName="AnonoMightModel.Store.GetTopFacebookLink" />
+          <FunctionImportMapping FunctionImportName="GetTopFacebookLinkForTheLastMonth" FunctionName="AnonoMightModel.Store.GetTopFacebookLink" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

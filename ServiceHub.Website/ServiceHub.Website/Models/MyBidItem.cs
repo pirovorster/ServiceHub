@@ -33,7 +33,9 @@ namespace ServiceHub.Website.Models
 			_reference = service.Reference;
 			_isCompleted = service.BiddingCompletionDate<DateTime.Now;
 
-			if (service.AcceptedBid!=null && !service.AcceptedBid.IsCancelled)
+			if (service.AcceptedBid.IsCancelled)
+				_status = "Cancelled";
+			 else if (service.AcceptedBid!=null )
 			{
 				if (service.AcceptedBid.Bid.UserId == userId)
 					_status = "Successful";
@@ -42,6 +44,8 @@ namespace ServiceHub.Website.Models
 			}
 			else
 				_status = "To be accepted!";
+
+			//To do: cancelled service
 
 			_estimatedServiceDue = service.ServiceDue;
 			_biddingCompletion = service.BiddingCompletionDate;

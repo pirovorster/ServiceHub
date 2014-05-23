@@ -13,6 +13,7 @@ namespace ServiceHub.Website.Controllers
     {
 		protected override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
+			
 			DependencyResolver.Current.GetService<ServiceHubEntities>().SaveChanges();
 			base.OnActionExecuted(filterContext);
 		}
@@ -35,10 +36,12 @@ namespace ServiceHub.Website.Controllers
 						{ "Controller", "User" },
                         { "Action", "UserProfile" } 
 					});
-					return;
+					
 				}
 
+
 			}
+			base.OnActionExecuting(filterContext);
 		}
 
     }

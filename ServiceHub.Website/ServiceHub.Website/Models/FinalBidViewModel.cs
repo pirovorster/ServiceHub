@@ -16,8 +16,11 @@ namespace ServiceHub.Website.Models
 		private readonly string _name;
 		private readonly string _contactNumber;
 		private readonly string _about;
+		private readonly string _email;
+		
 		private readonly List<string> _locations;
 		private readonly List<string> _tags;
+		private readonly bool _isAccepted;
 
 		public FinalServiceProviderBidViewModel(Model.Bid bid)
 		{
@@ -27,31 +30,41 @@ namespace ServiceHub.Website.Models
 			_rating = bid.User.Rating;
 			_name = bid.User.Name;
 			_contactNumber = bid.User.ContactNumber;
+			_email =bid.User.AspNetUser.UserName;
 			_about = bid.User.About;
 			_locations = bid.User.Locations.Select(o => o.Name).ToList();
 			_tags = bid.User.Tags.Select(o => o.Title).ToList();
+			_isAccepted = bid.AcceptedBid != null && !bid.AcceptedBid.IsCancelled;
 		}
-		public Guid UserId { get; set; }
+		public Guid UserId { get { return _userId; } }
 
 		[Display(Name = "Lowest Bid")]
-		public decimal Bid { get; set; }
+		public decimal Bid { get { return _bid; } }
 
 		[Display(Name = "Rating")]
-		public decimal Rating { get; set; }
+		public double Rating { get { return _rating; } }
+
+		[Display(Name = "Email")]
+		public string Email { get { return _email; } }
+
 
 		[Display(Name = "Name")]
-		public string Name { get; set; }
+		public string Name { get { return _name; } }
 
 		[Display(Name = "Contact Number")]
-		public string ContactNumber { get; set; }
+		public string ContactNumber { get { return _contactNumber; } }
 
 		[Display(Name = "About")]
-		public string About { get; set; }
+		public string About { get { return _about; } }
 
 		[Display(Name = "Working Areas")]
-		public List<string> Locations { get; set; }
+		public List<string> Locations { get { return _locations; } }
 
 		[Display(Name = "Service Tags")]
-		public List<string> Tags { get; set; }
+		public List<string> Tags { get { return _tags; } }
+
+		public bool IsAccepted { get { return _isAccepted; } }
+
+
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using ServiceHub.Model;
 using ServiceHub.Website.Models;
+using ServiceHub.Website.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,8 +74,37 @@ namespace ServiceHub.Website.Controllers
 		[HttpGet]
 		public ActionResult BidAcceptance(Guid serviceId)
 		{
-
 			return View(_clientService.GetBidsToAccept(serviceId));
+		}
+
+
+		[HttpPost]
+		public ActionResult AcceptService(Guid userId, Guid serviceId)
+		{
+
+			_clientService.AcceptServiceProvider(serviceId, userId);
+			DependencyResolver.Current.GetService<ServiceHubEntities>().SaveChanges();
+			return PartialView("_BidAcceptanceServiceProviders", _clientService.GetBidsToAccept(serviceId));
+		}
+
+
+		[HttpPost]
+		public ActionResult CancelServiceProvider(Guid userId, Guid serviceId, RatingClass ratingClass, string ratingComment)
+		{
+			_clientService.Rate(serviceId, userId, ratingClass, ratingComment);
+			_clientService.CancelAcceptedBid(serviceId);
+			DependencyResolver.Current.GetService<ServiceHubEntities>().SaveChanges();
+			return PartialView("_BidAcceptanceServiceProviders", _clientService.GetBidsToAccept(serviceId));
+		}
+
+
+		[HttpPost]
+		public ActionResult RateServiceProvider(Guid userId, Guid serviceId, RatingClass ratingClass, string ratingComment)
+		{
+
+			_clientService.Rate(serviceId,userId, ratingClass, ratingComment);
+			DependencyResolver.Current.GetService<ServiceHubEntities>().SaveChanges();
+			return PartialView("_BidAcceptanceServiceProviders", _clientService.GetBidsToAccept(serviceId));
 		}
 
 
@@ -92,6 +122,6 @@ namespace ServiceHub.Website.Controllers
 		}
 
 
-		
+
 	}
 }

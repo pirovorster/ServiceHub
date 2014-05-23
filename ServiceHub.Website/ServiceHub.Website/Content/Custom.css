@@ -64,3 +64,20 @@
 		margin-right: -4px;
 		vertical-align: top;
 	}
+
+
+
+.gridRow
+{
+	border:solid;
+	border-width:1px;
+	margin:5px;
+
+}
+
+
+.gridRow img
+{
+	height:150px;
+	margin:5px;
+}

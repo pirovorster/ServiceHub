@@ -7,6 +7,27 @@
     <script>
         $(document).ready(function () {
 
+            $('.openCancelDialogButton').on("click", function () {
+                var dataId = $(this).closest(".row").attr("data-userid");
+                $("#CancelDialog .modal-body #UserId").val(dataId);
+
+            });
+
+            $('#CancelDialog .btn-primary').on("click", function () {
+                $("#CancelDialog").modal('hide');
+               
+            });
+
+            $('.openRateDialogButton').on("click", function () {
+                var dataId = $(this).closest(".row").attr("data-userid");
+                $("#RateDialog .modal-body #UserId").val(dataId);
+
+            });
+
+            $('#RateDialog .btn-primary').on("click", function () {
+                $("#RateDialog").modal('hide');
+
+            });
         });
 
 
@@ -15,28 +36,66 @@
 
 }
 
-
-@foreach (var finalServiceProviderBid in Model.FinalServiceProviderBidViewModels)
+@section styles
 {
-    <div class="row">
-        <div class="col-lg-3">
-            <div><img src="@Url.Content("~/Directory/Thumbnail?userId=" + finalServiceProviderBid.UserId)" /></div>
 
-          
+    <style>
+        .blur {
+            background-color: rgba(255,0,0,0.5);
+        }
 
-        </div>
-        <div class="col-lg-6" >
-            <div>@Html.DisplayFor(o => finalServiceProviderBid.Name)</div>
-            <div>@Html.DisplayFor(o =>string.Join(",", finalServiceProviderBid.Tags))</div>
-            <div>@Html.DisplayFor(o =>string.Join(",", finalServiceProviderBid.Locations))</div>
+        .col-fixed {
+            width: 200px !important;
+        }
 
-            <div>@Html.DisplayFor(o =>string.Join(",", finalServiceProviderBid.About))</div>
-
-        </div>
-        <div class="col-lg-3" >
-            <div>@Html.DisplayFor(o => finalServiceProviderBid.Bid)</div>
-
-        </div>
-    </div>
-
+        .center {
+            text-align: center;
+        }
+    </style>
 }
+
+<div class="row">
+    <div class="col-lg-4 ">
+        <div>
+            @Html.LabelFor(o => o.ServiceViewModel.Reference):
+            @Html.DisplayFor(o => o.ServiceViewModel.Reference)
+        </div>
+
+        <div>
+            @Html.LabelFor(o => o.ServiceViewModel.Description):
+            @Html.DisplayFor(o => o.ServiceViewModel.Description)
+        </div>
+        <div>
+            @Html.LabelFor(o => o.ServiceViewModel.AddtionalInfo):
+            @foreach (var additionalInfo in Model.ServiceViewModel.AddtionalInfo)
+            {
+                @Html.Display(additionalInfo)
+            }
+        </div>
+
+    </div>
+    <div class="col-lg-4 ">
+
+        <div>
+            @Html.LabelFor(o => o.ServiceViewModel.Location):
+            @Html.DisplayFor(o => o.ServiceViewModel.Location)
+        </div>
+        <div>
+            @Html.LabelFor(o => o.ServiceViewModel.ServiceTag):
+            @Html.DisplayFor(o => o.ServiceViewModel.ServiceTag)
+        </div>
+        <div>
+            @Html.LabelFor(o => o.ServiceViewModel.ServiceDate):
+            @Html.DisplayFor(o => o.ServiceViewModel.ServiceDate)
+        </div>
+
+        <div>
+            @Html.LabelFor(o => o.ServiceViewModel.BiddingCompletionDate):
+            @Html.DisplayFor(o => o.ServiceViewModel.BiddingCompletionDate)
+        </div>
+
+    </div>
+</div>
+@Html.HiddenFor(o => o.ServiceViewModel.ServiceId)
+
+@Html.Partial("_BidAcceptanceServiceProviders", Model)

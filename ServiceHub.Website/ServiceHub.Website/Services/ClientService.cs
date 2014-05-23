@@ -12,6 +12,7 @@ using System.Globalization;
 using PagedList;
 using System.Data.SqlTypes;
 using ServiceHub.Website.Models;
+using ServiceHub.Website.Services;
 
 
 namespace ServiceHub.Website
@@ -66,7 +67,8 @@ namespace ServiceHub.Website
 			_serviceHubEntities
 			.Services
 			.IncludeAll()
-			.Where(o => o.User.AspNetUserId == _aspNetUserId && ((o.AcceptedBid == null && !o.IsCancelled) || (o.AcceptedBid != null && o.AcceptedBid.TimeStamp >= aMonthAgo) || o.BiddingCompletionDate >= aMonthAgo))
+			.Where(o => o.User.AspNetUserId == _aspNetUserId)
+			.OrderByDescending(o => o.TimeStamp)
 			.ToList()
 			.Select(o => new MyServiceItem(o));
 		}
@@ -106,6 +108,65 @@ namespace ServiceHub.Website
 				.SingleOrDefault(o => o.Id == serviceId && o.User.AspNetUserId == _aspNetUserId);
 
 			return new BidAcceptanceViewModel(service);
+		}
+
+		internal void AcceptServiceProvider(Guid serviceId, Guid userId)
+		{
+			Service service = _serviceHubEntities.Services
+			.SingleOrDefault(o => o.Id == serviceId && o.User.AspNetUserId == _aspNetUserId);
+			Bid bid = _serviceHubEntities.Bids
+				.Where(o => o.ServiceId == serviceId && o.UserId == userId).OrderByDescending(o => o.TimeStamp).FirstOrDefault();
+
+			if (service != null && bid != null)
+			{
+				if (bid.AcceptedBid == null)
+					service.AcceptedBid = new AcceptedBid { Bid = bid, TimeStamp = DateTime.Now };
+				else
+				{
+					service.AcceptedBid = bid.AcceptedBid;
+					service.AcceptedBid.TimeStamp = DateTime.Now;
+					service.AcceptedBid.IsCancelled = false;
+				}
+
+			}
+
+		}
+
+		internal void CancelAcceptedBid(Guid serviceId)
+		{
+			Service service = _serviceHubEntities.Services
+			.SingleOrDefault(o => o.Id == serviceId && o.User.AspNetUserId == _aspNetUserId);
+
+			if (service != null)
+			{
+				service.AcceptedBid.IsCancelled = true;
+				service.AcceptedBid = null;
+			}
+
+		}
+
+		internal void Rate(Guid serviceId, Guid userId, RatingClass ratingClass, string ratingComment)
+		{
+			Service service = _serviceHubEntities.Services
+			.SingleOrDefault(o => o.Id == serviceId && o.User.AspNetUserId == _aspNetUserId);
+			Bid bid = _serviceHubEntities.Bids
+				.Where(o => o.ServiceId == serviceId && o.UserId == userId).OrderByDescending(o => o.TimeStamp).FirstOrDefault();
+
+			if (service != null && bid != null)
+			{
+				if (service.AcceptedBid.Rating == null)
+					service.AcceptedBid.Rating = new Rating { UserId = userId, Comment = ratingComment, Score = (int)ratingClass / 100.0, TimeStamp = DateTime.Now };
+				else
+				{
+					service.AcceptedBid.Rating.UserId = userId;
+
+					service.AcceptedBid.Rating.Comment = ratingComment;
+
+					service.AcceptedBid.Rating.Score = (int)ratingClass / 100.0;
+
+					service.AcceptedBid.Rating.TimeStamp = DateTime.Now;
+				}
+			}
 		}
 	}
 }

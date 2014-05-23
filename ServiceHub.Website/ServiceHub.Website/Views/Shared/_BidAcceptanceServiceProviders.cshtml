@@ -1,0 +1,154 @@
+﻿@model ServiceHub.Website.Models.BidAcceptanceViewModel
+
+
+<div class="modal fade" id="CancelDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Cancel</h4>
+            </div>
+
+
+            @using (Ajax.BeginForm("CancelServiceProvider", "Client", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ServiceProviders"/*, LoadingElementId = "loading"*/}))
+            {
+                <div class="modal-body">
+                    @Html.Hidden("ServiceId", Model.ServiceViewModel.ServiceId)
+                    <input type="hidden" name="UserId" id="UserId" />
+                    <label>Rating</label>
+
+                    <select class="form-control " id="RatingClass" name="RatingClass">
+                        <option value="3">Good</option>
+                        <option value="2">Average</option>
+                        <option value="1">Bad</option>
+                        <option value="0">None</option>
+                    </select>
+                    <label>Comment</label>
+
+                    <textarea class="form-control" id="RatingComment" name="RatingComment"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" />
+                    <input type="submit" title="Ok" value="Ok" class="btn btn-primary" />
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="RateDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Cancel</h4>
+            </div>
+
+
+            @using (Ajax.BeginForm("RateServiceProvider", "Client", new AjaxOptions { HttpMethod = "Post" /*, LoadingElementId = "loading"*/}))
+            {
+                <div class="modal-body">
+                    @Html.Hidden("ServiceId", Model.ServiceViewModel.ServiceId)
+                    <input type="hidden" name="UserId" id="UserId" />
+                    <label>Rating</label>
+
+                    <select class="form-control" id="RatingClass" name="RatingClass">
+                        <option value="100">Good</option>
+                        <option value="50">Average</option>
+                        <option value="0">Bad</option>
+                        <option value="-1">None</option>
+                    </select>
+                    <label>Comment</label>
+
+                    <textarea class="form-control" id="RatingComment" name="RatingComment"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel" />
+                    <input type="submit" title="Ok" value="Ok" class="btn btn-primary" />
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+
+@foreach (var finalServiceProviderBid in Model.FinalServiceProviderBidViewModels)
+{
+
+    <div id="ServiceProviders">
+        <div class="row gridRow" data-userid="@finalServiceProviderBid.UserId">
+
+
+
+            <div class="col-lg-3 center">
+                <div><img src="@Url.Content("~/Directory/Thumbnail?userId=" + finalServiceProviderBid.UserId)" /></div>
+
+            </div>
+            <div class="col-lg-4 ">
+                <div>
+                    @Html.LabelFor(o => finalServiceProviderBid.Name):
+                    @Html.DisplayFor(o => finalServiceProviderBid.Name)
+                </div>
+                <div>
+                    @Html.LabelFor(o => finalServiceProviderBid.Tags):
+                    @string.Join(",", finalServiceProviderBid.Tags)
+                </div>
+                <div>
+                    @Html.LabelFor(o => finalServiceProviderBid.Locations):
+                    @string.Join(",", finalServiceProviderBid.Locations)
+                </div>
+
+                <div>
+                    @Html.LabelFor(o => finalServiceProviderBid.About):
+                    @string.Join(",", finalServiceProviderBid.About)
+                </div>
+
+            </div>
+            <div class="col-lg-2">
+                <div>
+                    @Html.LabelFor(o => finalServiceProviderBid.Rating):
+                    @string.Join(",", finalServiceProviderBid.Rating)
+                </div>
+                <div>
+                    @Html.LabelFor(o => finalServiceProviderBid.Email):
+                    @string.Join(",", finalServiceProviderBid.Email)
+                </div>
+
+            </div>
+            <div class="col-lg-3 center">
+                <div>@Html.DisplayFor(o => finalServiceProviderBid.Bid)</div>
+                <div>
+                    @if (finalServiceProviderBid.IsAccepted)
+                    {
+                        <a class="btn btn-default col-md-12 openCancelDialogButton" id="OpenCancelDialogButton" data-toggle="modal" data-target="#CancelDialog" href="#">Cancel</a>
+                        <a class="btn btn-default col-md-12 openRateDialogButton" id="OpenRateDialogButton" data-toggle="modal" data-target="#RateDialog">Rating</a>
+                    }
+                    else
+                    {
+
+                        if (!Model.ServiceViewModel.IsAccepted)
+                        {
+                            using (Ajax.BeginForm("AcceptService", "Client", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ServiceProviders"/*, LoadingElementId = "loading"*/}))
+                            {
+                                @Html.Hidden("UserId", finalServiceProviderBid.UserId)
+                                @Html.Hidden("ServiceId", Model.ServiceViewModel.ServiceId)
+
+                                <input type="submit" title="Accept" value="Accept" class="btn btn-default col-md-12" />
+                            }
+                        }
+
+                    }
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

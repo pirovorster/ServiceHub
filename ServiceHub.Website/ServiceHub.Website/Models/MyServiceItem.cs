@@ -44,7 +44,10 @@ namespace ServiceHub.Website.Models
 				_status = "Accepted";
 			}
 			else if (service.BiddingCompletionDate < DateTime.Now)
+			{
 				_status = "Bidding Completed";
+				_isCompleted = true;
+			}
 			else
 				_status = "Bidding In Progress";
 

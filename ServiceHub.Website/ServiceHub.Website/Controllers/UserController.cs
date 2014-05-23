@@ -53,14 +53,7 @@ namespace ServiceHub.Website.Controllers
 		}
 
 
-		[HttpGet]
-		public ActionResult MyHistory()
-		{
-			return View(_userProfileService.GetHistory());
-		}
-
-
-		[HttpGet]
+		[HttpPost]
 		public void UploadImage(HttpPostedFileBase imageFile)
 		{
 			if (imageFile != null)
