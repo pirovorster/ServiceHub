@@ -19,12 +19,15 @@ namespace ServiceHub.Website
 {
 	public sealed class ClientService
 	{
+
+		private readonly INotificationService _notificationService;
 		private readonly ServiceHubEntities _serviceHubEntities;
 		private readonly string _aspNetUserId;
-		public ClientService(ServiceHubEntities serviceHubEntities, string aspNetUserId)
+		public ClientService(ServiceHubEntities serviceHubEntities, string aspNetUserId, INotificationService notificationService)
 		{
 			_serviceHubEntities = serviceHubEntities;
 			_aspNetUserId = aspNetUserId;
+			_notificationService = notificationService;
 		}
 		internal Models.ServiceViewModel GetService(Guid serviceId)
 		{
@@ -62,7 +65,6 @@ namespace ServiceHub.Website
 
 		internal IEnumerable<MyServiceItem> MyServiceItems()
 		{
-			DateTime aMonthAgo = DateTime.Now.AddMonths(-3);
 			return
 			_serviceHubEntities
 			.Services

@@ -14,6 +14,7 @@ namespace ServiceHub.Website.Models
 		private readonly string _reference;
 		private readonly string _status;
 		private readonly bool _isCompleted;
+		private readonly bool _isCancelled;
 
 		private readonly DateTime _estimatedServiceDue;
 		private readonly DateTime _biddingCompletion;
@@ -32,11 +33,13 @@ namespace ServiceHub.Website.Models
 			_lowestBid = lowestBid == null ? 0 : lowestBid.Amount;
 			_reference = service.Reference;
 			_isCompleted = false;
+			_isCancelled = service.IsCancelled;
 
-			if (service.IsCancelled)
+			if (_isCancelled)
 			{
 				_isCompleted = true;
 				_status = "Cancelled";
+
 			}
 			else if (service.AcceptedBid != null && !service.AcceptedBid.IsCancelled)
 			{
@@ -67,6 +70,7 @@ namespace ServiceHub.Website.Models
 		public string Reference { get { return _reference; } }
 		public string Status { get { return _status; } }
 		public bool IsCompleted { get { return _isCompleted; } }
+		public bool IsCancelled { get { return _isCancelled; } }
 
 		[DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
 		public DateTime ServiceDue { get { return _estimatedServiceDue; } }

@@ -42,6 +42,9 @@ namespace ServiceHub.Website
 					.Include("Locations")
 					.Where(o => o.IsPublic);
 
+			if (locations.Count() > 0)
+				locations = _serviceHubEntities.GetLocationsHierarchy(string.Join(",", locations)).Select(o => o.Id);
+
 			if (locations.Count() > 0 && tags.Count() > 0)
 				users = users.Where(o => o.Locations.Any(i => locations.Contains(i.Id)) || o.Tags.Any(i => tags.Contains(i.Id)));
 			else if (locations.Count() > 0)
@@ -87,6 +90,9 @@ namespace ServiceHub.Website
 				.Include("Location")
 				.Where(o => !o.IsCancelled);
 
+			if (locations.Count() > 0)
+				locations = _serviceHubEntities.GetLocationsHierarchy(string.Join(",", locations)).Select(o => o.Id);
+
 			if (locations.Count() > 0 && tags.Count() > 0)
 				services = services.Where(o => locations.Contains(o.LocationId) || tags.Contains(o.TagId));
 			else if (locations.Count() > 0)
@@ -115,6 +121,6 @@ namespace ServiceHub.Website
 		}
 
 
-	
+
 	}
 }

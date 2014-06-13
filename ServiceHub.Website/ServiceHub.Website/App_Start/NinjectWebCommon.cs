@@ -62,6 +62,9 @@ namespace ServiceHub.Website.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+
+			kernel.Bind<INotificationService>().To<NotificationService>().InRequestScope();
+
 			kernel.Bind<ServiceHubEntities>().To<ServiceHubEntities>().InRequestScope();
 
 			kernel.Bind<ServiceProviderService>().To<ServiceProviderService>().InRequestScope().WithConstructorArgument("aspNetUserId",(context,o)=> HttpContext.Current.User.Identity.GetUserId());

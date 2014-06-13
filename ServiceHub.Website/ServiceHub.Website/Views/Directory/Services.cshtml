@@ -26,102 +26,124 @@
 }
 
 <div class="well bs-component">
-    @using (Html.BeginForm("Client", "Services", FormMethod.Post))
+    @using (Html.BeginForm("Client", "Services", FormMethod.Post, new { }))
     {
         <fieldset>
-            <legend>Search</legend>
-            <div class="form-group">
+            <legend>Search Services</legend>
+            <div class="form-group row">
 
-                @Html.Label("Search", new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.TextBox("SearchString")
+                <div class="col-lg-12">
+                    @Html.Label("Keywords", "Keywords")
+                    @Html.TextBox("SearchString", null, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="form-group">
-
-                @Html.Label("Service Type Tags", new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.ListBox("Tags", (MultiSelectList)ViewBag.TagLookup, new { Multiple = "multiple" })
+            <div class="form-group row">
+                <div class="col-lg-12">
+                    @Html.Label("ServiceTypes", "Service Types")
+                    @Html.ListBox("Tags", (MultiSelectList)ViewBag.TagLookup, new { Multiple = "multiple", @class = "form-control" })
                 </div>
             </div>
-            <div class="form-group">
-
-                @Html.Label("Working Area", new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.ListBox("Locations", (MultiSelectList)ViewBag.LocationLookup, new { Multiple = "multiple", style = "width:280px" })
+            <div class="form-group row">
+                <div class="col-lg-12">
+                    @Html.Label("Location", "Locations")
+                    @Html.ListBox("Locations", (MultiSelectList)ViewBag.LocationLookup, new { Multiple = "multiple", @class = "form-control" })
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group row">
 
-                @Html.Label("Bidding Completion Date", new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.TextBox("BeginBiddingCompletionDate", null, new { @readonly = "readonly", @class = "form-control datepicker"})<text>-</text>
-                    @Html.TextBox("EndBiddingCompletionDate", null, new { @readonly = "readonly", @class = "form-control datepicker"})
+                <div class="col-lg-6">
+                    @Html.Label("BiddingCompletionBeginDate", "Bidding Completion Begin Date")
+                    @Html.TextBox("BeginBiddingCompletionDate", null, new { @readonly = "readonly", @class = "form-control col-lg-12 datepicker" })
+                </div>
+
+                <div class="col-lg-6">
+                    @Html.Label("BiddingCompletionEndDate", "Bidding Completion End Date")
+                    @Html.TextBox("EndBiddingCompletionDate", null, new { @readonly = "readonly", @class = "form-control col-lg-12 datepicker" })
+
+
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group row">
 
-                @Html.Label("Estimated Service Date", new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.TextBox("BeginEstimatedServiceDate",null, new {@readonly="readonly", @class = "form-control datepicker"})<text>-</text>
+                <div class="col-lg-6">
+
+                    @Html.Label("EstimatedServiceBeginDate", "Estimated Service Begin Date")
+                    @Html.TextBox("BeginEstimatedServiceDate", null, new { @readonly = "readonly", @class = "form-control datepicker" })
+                </div>
+                <div class="col-lg-6">
+                    @Html.Label("EstimatedServiceEndDate", "Estimated Service End Date")
                     @Html.TextBox("EndEstimatedServiceDate", null, new { @readonly = "readonly", @class = "form-control datepicker" })
+
+
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group row">
 
                 <div class="col-lg-10">
 
-                    <input id="submit" type="submit" value="Apply" />
+                    <input id="submit" type="submit" value="Apply" class="btn btn-primary" />
                 </div>
             </div>
 
         </fieldset>
 
-
-        <div class="table">
-            <div class="row headerRow">
-                <div>Reference</div>
-
-                <div>Time Stamp</div>
-
-                <div>Description</div>
-
-                <div>Service Due</div>
-
-                <div>Bidding Completion Date</div>
-
-                <div>Service Tag</div>
-
-                <div>Location</div>
-                <div></div>
+        <div class="contentlist">
+            <div class="row header">
+                <h4>
+                    Service Requests
+                </h4>
             </div>
             @foreach (var item in Model)
             {
                 <div class="row">
 
-                    <div>@Html.DisplayFor(o => item.Reference)</div>
+                    <div class="col-lg-9">
+                        <div>
+                            <strong> Service Reference: @Html.DisplayFor(o => item.Reference)</strong>
+                        </div>
+                        <div>
+                            Service Type: @Html.DisplayFor(o => item.Tag.Title)
+                        </div>
+                        <div>
+                            Service Location: @Html.DisplayFor(o => item.Location.Name)
+                        </div>
+                        <div>
+                            Description: @Html.DisplayFor(o => item.Description)
+                        </div>
 
-                    <div>@item.TimeStamp.ToString("dd MMM yyyy")</div>
+                    </div>
 
-                    <div>@Html.DisplayFor(o => item.Description)</div>
+                    <div class="col-lg-3">
 
-                    <div>@item.ServiceDue.ToString("dd MMM yyyy")</div>
+                        <div>
+                            Service Posted Date: @item.TimeStamp.ToString("dd MMM yyyy")
+                        </div>
+                        <div>
+                            Service Due Date:@item.ServiceDue.ToString("dd MMM yyyy")
+                        </div>
+                        <div>
+                            Bidding Completion Date: @item.BiddingCompletionDate.ToString("dd MMM yyyy")
+                        </div>
+                        <div>
+                            @Html.ActionLink("Bid", "ServiceBid", "ServiceProvider", new { serviceId = item.Id }, new { @class = "btn btn-default col-lg-12" })
+                        </div>
 
-                    <div>@item.BiddingCompletionDate.ToString("dd MMM yyyy")</div>
+                    </div>
 
-                    <div>@Html.DisplayFor(o => item.Tag.Title)</div>
-
-                    <div>@Html.DisplayFor(o => item.Location.Name)</div>
-                    <div>@Html.ActionLink("Bid", "ServiceBid", "ServiceProvider", new { serviceId = item.Id }, null)</div>
                 </div>
+
+
 
             }
         </div>
+
     }
-</div>
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
     @Html.PagedListPager(Model, page => Url.Action("Services",
                             new { page, searchString = ViewBag.CurrentSearchString, locations = ViewBag.CurrentLocations, tags = ViewBag.CurrentTags }))
+
+
+</div>
 
 

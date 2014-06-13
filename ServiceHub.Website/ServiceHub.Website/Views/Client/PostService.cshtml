@@ -12,8 +12,14 @@
 
             $("#BiddingCompletionDate").datepicker({ format: "dd MM yy" });
             $("#ServiceDate").datepicker({ format: "dd MM yy" });
-            $("#LocationId").select2();
-            $("#ServiceTagId").select2();
+
+            
+            $("#LocationId").select2({
+                placeholder: "Select a State"
+            });
+            $("#ServiceTagId").select2({
+                placeholder: "Select a State"
+            });
         });
 
     </script>
@@ -28,7 +34,7 @@
             <legend>Post Service</legend>
             <div class="form-group">
                 @Html.DisplayFor(o => o.Reference, new { @class = "col-lg-2 control-label" })
-                
+
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Description, new { @class = "col-lg-2 control-label" })
@@ -40,7 +46,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.ServiceDate, new { @class = "col-lg-2 control-label" })
                 <div class="col-lg-10">
-                    @Html.TextBoxFor(m => m.ServiceDate,null, new { @readonly = "readonly", @class = "form-control datepicker" })
+                    @Html.TextBoxFor(m => m.ServiceDate, null, new { @readonly = "readonly", @class = "form-control datepicker" })
                     @Html.ValidationMessageFor(m => m.ServiceDate)
                 </div>
             </div>

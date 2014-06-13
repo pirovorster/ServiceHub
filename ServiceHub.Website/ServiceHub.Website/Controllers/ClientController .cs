@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace ServiceHub.Website.Controllers
 {
 	[Authorize]
-	public class ClientController : BaseController
+	public class ClientController : BaseBusinessController
 	{
 		private readonly LookupService _lookupService;
 		private readonly ClientService _clientService;
@@ -109,9 +109,9 @@ namespace ServiceHub.Website.Controllers
 
 
 		[HttpPost]
-		public ActionResult AddAdditionalInfo(Guid serviceId, string additionalInfo)
+		public ActionResult AddAdditionalInfo(Guid serviceId, string AdditionalInfoEntry)
 		{
-			_clientService.AddAdditionalInfo(serviceId, additionalInfo);
+			_clientService.AddAdditionalInfo(serviceId, AdditionalInfoEntry);
 			return Content("Additional info added!");
 		}
 

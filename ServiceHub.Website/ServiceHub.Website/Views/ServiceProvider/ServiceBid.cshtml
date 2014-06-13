@@ -12,7 +12,7 @@
         });
 
         function AddAddtionalInfoRequest() {
-            $("#AddtionalInfoRequestsList").append($("#AdditionalInfo").val() + "<br />");
+            $("#AdditionalInfoRequestsList").append($("#AdditionalInfoEntry").val() + "<br />");
         }
     </script>
 }
@@ -28,9 +28,9 @@
             {
                 <div class="modal-body">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.AddtionalInfoRequests, new { @class = "col-lg-2 control-label" })
-                        <div class="col-lg-10" id="AddtionalInfoRequestsList">
-                            @foreach (string request in Model.AddtionalInfoRequests)
+                        @Html.LabelFor(m => m.AdditionalInfoRequests)
+                        <div  id="AdditionalInfoRequestsList">
+                            @foreach (string request in Model.AdditionalInfoRequests)
                             {
                                 @Html.DisplayFor(m => request)<br />
                             }
@@ -38,7 +38,7 @@
                     </div>
 
                     @Html.HiddenFor(o => o.ServiceId)
-                    @Html.TextArea("AdditionalInfo")
+                    @Html.TextArea("AdditionalInfoEntry", new { @class = "form-control" })
 
 
                 </div>
@@ -54,87 +54,80 @@
 </div>
 
 <div class="well bs-component">
-    <div class="form-horizontal">
+    <div>
         <fieldset>
             <legend>Service Bid</legend>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <div>
+                        @Html.LabelFor(m => m.Reference):
+                        @Html.DisplayFor(m => m.Reference)
+                    </div>
+                    <div>
+                        @Html.LabelFor(m => m.ServiceTag):
+                        @Html.DisplayFor(m => m.ServiceTag)
+                    </div>
+                    <div>
+                        @Html.LabelFor(m => m.Location): 
+                        @Html.DisplayFor(m => m.Location)
+                    </div>
+                    <div>
+                        @Html.LabelFor(m => m.ServiceDate):
+                        @Html.DisplayFor(m => m.ServiceDate)
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.Reference, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.Reference)
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Description, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.Description) <a id="OpenMoreDetailDialogButton" data-toggle="modal" data-target="#OpenMoreDetailDialog" href="#">Ask For More Detail</a>
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.AddtionalInfo, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @foreach (string info in Model.AddtionalInfo)
-                    {
-                        @Html.DisplayFor(m => info)<br />
-                    }
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.ServiceDate, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.ServiceDate)
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.BiddingCompletionDate, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.BiddingCompletionDate)
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.BiddingCompletionDate, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.BiddingCompletionDate)
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.ServiceTag, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.ServiceTag)
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Location, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.Location)
-                </div>
-            </div>
+                    <div>
+                        @Html.LabelFor(m => m.BiddingCompletionDate):
+                        @Html.DisplayFor(m => m.BiddingCompletionDate)
+                    </div>
 
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.LowestBid, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.LowestBid)
+                </div>
+                <div class="form-group col-md-8">
+                    @Html.LabelFor(m => m.Description)
+                    <div>
+                        @Html.DisplayFor(m => m.Description)
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.UserCurrentBid, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.UserCurrentBid)
+            <div class="row">
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(m => m.AdditionalInfo) (<a id="OpenMoreDetailDialogButton" data-toggle="modal" data-target="#OpenMoreDetailDialog" href="#">Request more detail</a>)
+                    <div id="AdditionalInfos">
+                        @if (Model.AdditionalInfo.Count == 0)
+                        {
+                            <p>None</p>
+                        }
+                        @foreach (string info in Model.AdditionalInfo)
+                        {
+                            <div>
+                                @Html.DisplayFor(m => info)
+                            </div>
+
+                        }
+                    </div>
+                </div>
+                <div   class="form-group col-md-6">
+                    <div id="BidResult">
+                        <div>
+                            @Html.LabelFor(m => m.LowestBid):
+                            @Html.DisplayFor(m => m.LowestBid)
+                        </div>
+                        <div>
+                            @Html.LabelFor(m => m.UserCurrentBid):
+                            @Html.DisplayFor(m => m.UserCurrentBid)
+                        </div>
+                    </div>
+                    <div>
+                        @using (Ajax.BeginForm("Bid", "ServiceProvider", new AjaxOptions { UpdateTargetId = "BidResult"/*, LoadingElementId = "loading"*/}))
+                        {
+
+                            @Html.TextBox("Bid", 0.00)
+                            @Html.HiddenFor(o => o.ServiceId)
+                            <input type="submit" title="Bid" value="Bid" class="btn btn-default" />
+                        }
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-lg-10">
-                    @using (Ajax.BeginForm("Bid", "ServiceProvider", new AjaxOptions { UpdateTargetId = "BidResult"/*, LoadingElementId = "loading"*/}))
-                    {
-
-                        @Html.TextBox("Bid", 0.00)
-                        @Html.HiddenFor(o => o.ServiceId)
-                        <input type="submit" title="Bid" value="Bid" class="btn btn-default" />
-                    }
-                </div>
-            </div>
-
         </fieldset>
 
 
@@ -142,4 +135,3 @@
 
     </div>
 </div>
-<div id="BidResult"></div>

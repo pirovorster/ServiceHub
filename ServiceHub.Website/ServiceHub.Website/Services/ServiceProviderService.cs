@@ -17,13 +17,15 @@ namespace ServiceHub.Website
 {
 	public sealed class ServiceProviderService
 	{
+		private readonly INotificationService _notificationService;
 		private readonly ServiceHubEntities _serviceHubEntities;
 		private readonly string _aspNetUserId;
-		
-		public ServiceProviderService(ServiceHubEntities serviceHubEntities,string aspNetUserId)
+
+		public ServiceProviderService(ServiceHubEntities serviceHubEntities, string aspNetUserId, INotificationService notificationService)
 		{
 			_serviceHubEntities = serviceHubEntities;
 			_aspNetUserId = aspNetUserId;
+			_notificationService = notificationService;
 		}
 
 		public void MakeBid(Guid serviceId, decimal bidValue)

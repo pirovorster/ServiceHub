@@ -16,12 +16,15 @@ namespace ServiceHub.Website
 {
 	public sealed class UserProfileService
 	{
+
+		private readonly INotificationService _notificationService;
 		private readonly ServiceHubEntities _serviceHubEntities;
 		private readonly string _aspNetUserId;
-		public UserProfileService(ServiceHubEntities serviceHubEntities, string aspNetUserId)
+		public UserProfileService(ServiceHubEntities serviceHubEntities, string aspNetUserId, INotificationService notificationService)
 		{
 			_serviceHubEntities = serviceHubEntities;
 			_aspNetUserId = aspNetUserId;
+			_notificationService = notificationService;
 		}
 
 		public void SaveUserProfile(Models.UserProfileViewModel userProfileViewModel)

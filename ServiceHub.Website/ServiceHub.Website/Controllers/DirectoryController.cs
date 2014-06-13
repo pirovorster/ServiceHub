@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace ServiceHub.Website.Controllers
 {
-	public class DirectoryController : BaseController
+	public class DirectoryController : BaseBusinessController
 	{
 
 		private readonly DirectoryService _directoryService;

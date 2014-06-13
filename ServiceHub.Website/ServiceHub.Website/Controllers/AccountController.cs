@@ -14,7 +14,7 @@ using System.Globalization;
 namespace ServiceHub.Website.Controllers
 {
 	[Authorize]
-	public class AccountController : Controller
+	public class AccountController : BaseController
 	{
 		public AccountController()
 			: this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
@@ -64,7 +64,7 @@ namespace ServiceHub.Website.Controllers
 			}
 
 			// If we got this far, something failed, redisplay form
-			return View(model);
+			return View();
 		}
 
 		//
@@ -216,14 +216,26 @@ namespace ServiceHub.Website.Controllers
 		{
 			EmailSender email = new EmailSender();
 			string fullUrl = this.Url.Action("ConfirmEmail", "Account", new { token = confirmationToken }, "http");
-			email.SendMail(to, "Email Confirmation", string.Format(CultureInfo.InvariantCulture, "Please click on the following link to confirm your email address:<a href='{0}'>Click</a>", fullUrl));
+
+			string html = ViewRenderer.RenderViewToString(
+			"~/views/email/ValidationTemplate.cshtml",
+			fullUrl, true);
+
+			email.SendMail(to, "Email Confirmation", html);
+	
+		
 		}
 
 		private void SendChangeEmailConfirmation(string to, string confirmationToken)
 		{
 			EmailSender email = new EmailSender();
 			string fullUrl = this.Url.Action("ConfirmEmailChange", "Account", new { token = confirmationToken }, "http");
-			email.SendMail(to, "Email Confirmation", string.Format(CultureInfo.InvariantCulture, "Please click on the following link to confirm your email address:<a href='{0}'>Click</a>", fullUrl));
+
+			string html = ViewRenderer.RenderViewToString(
+			"~/views/email/ChangeEmailTemplate.cshtml",
+			fullUrl, true);
+
+			email.SendMail(to, "Email Confirmation", html);
 		}
 
 		private string CreateConfirmationToken()

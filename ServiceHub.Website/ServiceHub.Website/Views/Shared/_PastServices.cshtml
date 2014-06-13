@@ -20,11 +20,18 @@
             <div>@Html.DisplayFor(o => item.BiddingCompletionDate)</div>
 
             <div>@Html.DisplayFor(o => item.ServiceDue)</div>
-            
+
             <div>@Html.DisplayFor(o => item.LowestBid)</div>
 
-            <div>@Html.ActionLink(item.Reference,  "BidAcceptance", "Client", new { serviceId = item.ServiceId }, null)</div>
-
+            @if (item.IsCancelled)
+            {
+                
+                <div>@Html.ActionLink(item.Reference, "Service", "Client", new { serviceId = item.ServiceId }, null)</div>
+            }
+            else
+            {
+                <div>@Html.ActionLink(item.Reference, "BidAcceptance", "Client", new { serviceId = item.ServiceId }, null)</div>
+            }
             <div>@Html.DisplayFor(o => item.Status)</div>
 
 

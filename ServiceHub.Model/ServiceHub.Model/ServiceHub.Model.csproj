@@ -65,6 +65,15 @@
     </Compile>
     <Compile Include="Entities\Extensions.cs" />
     <Compile Include="Entities\ServiceProvider.cs" />
+    <Compile Include="GetLocationHierarchy_Result.cs">
+      <DependentUpon>ServiceHubModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetLocationsHierarchy_Result.cs">
+      <DependentUpon>ServiceHubModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetUserRelatedToServiceTagAndLocation_Result.cs">
+      <DependentUpon>ServiceHubModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Location.cs">
       <DependentUpon>ServiceHubModel.tt</DependentUpon>
     </Compile>

@@ -12,6 +12,8 @@ namespace ServiceHub.Model
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class ServiceHubEntities : DbContext
     {
@@ -36,5 +38,67 @@ namespace ServiceHub.Model
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserProfileLogo> UserProfileLogos { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+    
+        public virtual ObjectResult<Location> GetLocationHierarchy(Nullable<int> parentId)
+        {
+            var parentIdParameter = parentId.HasValue ?
+                new ObjectParameter("ParentId", parentId) :
+                new ObjectParameter("ParentId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Location>("GetLocationHierarchy", parentIdParameter);
+        }
+    
+        public virtual ObjectResult<Location> GetLocationHierarchy(Nullable<int> parentId, MergeOption mergeOption)
+        {
+            var parentIdParameter = parentId.HasValue ?
+                new ObjectParameter("ParentId", parentId) :
+                new ObjectParameter("ParentId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Location>("GetLocationHierarchy", mergeOption, parentIdParameter);
+        }
+    
+        public virtual ObjectResult<User> GetUserRelatedToServiceTagAndLocation(Nullable<int> locationId, Nullable<System.Guid> serviceTagId)
+        {
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(int));
+    
+            var serviceTagIdParameter = serviceTagId.HasValue ?
+                new ObjectParameter("ServiceTagId", serviceTagId) :
+                new ObjectParameter("ServiceTagId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<User>("GetUserRelatedToServiceTagAndLocation", locationIdParameter, serviceTagIdParameter);
+        }
+    
+        public virtual ObjectResult<User> GetUserRelatedToServiceTagAndLocation(Nullable<int> locationId, Nullable<System.Guid> serviceTagId, MergeOption mergeOption)
+        {
+            var locationIdParameter = locationId.HasValue ?
+                new ObjectParameter("LocationId", locationId) :
+                new ObjectParameter("LocationId", typeof(int));
+    
+            var serviceTagIdParameter = serviceTagId.HasValue ?
+                new ObjectParameter("ServiceTagId", serviceTagId) :
+                new ObjectParameter("ServiceTagId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<User>("GetUserRelatedToServiceTagAndLocation", mergeOption, locationIdParameter, serviceTagIdParameter);
+        }
+    
+        public virtual ObjectResult<Location> GetLocationsHierarchy(string parentIds)
+        {
+            var parentIdsParameter = parentIds != null ?
+                new ObjectParameter("ParentIds", parentIds) :
+                new ObjectParameter("ParentIds", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Location>("GetLocationsHierarchy", parentIdsParameter);
+        }
+    
+        public virtual ObjectResult<Location> GetLocationsHierarchy(string parentIds, MergeOption mergeOption)
+        {
+            var parentIdsParameter = parentIds != null ?
+                new ObjectParameter("ParentIds", parentIds) :
+                new ObjectParameter("ParentIds", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Location>("GetLocationsHierarchy", mergeOption, parentIdsParameter);
+        }
     }
 }

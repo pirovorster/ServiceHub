@@ -1,4 +1,8 @@
-﻿ .select2-container {
+﻿textarea {
+	resize: none;
+}
+
+.select2-container {
 	width: 280px;
 	resize: none;
 	margin: 5px 0 6px 0;
@@ -14,9 +18,14 @@
 }
 
 .select2-container {
-	width: 280px !important;
+	width: 100% !important;
+	border: 1px solid #ccc !important;
 }
 
+	.select2-container input {
+		margin: 0 0 0 0 !important;
+		padding: 0 0 0 0 !important;
+	}
 
 .table {
 	width: 100%;
@@ -27,19 +36,38 @@
 
 
 
-.table .row {
-	display: table-row;
-	background: #f4f4f4;
-	border-top: 1px solid #fff;
+	.table .row {
+		display: table-row;
+		background: #f4f4f4;
+		border-top: 1px solid #fff;
+	}
+
+		.table .row > div {
+			display: table-cell;
+			vertical-align: middle;
+			padding: 0px 10px 0px 10px;
+			font: 16px/44px 'NewCicleSemi', Arial, sans-serif;
+			color: #004a92;
+			border-left: 1px dotted #a6abaf;
+		}
+
+.contentlist .header {
+	padding: 5px 5px 5px 5px;
+	background-color: #eee;
 }
 
-.table .row > div {
-	display: table-cell;
-	vertical-align: middle;
-	padding: 0px 10px 0px 10px;
-	font: 16px/44px 'NewCicleSemi', Arial, sans-serif;
-	color: #004a92;
-	border-left: 1px dotted #a6abaf;
+.contentlist .row {
+	border-bottom: 5px solid #eee;
+}
+
+.contentlist img {
+	height: 150px;
+	margin: 5px;
+}
+
+.datepicker {
+	cursor: pointer !important;
+	background-color: white !important;
 }
 
 .table .headerRow {
@@ -67,17 +95,46 @@
 
 
 
-.gridRow
-{
-	border:solid;
-	border-width:1px;
-	margin:5px;
-
+.gridRow {
+	border: solid;
+	border-width: 1px;
+	margin: 5px;
 }
 
 
-.gridRow img
-{
-	height:150px;
-	margin:5px;
+	.gridRow img {
+		height: 150px;
+		margin: 5px;
+	}
+
+
+.socialButton {
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	color:white;
+	border: 1px solid transparent;
+}
+
+#Google {
+	background-color: red;
+}
+
+#Facebook {
+	background-color: blue;
+}
+
+#Twitter {
+	background-color: #55acee;
 }

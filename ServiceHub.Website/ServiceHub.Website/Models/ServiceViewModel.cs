@@ -79,13 +79,13 @@ namespace ServiceHub.Website.Models
 		public string ServiceTag { get { return _serviceTag; } }
 
 
-		[Display(Name = "Addtional Info")]
+		[Display(Name = "Additional Info")]
 		[Required]
-		public List<string> AddtionalInfo { get { return _addtionalInfo; } }
+		public List<string> AdditionalInfo { get { return _addtionalInfo; } }
 
-		[Display(Name = "Addtional Info Requests")]
+		[Display(Name = "Additional Info Requests")]
 		[Required]
-		public List<string> AddtionalInfoRequests { get { return _addtionalInfoRequests; } }
+		public List<string> AdditionalInfoRequests { get { return _addtionalInfoRequests; } }
 
 
 		public bool IsCancelled { get { return _isCancelled; } }

@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace ServiceHub.Website.Controllers
 {
-    public class TestController : BaseController
+    public class TestController : BaseBusinessController
     {
 
 

@@ -66,8 +66,8 @@
             @Html.DisplayFor(o => o.ServiceViewModel.Description)
         </div>
         <div>
-            @Html.LabelFor(o => o.ServiceViewModel.AddtionalInfo):
-            @foreach (var additionalInfo in Model.ServiceViewModel.AddtionalInfo)
+            @Html.LabelFor(o => o.ServiceViewModel.AdditionalInfo):
+            @foreach (var additionalInfo in Model.ServiceViewModel.AdditionalInfo)
             {
                 @Html.Display(additionalInfo)
             }

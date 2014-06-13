@@ -12,7 +12,7 @@ using System.IO;
 namespace ServiceHub.Website.Controllers
 {
 	[Authorize]
-	public class UserController : BaseController
+	public class UserController : BaseBusinessController
 	{
 		LookupService _lookupService;
 		UserProfileService _userProfileService;

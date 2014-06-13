@@ -23,6 +23,15 @@ namespace ServiceHub.Website
 
 		public void SendMail(
 			IEnumerable<string> toAddresses,
+			string subject,
+			string body)
+		{
+			SendMail(toAddresses, null, null, null, subject, body, true);
+		}
+
+
+		public void SendMail(
+			IEnumerable<string> toAddresses,
 			IEnumerable<string> ccAddresses,
 			IEnumerable<string> bccAddresses,
 			IEnumerable<EmailAttachment> attachments,

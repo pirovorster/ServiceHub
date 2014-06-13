@@ -11,7 +11,7 @@ namespace ServiceHub.Website.Controllers
 {
 
 	[Authorize]
-	public class ServiceProviderController : BaseController
+	public class ServiceProviderController : BaseBusinessController
 	{
 
 		private readonly UserProfileService _userProfileService;
@@ -47,10 +47,10 @@ namespace ServiceHub.Website.Controllers
 
 
 		[HttpPost]
-		public ActionResult AddAdditionalInfoRequest(Guid serviceId, string additionalInfo)
+		public ActionResult AddAdditionalInfoRequest(Guid serviceId, string additionalInfoEntry)
 		{
 
-			_serviceProviderService.RequestAdditionalInfo(serviceId, additionalInfo);
+			_serviceProviderService.RequestAdditionalInfo(serviceId, additionalInfoEntry);
 			return Content("Request has been sent.");
 		}
 

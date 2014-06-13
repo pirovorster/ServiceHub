@@ -14,9 +14,9 @@
         }
 
         function AddAdditionalInfo() {
-
-            $("#AdditionalInfos").append( $("#AdditionalInfo").val() + "<br/>");
-            $("#AdditionalInfo").val("");
+            $("#AdditionalInfos p").remove();
+            $("#AdditionalInfos").append($("#AdditionalInfoEntry").val() + "<br/>");
+            $("#AdditionalInfoEntry").val("");
         }
     </script>
 }
@@ -25,96 +25,136 @@
 <div class="well bs-component">
     <fieldset>
         <legend>Service</legend>
-        @using (Html.BeginForm("CancelSevice", "Client", FormMethod.Post, new { @class = "form-horizontal", onsubmit = "return ConfirmDelete();" }))
+        @using (Html.BeginForm("CancelSevice", "Client", FormMethod.Post, new { onsubmit = "return ConfirmDelete();" }))
         {
 
+            <div class="row">
+                @if (!Model.IsCancelled)
+                {<div class="form-group col-md-4">
+                    @Html.HiddenFor(o => o.ServiceId)
+                    <input type="submit" title="Cancel" value="Cancel Service" id="Cancel" class="btn btn-default" />
+                </div>
+                }
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <div>
+                        @Html.LabelFor(m => m.Reference): @Html.DisplayFor(m => m.Reference)
+                    </div>
+                    <div>
+                        @Html.Label("Status", "Status"):
 
-            if (Model.IsCancelled)
-            {
-                <text>Cancelled</text>
-            }
-            else
-            {
-                @Html.HiddenFor(o => o.ServiceId)
-                <input type="submit" title="Cancel" value="Cancel Service" id="Cancel" class="btn btn-default" />
-            }
-            <div class="form-group">
-                @Html.LabelFor(m => m.Reference, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.Reference)
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Description, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.Description)
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.AddtionalInfo, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10" id="AdditionalInfos">
-                    @foreach (string info in Model.AddtionalInfo)
-                    {
-                        @Html.DisplayFor(m => info)<br />
+                        @if (Model.IsCancelled)
+                        {
+                            <text>Cancelled</text>
+                        }
+                        else
+                        {
+                            <text>Active</text>
+                        }
+                    </div>
+                    <div>
+                        @Html.LabelFor(m => m.ServiceTag):
+                        @Html.DisplayFor(m => m.ServiceTag)
+                    </div>
+                    <div>
+                        @Html.LabelFor(m => m.Location): 
+                        @Html.DisplayFor(m => m.Location)
+                    </div>
+                    <div>
+                        @Html.LabelFor(m => m.ServiceDate):
+                        @Html.DisplayFor(m => m.ServiceDate)
+                    </div>
 
-                    }
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.ServiceDate, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.ServiceDate)
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.BiddingCompletionDate, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.BiddingCompletionDate)
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.ServiceTag, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.ServiceTag)
-                </div>
-            </div>
-           
-            <div class="form-group">
-                @Html.LabelFor(m => m.Location, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @Html.DisplayFor(m => m.Location)
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.AddtionalInfoRequests, new { @class = "col-lg-2 control-label" })
-                <div class="col-lg-10">
-                    @foreach (string request in Model.AddtionalInfoRequests)
-                    {
-                        @Html.DisplayFor(m => request)<br />
+                    <div>
+                        @Html.LabelFor(m => m.BiddingCompletionDate):
+                        @Html.DisplayFor(m => m.BiddingCompletionDate)
+                    </div>
 
-                    }
+                </div>
+                <div class="form-group col-md-8">
+                    @Html.LabelFor(m => m.Description)
+                    <div>
+                        @Html.DisplayFor(m => m.Description)
+                    </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(m => m.AdditionalInfo) (<a id="OpenMoreDetailDialogButton" data-toggle="modal" data-target="#OpenMoreDetailDialog" href="#">Add</a>)
+                    <div id="AdditionalInfos">
+                        @if (Model.AdditionalInfo.Count == 0)
+                        {
+                            <p>None</p>
+                        }
+                        @foreach (string info in Model.AdditionalInfo)
+                        {
+                            <div>
+                                @Html.DisplayFor(m => info)
+                            </div>
 
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(m => m.AdditionalInfoRequests)
+                    <div>
+                        @if (Model.AdditionalInfoRequests.Count == 0)
+                        {
+                            <p>None</p>
+                        }
+                        @foreach (string request in Model.AdditionalInfoRequests)
+                        {<div>
+                            @Html.DisplayFor(m => request)
+                        </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
         }
         @if (!Model.IsCancelled)
         {
-            <div class="form-group">
-                <div class="col-lg-10">
-                    @using (Ajax.BeginForm("AddAdditionalInfo", "Client", new AjaxOptions { UpdateTargetId = "AdditionalInfoRequestResult", OnSuccess = "AddAdditionalInfo();" /*, LoadingElementId = "loading"*/}))
-                    {
 
-                        @Html.HiddenFor(o => o.ServiceId)
-                        @Html.TextArea("AdditionalInfo")
 
-                        <input type="submit" title="Add Additional Info" value="Add Additional Info" class="btn btn-default" />
-                    }
-                    <div id="AdditionalInfoRequestResult"></div>
+            <div class="modal fade" id="OpenMoreDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Additional Info</h4>
+                        </div>
+                        @using (Ajax.BeginForm("AddAdditionalInfo", "Client", new AjaxOptions { UpdateTargetId = "AdditionalInfoRequestResult", OnSuccess = "AddAdditionalInfo();" /*, LoadingElementId = "loading"*/}))
+                        {
+                            <div class="modal-body">
+                                <div class="form-group row">
+                                    <div class="col-lg-12">
+
+
+                                        @Html.HiddenFor(o => o.ServiceId)
+                                        @Html.TextArea("AdditionalInfoEntry", new { @class = "form-control" })
+
+
+                                        <div id="AdditionalInfoRequestResult"></div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <input type="submit" title="Add Additional Info" value="Add Additional Info" class="btn btn-primary" />
+                            </div>
+                        }
+
+                        <div id="AdditionalInfoRequestResult"></div>
+                    </div>
                 </div>
             </div>
+
         }
     </fieldset>
-
 
 
 

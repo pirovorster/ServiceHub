@@ -24,6 +24,9 @@ namespace ServiceHub.Model
         public string PasswordHash { get; set; }
         public string SecurityStamp { get; set; }
         public string Discriminator { get; set; }
+        public string ConfirmationToken { get; set; }
+        public Nullable<bool> IsConfirmed { get; set; }
+        public string NewUsername { get; set; }
     
         public virtual UserProfileLogo UserProfileLogo { get; set; }
         public virtual ICollection<User> Users { get; set; }

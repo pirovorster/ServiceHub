@@ -183,6 +183,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BaseBusinessController.cs" />
     <Compile Include="Controllers\ClientController .cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\DirectoryController.cs" />
@@ -216,10 +217,14 @@
     <Compile Include="Services\EmailSender.cs" />
     <Compile Include="Services\ImageResizer.cs" />
     <Compile Include="Services\DirectoryService.cs" />
+    <Compile Include="Services\INotificationService.cs" />
     <Compile Include="Services\LookupService.cs" />
+    <Compile Include="Services\Notification.cs" />
+    <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Services\Rating.cs" />
     <Compile Include="Services\ServiceProviderService.cs" />
     <Compile Include="Services\UserProfileService.cs" />
+    <Compile Include="Services\ViewRenderer.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +238,7 @@
     <Content Include="Content\css\select2.png" />
     <Content Include="Content\css\select2x2.png" />
     <Content Include="Content\Custom.css" />
+    <Content Include="Content\EmailTemplate.html" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\select2-bootstrap.css" />
     <Content Include="Content\Select2\select2-spinner.gif" />
@@ -398,7 +404,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Shared\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
     <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -426,6 +432,10 @@
     <Content Include="Views\Account\ChangeUsername.cshtml" />
     <Content Include="Views\Account\WaitingForConfirmation.cshtml" />
     <Content Include="Views\Account\ConfirmationReceived.cshtml" />
+    <Content Include="Views\Email\ValidationTemplate.cshtml" />
+    <Content Include="Views\Email\BasicTemplate.cshtml" />
+    <Content Include="Views\Email\ChangeEmailTemplate.cshtml" />
+    <Content Include="Views\Email\NotificationTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
